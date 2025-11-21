@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI JOI Fantasies - Custom Adult Content</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1 class="logo">AI JOI</h1>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#categories" class="nav-link">Categories</a></li>
+                <li><a href="#custom" class="nav-link">Custom Requests</a></li>
+                <li><a href="#messages" class="nav-link">Messages</a></li>
+                <li><a href="#upload" class="nav-link">Upload & Earn</a></li>
+                <li><a href="#search" class="nav-link">Search</a></li>
+            </ul>
+            <div class="user-profile">
+                <button id="loginBtn" class="btn-gold">Login</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Banner -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h2>Unlock Your Custom JOI Fantasies with AI-Powered Seduction</h2>
+            <p>Personalized instructions, roleplays, and teases tailored just for you. Dive in and let the AI guide your pleasure.</p>
+            <button class="btn-red" onclick="scrollToSection('custom')">Get Custom Content Now</button>
+        </div>
+        <!-- Ad Slot 1 -->
+        <div class="ad-slot">Ad Space: Premium JOI Tools</div>
+    </section>
+
+    <!-- Categories Section -->
+    <section id="categories" class="categories">
+        <h2>Explore Categories</h2>
+        <div class="category-grid">
+            <div class="category-card">
+                <img src="https://via.placeholder.com/300x200/FF1493/000000?text=Virtual+Girlfriend" alt="Virtual Girlfriend Teaser">
+                <h3>Virtual Girlfriends</h3>
+                <p>Intimate chats and commands from your AI dream girl.</p>
+                <button class="btn-pink">Preview</button>
+            </div>
+            <div class="category-card">
+                <img src="https://via.placeholder.com/300x200/8A2BE2/000000?text=Roleplay" alt="Roleplay Scenario">
+                <h3>Roleplay Scenarios</h3>
+                <p>From bossy teacher to seductive stranger – your fantasy, AI-driven.</p>
+                <button class="btn-purple">Dive In</button>
+            </div>
+            <!-- More cards can be added -->
+        </div>
+    </section>
+
+    <!-- Custom Request Form -->
+    <section id="custom" class="custom-form">
+        <h2>Request Custom JOI Content</h2>
+        <form id="requestForm">
+            <input type="text" placeholder="Your Scenario (e.g., 'Beach tease')" required>
+            <input type="text" placeholder="Kinks/Preferences (e.g., slow build-up)">
+            <select required>
+                <option value="">Duration</option>
+                <option value="5min">5 Minutes</option>
+                <option value="10min">10 Minutes</option>
+            </select>
+            <button type="submit" class="btn-red">Generate AI Content</button>
+        </form>
+        <div id="aiResponse" class="ai-output" style="display:none;">
+            <p>AI Generated: "Start slow, stroke to the rhythm of my voice... [Full script here]."</p>
+        </div>
+        <!-- Ad Slot 2 -->
+        <div class="ad-slot">Sponsored: Enhance Your Experience</div>
+    </section>
+
+    <!-- Messaging System -->
+    <section id="messages" class="messaging">
+        <h2>Messages</h2>
+        <div class="chat-container">
+            <div class="chat-list">
+                <h3>Conversations</h3>
+                <ul id="chatList">
+                    <li>Provider: Mia - New Message</li>
+                    <li>User: Alex - "Loved your upload!"</li>
+                </ul>
+            </div>
+            <div class="chat-window">
+                <div id="chatMessages"></div>
+                <input type="text" id="messageInput" placeholder="Type a message...">
+                <button onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Upload & Earn Section -->
+    <section id="upload" class="upload">
+        <h2>Upload Content & Earn Commissions</h2>
+        <p>Share your JOI videos or scripts – earn 20% on views/subscriptions!</p>
+        <form id="uploadForm">
+            <input type="file" accept="image/*,video/*" required>
+            <textarea placeholder="Description & Tags"></textarea>
+            <button type="submit" class="btn-gold">Upload & Monetize</button>
+        </form>
+        <div class="earnings">
+            <h3>Your Earnings: $0.00 (Mock Dashboard)</h3>
+            <p>Views: 0 | Commissions: Track your revenue here.</p>
+        </div>
+    </section>
+
+    <!-- Search Bar -->
+    <section id="search" class="search">
+        <h2>Search Content</h2>
+        <input type="text" id="searchInput" placeholder="Search for JOI scenarios, providers...">
+        <div id="searchResults" class="search-results"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2023 AI JOI Fantasies. Privacy | Terms | 18+ Only</p>
+        <!-- Ad Slot 3 -->
+        <div class="ad-slot">Footer Ad: Join Our Community</div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
