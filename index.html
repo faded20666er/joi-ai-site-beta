@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VELVET & VICE - AI JOI & Live Cams</title>
     <style>
-        /* --- CORE THEME: Black, Hot Pink, Gold, Red --- */
+        /* --- CORE THEME --- */
         :root {
             --bg-color: #050505;
             --card-bg: #111;
@@ -15,14 +16,8 @@
             --alert-red: #ff3333;
             --text-color: #eee;
         }
-
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Arial', sans-serif; }
-        
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            overflow-x: hidden;
-        }
+        body { background-color: var(--bg-color); color: var(--text-color); overflow-x: hidden; }
 
         /* --- ANIMATIONS --- */
         @keyframes pulse-glow {
@@ -30,32 +25,33 @@
             50% { box-shadow: 0 0 20px var(--neon-pink), 0 0 10px var(--neon-purple); }
             100% { box-shadow: 0 0 5px var(--neon-pink); }
         }
-
+        @keyframes gold-flash {
+            0% { background: rgba(255, 215, 0, 0); }
+            50% { background: rgba(255, 215, 0, 0.2); }
+            100% { background: rgba(255, 215, 0, 0); }
+        }
         @keyframes ticker-move {
             0% { transform: translateX(100%); }
             100% { transform: translateX(-100%); }
         }
+        .flash-gold { animation: gold-flash 0.5s ease-in-out; }
 
-        /* --- AGE GATE OVERLAY --- */
+        /* --- AGE GATE --- */
         #age-gate {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: black; z-index: 9999;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             text-align: center; padding: 20px;
         }
-        #age-gate h1 { color: var(--alert-red); font-size: 2.5rem; text-transform: uppercase; margin-bottom: 20px; }
-        #age-gate p { font-size: 1.2rem; margin-bottom: 30px; color: #ccc; }
         .enter-btn {
             padding: 15px 40px; font-size: 1.5rem; background: var(--alert-red);
             color: white; border: none; cursor: pointer; text-transform: uppercase;
-            font-weight: bold; border-radius: 5px;
-            box-shadow: 0 0 15px var(--alert-red);
+            font-weight: bold; border-radius: 5px; box-shadow: 0 0 15px var(--alert-red);
         }
         .enter-btn:hover { background: #cc0000; transform: scale(1.05); }
 
-        /* --- MAIN SITE LAYOUT --- */
-        .site-wrapper { display: none; /* Hidden until age verified */ }
-
+        /* --- LAYOUT --- */
+        .site-wrapper { display: none; }
         header {
             background: rgba(0,0,0,0.9); border-bottom: 2px solid var(--neon-pink);
             padding: 15px; display: flex; justify-content: space-between; align-items: center;
@@ -63,156 +59,121 @@
         }
         .logo { font-size: 1.5rem; font-weight: bold; color: var(--neon-pink); text-shadow: 0 0 5px var(--neon-purple); }
         .logo span { color: var(--gold); }
-        .user-panel { font-size: 0.9rem; color: var(--gold); }
-
-        /* --- LIVE TICKER --- */
-        .ticker-wrap {
-            background: var(--alert-red); color: white; overflow: hidden; white-space: nowrap; height: 30px; line-height: 30px; font-weight: bold; font-size: 0.9rem;
-        }
+        
+        /* --- TICKER --- */
+        .ticker-wrap { background: var(--alert-red); color: white; overflow: hidden; white-space: nowrap; height: 30px; line-height: 30px; font-weight: bold; font-size: 0.9rem; }
         .ticker-move { display: inline-block; animation: ticker-move 15s linear infinite; }
 
-        /* --- LIVE CAMS SECTION --- */
-        .section-title {
-            text-align: center; margin: 30px 0 10px; color: var(--gold); text-transform: uppercase; letter-spacing: 2px;
-        }
-        
-        .cam-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 15px; padding: 15px;
-        }
-
-        .cam-feed {
-            position: relative; background: #000; border: 1px solid var(--neon-purple);
-            border-radius: 8px; overflow: hidden;
-        }
-        
-        /* IMAGES UPLOADED BY USER */
-        .cam-feed img {
-            width: 100%; height: 300px; object-fit: cover; opacity: 0.8;
-            transition: opacity 0.3s;
-        }
+        /* --- CAMS --- */
+        .cam-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; padding: 15px; }
+        .cam-feed { position: relative; background: #000; border: 1px solid var(--neon-purple); border-radius: 8px; overflow: hidden; }
+        .cam-feed img { width: 100%; height: 300px; object-fit: cover; opacity: 0.8; transition: opacity 0.3s; }
         .cam-feed:hover img { opacity: 1; }
-
-        .live-badge {
-            position: absolute; top: 10px; left: 10px; background: red; color: white;
-            padding: 2px 8px; font-size: 0.8rem; border-radius: 4px; font-weight: bold;
-            animation: pulse-glow 1s infinite;
-        }
-        .cam-info {
-            position: absolute; bottom: 0; width: 100%; background: rgba(0,0,0,0.8);
-            padding: 10px; display: flex; justify-content: space-between; align-items: center;
-        }
+        .live-badge { position: absolute; top: 10px; left: 10px; background: red; color: white; padding: 2px 8px; font-size: 0.8rem; border-radius: 4px; font-weight: bold; animation: pulse-glow 1s infinite; }
+        .cam-info { position: absolute; bottom: 0; width: 100%; background: rgba(0,0,0,0.8); padding: 10px; display: flex; flex-direction: column; gap: 5px; }
+        .cam-buttons { display: flex; justify-content: space-between; margin-top: 5px; }
         .model-name { color: var(--neon-pink); font-weight: bold; }
-        .action-btn {
-            background: var(--gold); color: black; border: none; padding: 5px 10px;
-            cursor: pointer; font-weight: bold; border-radius: 3px;
-        }
+        
+        .action-btn { background: var(--gold); color: black; border: none; padding: 5px 10px; cursor: pointer; font-weight: bold; border-radius: 3px; flex: 1; margin-left: 5px; }
+        .bio-btn { background: #333; color: white; border: 1px solid #555; padding: 5px 10px; cursor: pointer; border-radius: 3px; flex: 1; margin-right: 5px; }
 
-        /* --- CHAT / INTERACTION MODAL --- */
-        .modal {
-            display: none; position: fixed; z-index: 200; left: 0; top: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.9); align-items: center; justify-content: center;
-        }
-        .modal-content {
-            background: var(--card-bg); padding: 20px; border: 2px solid var(--neon-pink);
-            width: 90%; max-width: 400px; border-radius: 10px; text-align: center;
-            box-shadow: 0 0 30px var(--neon-pink); position: relative;
-        }
+        /* --- MODALS --- */
+        .modal { display: none; position: fixed; z-index: 200; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); align-items: center; justify-content: center; }
+        .modal-content { background: var(--card-bg); padding: 20px; border: 2px solid var(--neon-pink); width: 90%; max-width: 400px; border-radius: 10px; text-align: center; box-shadow: 0 0 30px var(--neon-pink); position: relative; }
         .close { position: absolute; top: 10px; right: 20px; color: #aaa; font-size: 28px; cursor: pointer; }
         
-        .chat-box {
-            height: 200px; background: #222; border: 1px solid #444; margin: 15px 0;
-            padding: 10px; overflow-y: auto; text-align: left; font-size: 0.9rem; color: #ccc;
-        }
-        .msg-bot { color: var(--neon-pink); margin-bottom: 5px; }
-        .msg-user { color: var(--gold); text-align: right; margin-bottom: 5px; }
+        /* --- CHAT --- */
+        .chat-box { height: 250px; background: #222; border: 1px solid #444; margin: 15px 0; padding: 10px; overflow-y: auto; text-align: left; font-size: 0.9rem; color: #ccc; }
+        .msg-bot { color: var(--neon-pink); margin-bottom: 5px; border-left: 2px solid var(--neon-pink); padding-left: 5px; }
+        .msg-user { color: var(--gold); text-align: right; margin-bottom: 5px; border-right: 2px solid var(--gold); padding-right: 5px; }
+        .msg-sys { color: #888; font-style: italic; text-align: center; font-size: 0.8rem; margin: 5px 0; }
         
-        input[type="text"] {
-            width: 70%; padding: 10px; background: #333; border: 1px solid #555; color: white;
-        }
-        .send-btn {
-            width: 25%; padding: 10px; background: var(--neon-purple); color: white; border: none; cursor: pointer;
-        }
+        .chat-controls { display: flex; gap: 5px; }
+        input[type="text"] { flex: 3; padding: 10px; background: #333; border: 1px solid #555; color: white; }
+        .send-btn { flex: 1; padding: 10px; background: var(--neon-purple); color: white; border: none; cursor: pointer; font-weight: bold; }
+        .tip-btn { flex: 0.5; padding: 10px; background: var(--gold); color: black; border: none; cursor: pointer; font-weight: bold; font-size: 1.2rem; }
 
-        /* --- FAKE PAYMENT GATE --- */
-        .locked-content { filter: blur(5px); pointer-events: none; }
-        .pay-wall {
-            margin-top: 15px; padding: 15px; border: 1px dashed var(--gold); background: rgba(255, 215, 0, 0.1);
-        }
-        .price { font-size: 1.5rem; color: var(--gold); font-weight: bold; display: block; margin: 10px 0; }
+        /* --- BIO CARD --- */
+        .bio-details { text-align: left; margin-top: 10px; }
+        .bio-details p { margin-bottom: 8px; color: #ccc; }
+        .bio-details strong { color: var(--gold); }
 
     </style>
 </head>
 <body>
 
-    <!-- AGE VERIFICATION GATE -->
+    <!-- AGE GATE -->
     <div id="age-gate">
         <h1>Warning: 18+ Only</h1>
-        <p>This site contains AI-generated adult content.</p>
+        <p>AI Generated Adult Content.</p>
         <button class="enter-btn" onclick="enterSite()">I am 18+ - Enter</button>
     </div>
 
     <!-- MAIN SITE -->
     <div class="site-wrapper" id="site-wrapper">
-        
-        <!-- HEADER -->
         <header>
             <div class="logo">VELVET<span>&</span>VICE</div>
             <div class="user-panel">Credits: <span id="credit-count">0</span> 💎</div>
         </header>
 
-        <!-- NEWS TICKER -->
         <div class="ticker-wrap">
-            <div class="ticker-move">
-                🔥 Mistress Viper is ONLINE... User_99 just tipped 500💎... New 'Hardcore JOI' module added... Live Group Chat starting in 5 mins...
-            </div>
+            <div class="ticker-move">🔥 LIVE: Mistress Viper is demanding tips... Raven just started a private show... User_69 tipped 1000💎...</div>
         </div>
 
-        <!-- LIVE CAMS GRID -->
-        <h2 class="section-title">🔴 Live AI Models</h2>
+        <h2 style="text-align:center; margin:20px 0; color:var(--gold);">🔴 Live AI Models</h2>
+        
         <div class="cam-grid">
-            
-            <!-- CAM 1 -->
+            <!-- Model 1 -->
             <div class="cam-feed">
                 <div class="live-badge">LIVE</div>
-                <!-- Linking to uploaded image img1.jpg -->
-                <img src="img1.jpg" alt="Mistress Viper" onerror="this.src='https://via.placeholder.com/400x300/330033/ff0099?text=Loading+Model...'">
+                <img src="img1.jpg" onerror="this.src='https://via.placeholder.com/400x300/330033/ff0099'">
                 <div class="cam-info">
                     <span class="model-name">Mistress Viper</span>
-                    <button class="action-btn" onclick="openChat('Mistress Viper')">PRIVATE SHOW</button>
+                    <div class="cam-buttons">
+                        <button class="bio-btn" onclick="openBio('Mistress Viper', '24', 'Femdom, Latex, Humiliation', 'I own you. Pay up or get out.')">BIO</button>
+                        <button class="action-btn" onclick="openChat('Mistress Viper')">CHAT</button>
+                    </div>
                 </div>
             </div>
 
-            <!-- CAM 2 -->
+            <!-- Model 2 -->
             <div class="cam-feed">
                 <div class="live-badge">LIVE</div>
-                <img src="img2.jpg" alt="Raven" onerror="this.src='https://via.placeholder.com/400x300/330033/ff0099?text=Loading+Model...'">
+                <img src="img2.jpg" onerror="this.src='https://via.placeholder.com/400x300/330033/ff0099'">
                 <div class="cam-info">
-                    <span class="model-name">Raven (JOI)</span>
-                    <button class="action-btn" onclick="openChat('Raven')">JOIN ROOM</button>
+                    <span class="model-name">Raven</span>
+                    <div class="cam-buttons">
+                        <button class="bio-btn" onclick="openBio('Raven', '21', 'JOI, Tease, Strap-on', 'Good boys follow instructions. ❤️')">BIO</button>
+                        <button class="action-btn" onclick="openChat('Raven')">CHAT</button>
+                    </div>
                 </div>
             </div>
 
-            <!-- CAM 3 -->
+            <!-- Model 3 -->
             <div class="cam-feed">
                 <div class="live-badge">PRIVATE</div>
-                <img src="img3.jpg" alt="Lilith" onerror="this.src='https://via.placeholder.com/400x300/330033/ff0099?text=Loading+Model...'">
+                <img src="img3.jpg" onerror="this.src='https://via.placeholder.com/400x300/330033/ff0099'">
                 <div class="cam-info">
                     <span class="model-name">Lilith</span>
-                    <button class="action-btn" onclick="openPaywall('Lilith')">UNLOCK CAM</button>
+                    <div class="cam-buttons">
+                        <button class="bio-btn" onclick="openBio('Lilith', '27', 'Worship, Leather, Goddess', 'Your wallet belongs to me.')">BIO</button>
+                        <button class="action-btn" onclick="openPaywall()">UNLOCK</button>
+                    </div>
                 </div>
             </div>
 
-            <!-- CAM 4 -->
+            <!-- Model 4 -->
             <div class="cam-feed">
-                <div class="live-badge">CAM OFF</div>
-                <img src="img4.jpg" alt="GothBabe" onerror="this.src='https://via.placeholder.com/400x300/330033/ff0099?text=Loading+Model...'">
+                <div class="live-badge">OFFLINE</div>
+                <img src="img4.jpg" onerror="this.src='https://via.placeholder.com/400x300/330033/ff0099'">
                 <div class="cam-info">
                     <span class="model-name">GothBabe_AI</span>
-                    <button class="action-btn" onclick="openChat('GothBabe_AI')">SEND MSG</button>
+                    <div class="cam-buttons">
+                        <button class="bio-btn" onclick="openBio('GothBabe', '19', 'Casual, Gaming, Feet', 'Bored.. entertain me?')">BIO</button>
+                        <button class="action-btn" onclick="openChat('GothBabe_AI')">MSG</button>
+                    </div>
                 </div>
             </div>
-
         </div>
 
         <!-- CHAT MODAL -->
@@ -220,13 +181,26 @@
             <div class="modal-content">
                 <span class="close" onclick="closeModal('chatModal')">&times;</span>
                 <h3 id="chat-model-name" style="color:var(--neon-pink)">Chat</h3>
-                <div class="chat-box" id="chat-box">
-                    <div class="msg-bot">SYSTEM: Connected to secure server.</div>
-                </div>
-                <div style="display:flex;">
+                <div class="chat-box" id="chat-box"></div>
+                <div class="chat-controls">
+                    <button class="tip-btn" onclick="sendTip()" title="Send 50 Credits">💎</button>
                     <input type="text" id="user-input" placeholder="Type here...">
                     <button class="send-btn" onclick="sendMessage()">SEND</button>
                 </div>
+            </div>
+        </div>
+
+        <!-- BIO MODAL -->
+        <div id="bioModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('bioModal')">&times;</span>
+                <h2 id="bio-name" style="color:var(--neon-pink)"></h2>
+                <div class="bio-details">
+                    <p><strong>Age:</strong> <span id="bio-age"></span></p>
+                    <p><strong>Kinks:</strong> <span id="bio-kinks"></span></p>
+                    <p><strong>About:</strong> <span id="bio-desc"></span></p>
+                </div>
+                <button class="enter-btn" style="width:100%; margin-top:20px;" onclick="closeModal('bioModal')">CLOSE</button>
             </div>
         </div>
 
@@ -234,85 +208,95 @@
         <div id="payModal" class="modal">
             <div class="modal-content">
                 <span class="close" onclick="closeModal('payModal')">&times;</span>
-                <h2 style="color:var(--gold)">💎 VIP ACCESS REQUIRED</h2>
-                <p>You are trying to access a Premium Live Feed.</p>
-                <div class="pay-wall">
-                    <span class="price">500 Credits</span>
-                    <button class="enter-btn" style="width:100%; margin-top:10px;" onclick="fakePayment()">BUY CREDITS</button>
-                </div>
-                <p style="font-size:0.8rem; margin-top:10px; color:#777;">Secure Payment via Stripe/Crypto (Simulated)</p>
+                <h2 style="color:var(--gold)">💎 VIP ACCESS</h2>
+                <p>Unlock this private feed for 500 Credits.</p>
+                <button class="enter-btn" style="margin-top:15px;" onclick="fakePayment()">BUY NOW</button>
             </div>
         </div>
 
     </div>
 
     <script>
-        // 1. AGE GATE LOGIC
+        let currentModel = "";
+
         function enterSite() {
             document.getElementById('age-gate').style.display = 'none';
             document.getElementById('site-wrapper').style.display = 'block';
         }
 
-        // 2. MODAL LOGIC
+        function openBio(name, age, kinks, desc) {
+            document.getElementById('bioModal').style.display = 'flex';
+            document.getElementById('bio-name').innerText = name;
+            document.getElementById('bio-age').innerText = age;
+            document.getElementById('bio-kinks').innerText = kinks;
+            document.getElementById('bio-desc').innerText = desc;
+        }
+
         function openChat(modelName) {
+            currentModel = modelName;
             document.getElementById('chatModal').style.display = 'flex';
-            document.getElementById('chat-model-name').innerText = "Chatting with " + modelName;
-            // Fake initial message
-            const chatBox = document.getElementById('chat-box');
-            chatBox.innerHTML = `<div class="msg-bot">SYSTEM: Connected.</div><div class="msg-bot">${modelName}: Hey baby, what do you want me to do? 😉</div>`;
+            document.getElementById('chat-model-name').innerText = "Chat: " + modelName;
+            document.getElementById('chat-box').innerHTML = `<div class="msg-bot">SYSTEM: Connected to ${modelName}.</div>`;
         }
 
-        function openPaywall(modelName) {
-            document.getElementById('payModal').style.display = 'flex';
-        }
+        function openPaywall() { document.getElementById('payModal').style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-        function closeModal(id) {
-            document.getElementById(id).style.display = 'none';
-        }
-
-        // 3. CHAT SIMULATION
         function sendMessage() {
             const input = document.getElementById('user-input');
-            const text = input.value;
-            if(text.trim() === "") return;
+            const text = input.value.trim();
+            if(!text) return;
 
             const chatBox = document.getElementById('chat-box');
-            
-            // Add user message
             chatBox.innerHTML += `<div class="msg-user">${text}</div>`;
             input.value = "";
-
-            // Scroll to bottom
             chatBox.scrollTop = chatBox.scrollHeight;
 
-            // Fake bot typing response
             setTimeout(() => {
-                const responses = [
-                    "I love when you talk like that...",
-                    "Should I take this off? 😈",
-                    "Tip me 50 credits and I'll do it.",
-                    "Mmm, tell me more.",
-                    "Sending you a private photo... (Simulated)"
-                ];
-                const randomResp = responses[Math.floor(Math.random() * responses.length)];
-                chatBox.innerHTML += `<div class="msg-bot">AI: ${randomResp}</div>`;
+                let response = "Mmm... tell me more.";
+                const lowerText = text.toLowerCase();
+
+                // SMART LOGIC
+                if(lowerText.includes("hello") || lowerText.includes("hi")) {
+                    response = `Hey baby. You here to serve ${currentModel}?`;
+                } else if(lowerText.includes("tip") || lowerText.includes("money")) {
+                    response = "I love generous boys. Send those gems! 💎";
+                } else if(lowerText.includes("strip") || lowerText.includes("naked")) {
+                    response = "Not for free, loser. Tip me 500 first. 😉";
+                } else if(lowerText.includes("photo") || lowerText.includes("pic")) {
+                    response = "Check your DMs... (Image Simulated)";
+                } else if(lowerText.includes("love")) {
+                    response = "Don't fall in love, just fall in line.";
+                }
+
+                chatBox.innerHTML += `<div class="msg-bot">${currentModel}: ${response}</div>`;
                 chatBox.scrollTop = chatBox.scrollHeight;
             }, 1000);
         }
 
-        // 4. FAKE PAYMENT
-        function fakePayment() {
-            alert("Redirecting to secure payment gateway... (This is a demo)");
-            closeModal('payModal');
-            let credits = document.getElementById('credit-count');
-            credits.innerText = parseInt(credits.innerText) + 500;
+        function sendTip() {
+            const chatBox = document.getElementById('chat-box');
+            chatBox.innerHTML += `<div class="msg-sys">💰 YOU SENT 50 GEMS!</div>`;
+            
+            // Flash screen gold
+            const modalContent = document.querySelector('#chatModal .modal-content');
+            modalContent.classList.add('flash-gold');
+            setTimeout(() => modalContent.classList.remove('flash-gold'), 500);
+
+            setTimeout(() => {
+                chatBox.innerHTML += `<div class="msg-bot">${currentModel}: Ooh, thank you daddy! ❤️ Do it again?</div>`;
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 800);
         }
 
-        // Close modals on outside click
+        function fakePayment() {
+            alert("Processing secure payment...");
+            closeModal('payModal');
+            document.getElementById('credit-count').innerText = "500";
+        }
+
         window.onclick = function(event) {
-            if (event.target.classList.contains('modal')) {
-                event.target.style.display = "none";
-            }
+            if (event.target.classList.contains('modal')) event.target.style.display = "none";
         }
     </script>
 </body>
