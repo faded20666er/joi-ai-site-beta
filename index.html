@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,8 +48,8 @@
         .info p { margin: 0; font-size: 0.8rem; color: #888; }
 
         /* MEDIA AREA */
-        .card-media { position: relative; width: 100%; cursor: pointer; }
-        .card-media img { width: 100%; display: block; }
+        .card-media { position: relative; width: 100%; cursor: pointer; min-height: 300px; background: #000; }
+        .card-media img { width: 100%; display: block; object-fit: cover; }
         .live-tag { position: absolute; top: 15px; left: 15px; background: red; color: white; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; animation: pulse 1.5s infinite; }
         .play-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 4rem; color: rgba(255,255,255,0.8); text-shadow: 0 0 20px black; pointer-events: none; }
 
@@ -60,7 +61,7 @@
 
         /* --- GALLERY GRID (SCROLLABLE) --- */
         .horizontal-scroll { display: flex; overflow-x: auto; gap: 10px; padding: 0 15px 15px; }
-        .thumb { min-width: 120px; height: 160px; border-radius: 8px; overflow: hidden; position: relative; cursor: pointer; }
+        .thumb { min-width: 120px; height: 160px; border-radius: 8px; overflow: hidden; position: relative; cursor: pointer; background: #222; }
         .thumb img { width: 100%; height: 100%; object-fit: cover; }
         .thumb.locked img { filter: blur(5px) grayscale(80%); }
         .lock-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.4); font-size: 1.5rem; }
@@ -87,10 +88,11 @@
 
     <div class="feed-container">
 
-        <!-- MODEL 1: DORIS (NEW) -->
+        <!-- MODEL 1: DORIS (NEW) - TRYING PNG DEFAULT -->
         <div class="model-card category-ebony">
             <div class="card-header">
-                <img src="ebony1.jpg" class="avatar">
+                <!-- We try PNG first for Doris -->
+                <img src="ebony1.png" class="avatar" onerror="tryFix(this)">
                 <div class="info">
                     <h3>Doris <span class="verified">✔</span></h3>
                     <p>Online Now • "POV Drive with me..."</p>
@@ -100,16 +102,15 @@
             <!-- Fake Video Player -->
             <div class="card-media" onclick="openPaywall('Doris Video')">
                 <div class="live-badge" style="position:absolute; top:10px; right:10px; background:rgba(0,0,0,0.6); color:white; padding:2px 6px; border-radius:4px; font-size:0.7rem;">00:15</div>
-                <img src="ebony2.jpg" style="height:400px; object-fit:cover;">
+                <img src="ebony2.png" style="height:400px;" onerror="tryFix(this)">
                 <div class="play-btn">▶</div>
             </div>
 
             <div class="horizontal-scroll">
-                <!-- Thumbs linked to ebony images -->
-                <div class="thumb" onclick="viewImg('ebony3.jpg')"><img src="ebony3.jpg"></div>
-                <div class="thumb" onclick="viewImg('ebony4.jpg')"><img src="ebony4.jpg"></div>
-                <div class="thumb locked" onclick="openPaywall('Explicit Album')"><img src="ebony5.jpg"><div class="lock-overlay">🔒</div></div>
-                <div class="thumb locked" onclick="openPaywall('Explicit Album')"><img src="ebony6.jpg"><div class="lock-overlay">🔒</div></div>
+                <div class="thumb" onclick="viewImg(this.querySelector('img').src)"><img src="ebony3.png" onerror="tryFix(this)"></div>
+                <div class="thumb" onclick="viewImg(this.querySelector('img').src)"><img src="ebony4.png" onerror="tryFix(this)"></div>
+                <div class="thumb locked" onclick="openPaywall('Explicit Album')"><img src="ebony5.png" onerror="tryFix(this)"><div class="lock-overlay">🔒</div></div>
+                <div class="thumb locked" onclick="openPaywall('Explicit Album')"><img src="ebony6.png" onerror="tryFix(this)"><div class="lock-overlay">🔒</div></div>
             </div>
 
             <div class="card-actions">
@@ -118,10 +119,10 @@
             </div>
         </div>
 
-        <!-- MODEL 2: MISTRESS VIPER (OLD) -->
+        <!-- MODEL 2: MISTRESS VIPER (OLD) - KEEPING JPG DEFAULT -->
         <div class="model-card category-goth">
             <div class="card-header">
-                <img src="img5.jpg" class="avatar">
+                <img src="img5.jpg" class="avatar" onerror="tryFix(this)">
                 <div class="info">
                     <h3>Viper <span class="verified">✔</span></h3>
                     <p>Live • "Kneel before me."</p>
@@ -130,13 +131,13 @@
 
             <div class="card-media" onclick="openChat('Viper')">
                 <div class="live-tag">LIVE CAM</div>
-                <img src="img8.jpg" style="height:400px; object-fit:cover;">
+                <img src="img8.jpg" style="height:400px;" onerror="tryFix(this)">
             </div>
 
             <div class="horizontal-scroll">
-                <div class="thumb" onclick="viewImg('img6.jpg')"><img src="img6.jpg"></div>
-                <div class="thumb" onclick="viewImg('img9.jpg')"><img src="img9.jpg"></div>
-                <div class="thumb locked" onclick="openPaywall('VIP Gallery')"><img src="img7.jpg"><div class="lock-overlay">🔒</div></div>
+                <div class="thumb" onclick="viewImg(this.querySelector('img').src)"><img src="img6.jpg" onerror="tryFix(this)"></div>
+                <div class="thumb" onclick="viewImg(this.querySelector('img').src)"><img src="img9.jpg" onerror="tryFix(this)"></div>
+                <div class="thumb locked" onclick="openPaywall('VIP Gallery')"><img src="img7.jpg" onerror="tryFix(this)"><div class="lock-overlay">🔒</div></div>
             </div>
 
             <div class="card-actions">
@@ -174,6 +175,27 @@
     </div>
 
     <script>
+        /* --- SMART IMAGE FIXER --- */
+        function tryFix(img) {
+            // This function runs automatically if an image fails to load
+            let currentSrc = img.src;
+            
+            if (currentSrc.includes(".png")) {
+                // If PNG failed, try JPG
+                console.log("PNG failed, trying JPG for: " + currentSrc);
+                img.src = currentSrc.replace(".png", ".jpg");
+            } else if (currentSrc.includes(".jpg")) {
+                // If JPG failed, try WebP
+                console.log("JPG failed, trying WebP for: " + currentSrc);
+                img.src = currentSrc.replace(".jpg", ".webp");
+            } else if (currentSrc.includes(".webp")) {
+                 // If WebP failed, try JPEG (full extension)
+                 img.src = currentSrc.replace(".webp", ".jpeg");
+            }
+            // Remove the error handler so it doesn't loop forever
+            img.onerror = null; 
+        }
+
         // TABS
         function filter(cat) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -237,5 +259,3 @@
     </script>
 </body>
 </html>
-
-
