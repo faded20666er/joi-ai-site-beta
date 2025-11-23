@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JOI AI | PURE UNCENSORED</title>
+    <title>JOI AI | ELITE ACCESS</title>
     <script src="https://js.stripe.com/v3/"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
@@ -13,8 +13,8 @@
             --neon-blue: #00f3ff;
             --neon-purple: #bc13fe;
             --bg-dark: #050505;
-            --panel-bg: rgba(10, 10, 12, 0.95);
-            --border-color: rgba(255, 255, 255, 0.1);
+            --panel-bg: rgba(16, 16, 20, 0.95);
+            --border-color: rgba(255, 255, 255, 0.15);
         }
 
         * { box-sizing: border-box; outline: none; }
@@ -22,403 +22,315 @@
         body {
             background-color: var(--bg-dark);
             background-image: 
-                radial-gradient(circle at 50% 50%, rgba(76, 29, 149, 0.1) 0%, transparent 50%),
-                linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9)),
-                url('https://www.transparenttextures.com/patterns/carbon-fibre.png'); 
-            color: #fff;
+                linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)),
+                url('https://www.transparenttextures.com/patterns/dark-matter.png'); 
+            color: #eee;
             font-family: 'Rajdhani', sans-serif;
             margin: 0;
             overflow-x: hidden;
         }
 
-        /* --- UI COMPONENTS --- */
         h1, h2, h3 { font-family: 'Orbitron', sans-serif; text-transform: uppercase; letter-spacing: 2px; }
-        
-        .neon-text-pink { color: #fff; text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink); }
-        .neon-text-blue { color: #fff; text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue); }
+        .neon-text-pink { color: #fff; text-shadow: 0 0 10px var(--neon-pink); }
+        .neon-text-blue { color: #fff; text-shadow: 0 0 10px var(--neon-blue); }
 
         .btn {
-            background: transparent;
+            background: rgba(0,0,0,0.5);
             border: 1px solid var(--neon-pink);
             color: var(--neon-pink);
-            padding: 10px 25px;
+            padding: 12px 30px;
             font-family: 'Orbitron', sans-serif;
             cursor: pointer;
             transition: 0.3s;
             text-transform: uppercase;
-            font-size: 0.9rem;
-            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+            font-weight: bold;
+            letter-spacing: 1px;
         }
-        .btn:hover { background: var(--neon-pink); color: #000; box-shadow: 0 0 20px var(--neon-pink); }
+        .btn:hover { background: var(--neon-pink); color: #fff; box-shadow: 0 0 25px var(--neon-pink); }
         .btn.blue { border-color: var(--neon-blue); color: var(--neon-blue); }
-        .btn.blue:hover { background: var(--neon-blue); color: #000; box-shadow: 0 0 20px var(--neon-blue); }
+        .btn.blue:hover { background: var(--neon-blue); color: #000; box-shadow: 0 0 25px var(--neon-blue); }
 
-        /* --- LAYOUT --- */
+        /* HEADER */
         header {
             display: flex; justify-content: space-between; align-items: center;
             padding: 20px 40px; border-bottom: 1px solid var(--border-color);
             background: var(--panel-bg); position: sticky; top: 0; z-index: 100;
             backdrop-filter: blur(10px);
         }
-
-        .logo { font-size: 2rem; font-weight: 700; color: var(--neon-pink); }
-        
-        nav a { margin-left: 20px; color: #aaa; text-decoration: none; font-weight: 600; transition: 0.3s; }
-        nav a:hover { color: #fff; text-shadow: 0 0 8px #fff; }
+        .logo { font-size: 2rem; font-weight: 700; color: #fff; }
+        .logo span { color: var(--neon-pink); }
+        nav a { margin-left: 25px; color: #888; text-decoration: none; font-weight: 700; font-size: 0.9rem; transition: 0.3s; }
+        nav a:hover { color: #fff; text-shadow: 0 0 5px var(--neon-blue); }
 
         .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
 
-        /* --- HERO SECTION --- */
-        .hero {
-            text-align: center; padding: 60px 20px;
-            background: linear-gradient(180deg, rgba(0,0,0,0) 0%, var(--neon-purple) 500%);
-            border-bottom: 1px solid var(--border-color);
-            margin-bottom: 40px;
-        }
-
-        /* --- MODEL GRID (AUTO GENERATED) --- */
+        /* MODELS */
         #model-grid {
             display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
+            gap: 25px; margin-top: 20px;
         }
-
         .model-card {
             background: var(--panel-bg);
             border: 1px solid var(--border-color);
-            border-radius: 5px;
+            border-radius: 8px;
             overflow: hidden;
             transition: 0.4s;
             position: relative;
         }
-        .model-card:hover { transform: translateY(-10px); border-color: var(--neon-blue); box-shadow: 0 0 30px rgba(0, 243, 255, 0.1); }
-
+        .model-card:hover { transform: translateY(-5px); border-color: var(--neon-pink); box-shadow: 0 0 20px rgba(255, 0, 85, 0.2); }
+        
         .img-wrapper {
-            width: 100%; height: 400px; overflow: hidden; position: relative;
+            width: 100%; height: 450px; overflow: hidden; position: relative;
             background: #111;
         }
         .img-wrapper img {
             width: 100%; height: 100%; object-fit: cover; transition: 0.5s;
         }
-        .model-card:hover .img-wrapper img { transform: scale(1.1); }
+        .model-card:hover .img-wrapper img { transform: scale(1.05); }
 
-        .img-status {
-            position: absolute; bottom: 0; left: 0; width: 100%;
-            background: rgba(0,0,0,0.8); color: red; font-size: 10px;
-            padding: 2px; text-align: center; display: none;
+        .card-info { padding: 20px; text-align: center; position: absolute; bottom: 0; width: 100%; background: linear-gradient(to top, #000 0%, transparent 100%); }
+        .card-info h3 { margin: 0; font-size: 1.8rem; text-shadow: 0 2px 4px #000; }
+        .card-info p { margin: 5px 0 15px; color: #ccc; font-weight: 500; text-shadow: 0 1px 2px #000; }
+
+        /* VIDEO SECTION */
+        .video-highlight {
+            border: 1px solid var(--neon-blue);
+            background: #000;
+            padding: 2px;
+            margin: 40px 0;
+            position: relative;
+        }
+        .video-highlight video { width: 100%; display: block; }
+        .video-label {
+            position: absolute; top: 10px; left: 10px;
+            background: var(--neon-pink); color: #fff;
+            padding: 5px 10px; font-weight: bold; font-family: 'Orbitron';
+            z-index: 10;
         }
 
-        .card-info { padding: 20px; text-align: center; }
-        .card-info h3 { margin: 0; color: #fff; font-size: 1.5rem; }
-        .card-info p { color: #888; margin: 10px 0 20px; }
+        /* GALLERY */
+        #gallery-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px; margin-top: 20px;
+        }
+        .gallery-item {
+            height: 250px; overflow: hidden; border: 1px solid #333; position: relative;
+            cursor: pointer;
+        }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.3s; }
+        .gallery-item:hover img { opacity: 0.7; }
+        .gallery-lock {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; justify-content: center; align-items: center;
+            background: rgba(0,0,0,0.5); opacity: 0; transition: 0.3s;
+        }
+        .gallery-item:hover .gallery-lock { opacity: 1; }
 
-        /* --- SYSTEM LOG (DEBUGGER) --- */
+        /* DEBUG LOG */
         #system-log {
-            position: fixed; bottom: 0; right: 0; width: 300px; height: 150px;
-            background: rgba(0,0,0,0.9); border-top: 2px solid var(--neon-pink);
-            color: #0f0; font-family: monospace; font-size: 10px;
+            position: fixed; bottom: 10px; right: 10px; width: 350px; max-height: 200px;
+            background: rgba(0,0,0,0.95); border: 1px solid var(--neon-blue);
+            color: #00ff00; font-family: monospace; font-size: 11px;
             padding: 10px; overflow-y: auto; z-index: 9999;
-            display: none; /* Toggle this via keypress 'D' */
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
         }
 
-        /* --- MODALS --- */
+        /* MODALS */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.9); z-index: 1000;
             display: none; justify-content: center; align-items: center;
         }
         .modal-box {
-            background: #111; border: 1px solid var(--neon-blue);
-            width: 90%; max-width: 600px; padding: 30px;
-            position: relative; box-shadow: 0 0 50px rgba(0, 243, 255, 0.1);
+            background: #111; border: 1px solid var(--neon-pink);
+            width: 90%; max-width: 500px; padding: 30px;
+            position: relative; box-shadow: 0 0 40px rgba(255, 0, 85, 0.2);
         }
-        .close-btn { position: absolute; top: 10px; right: 15px; color: #fff; cursor: pointer; font-size: 24px; }
-
-        /* --- AGE GATE --- */
-        #age-gate {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: #000; z-index: 999999;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center;
-        }
+        
     </style>
 </head>
 <body>
 
-    <!-- SYSTEM LOG FOR DEBUGGING (Press 'D' to toggle) -->
-    <div id="system-log">System Initialized. Waiting for assets...<br></div>
-
-    <!-- AGE GATE -->
-    <div id="age-gate">
-        <h1 class="neon-text-pink" style="font-size: 3rem; margin-bottom: 20px;">RESTRICTED ACCESS</h1>
-        <p style="color: #888; margin-bottom: 40px;">CONFIRM YOU ARE 18+ TO ENTER THE MAINFRAME</p>
-        <div>
-            <button class="btn blue" onclick="enterSite()">I AM 18+</button>
-            <button class="btn" onclick="window.location.href='https://google.com'">EXIT</button>
-        </div>
-        <p style="margin-top: 50px; font-size: 0.8rem; color: #444;">System ID: JOI-AI-V11.0</p>
+    <!-- DEBUGGER -->
+    <div id="system-log">
+        <div>> JOI SYSTEM V12.0 INITIALIZED</div>
+        <div>> ACCESSING REPOSITORY...</div>
     </div>
 
-    <!-- MAIN SITE -->
-    <div id="main-interface" style="display:none;">
-        <header>
-            <div class="logo">JOI<span style="color:var(--neon-blue)">.AI</span></div>
-            <nav>
-                <a href="#" onclick="alert('Gallery is below!');">MODELS</a>
-                <a href="#" onclick="openModal('chat-modal')">CHAT</a>
-                <a href="#" onclick="openModal('vip-modal')">VIP ACCESS</a>
-            </nav>
-        </header>
+    <!-- MAIN UI -->
+    <header>
+        <div class="logo">JOI<span>.AI</span></div>
+        <nav>
+            <a href="#models">MODELS</a>
+            <a href="#gallery">VIP GALLERY</a>
+            <a href="#" onclick="openModal('chat-modal')">CHAT</a>
+            <a href="#" class="btn blue" style="padding: 5px 15px; margin-left: 20px;" onclick="openModal('vip-modal')">JOIN VIP</a>
+        </nav>
+    </header>
 
-        <section class="hero">
-            <h1 class="neon-text-blue" style="font-size: 3.5rem;">YOUR FANTASY. GENERATED.</h1>
-            <p style="font-size: 1.2rem; max-width: 600px; margin: 0 auto 30px;">
-                Experience the next generation of AI companionship. 
-                Interact with our models, request custom content, or watch live.
-            </p>
-            <div style="font-size: 0.8rem; color: #666;">
-                <i class="fas fa-check"></i> Secure & Private 
-                <i class="fas fa-check" style="margin-left:15px;"></i> Instant Access
-            </div>
-        </section>
-
-        <div class="container">
-            <h2 class="neon-text-pink">AVAILABLE MODELS <span style="font-size:0.5em; color:#666; vertical-align:middle;">(UPDATED DAILY)</span></h2>
-            
-            <!-- THIS GRID IS AUTO-GENERATED BY JAVASCRIPT -->
-            <div id="model-grid"></div>
-
-            <h2 class="neon-text-blue" style="margin-top: 60px;">VIP GALLERY PREVIEW</h2>
-            <div id="gallery-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px;">
-                <!-- Auto-generated -->
-            </div>
+    <div class="container">
+        <!-- VIDEO HIGHLIGHT -->
+        <div class="video-highlight">
+            <div class="video-label">LIVE PREVIEW</div>
+            <!-- Using your MP4 file -->
+            <video controls poster="" muted autoplay loop>
+                <source src="https://raw.githubusercontent.com/faded20666er/joi-ai-site-beta/main/3787074055589217371.mp4" type="video/mp4">
+                Your browser does not support video.
+            </video>
         </div>
 
-        <footer style="text-align: center; padding: 50px; border-top: 1px solid #222; margin-top: 50px; color: #444;">
-            JOI AI SYSTEMS &copy; 2024. ALL RIGHTS RESERVED.
-        </footer>
+        <h2 class="neon-text-pink" id="models">SELECT YOUR COMPANION</h2>
+        <div id="model-grid"></div>
+
+        <h2 class="neon-text-blue" id="gallery" style="margin-top: 60px;">EXCLUSIVE FEED</h2>
+        <p style="color:#888;">Images from 'arealkyyy' folder loaded directly.</p>
+        <div id="gallery-grid"></div>
     </div>
 
-    <!-- CHAT MODAL -->
+    <!-- MODALS -->
     <div id="chat-modal" class="modal-overlay">
         <div class="modal-box">
-            <span class="close-btn" onclick="closeModal('chat-modal')">&times;</span>
-            <h2 class="neon-text-blue">AI CHAT INTERFACE</h2>
-            <div id="chat-history" style="height: 300px; overflow-y: auto; background: #050505; border: 1px solid #333; padding: 15px; margin-bottom: 15px; color: #ccc;">
-                <div style="color: var(--neon-pink);">SYSTEM: Connected to AI Mainframe. Select a model to begin.</div>
+            <span style="float:right; cursor:pointer; font-size:24px;" onclick="closeModal('chat-modal')">&times;</span>
+            <h2 class="neon-text-blue">SECURE CHAT</h2>
+            <div id="chat-history" style="height: 250px; background:#000; margin-bottom:15px; padding:10px; overflow-y:auto; border:1px solid #333;">
+                <div style="color:var(--neon-blue)">System: Choose a model to begin...</div>
             </div>
-            <input type="text" id="chat-input" placeholder="Type your command..." style="width: 70%; padding: 10px; background: #222; border: 1px solid #444; color: #fff;">
+            <input type="text" id="chat-input" placeholder="Type a message..." style="width:70%; padding:10px; background:#222; border:none; color:#fff;">
             <button class="btn blue" onclick="sendChat()">SEND</button>
         </div>
     </div>
 
-    <!-- VIP MODAL -->
     <div id="vip-modal" class="modal-overlay">
-        <div class="modal-box" style="text-align: center;">
-            <span class="close-btn" onclick="closeModal('vip-modal')">&times;</span>
-            <h2 class="neon-text-pink">UNLOCK FULL ACCESS</h2>
-            <p>View uncensored galleries, 4K video, and unlimited chat.</p>
-            <div style="margin: 30px 0;">
-                <div style="border: 1px solid var(--neon-blue); padding: 20px; margin-bottom: 10px;">
-                    <h3>WEEKLY PASS</h3>
-                    <div style="font-size: 2rem;">$9.99</div>
-                    <button class="btn blue" style="width: 100%; margin-top: 10px;">SELECT</button>
-                </div>
-                <div style="border: 1px solid var(--neon-pink); padding: 20px; background: rgba(255, 0, 85, 0.1);">
-                    <h3>LIFETIME VIP</h3>
-                    <div style="font-size: 2rem;">$49.99</div>
-                    <button class="btn" style="width: 100%; margin-top: 10px;">SELECT</button>
-                </div>
-            </div>
+        <div class="modal-box" style="text-align:center;">
+            <span style="float:right; cursor:pointer;" onclick="closeModal('vip-modal')">&times;</span>
+            <h2 class="neon-text-pink">VIP ACCESS REQUIRED</h2>
+            <p>Unlock all 250+ photos and full length videos.</p>
+            <button class="btn blue" style="width:100%; margin-top:20px;" onclick="alert('Redirecting to Stripe...')">UNLOCK - $19.99</button>
         </div>
     </div>
 
     <script>
-        // ======================================================================
-        // 🔧 CONTENT CONFIGURATION (EDIT THIS SECTION TO UPDATE SITE)
-        // ======================================================================
+        // =======================================================
+        // 🔧 MASTER CONFIGURATION
+        // =======================================================
         
-        // 1. YOUR GITHUB REPO URL (Make sure this is correct)
-        const REPO_URL = "https://raw.githubusercontent.com/faded20666er/joi-ai-site-beta/main/";
+        const REPO_ROOT = "https://raw.githubusercontent.com/faded20666er/joi-ai-site-beta/main/";
 
-        // 2. DEFINE YOUR MODELS HERE
-        // Just add the filename (without .jpg). The system will try .jpg, .png, .jpeg automatically.
+        // 1. MODELS CONFIG
+        // Note: Viper/Raven are in root. Doris is in 'arealkyyy/'
         const MODELS = [
-            { id: 'viper', name: 'Mistress Viper', type: 'Goth / Dom', file: 'img1' },
-            { id: 'raven', name: 'Raven', type: 'Strap-on / JOI', file: 'img2' },
-            { id: 'lilith', name: 'Lilith', type: 'Fetish / Worship', file: 'img3' },
-            { id: 'doris', name: 'Doris', type: 'Ebony / Tease', file: 'doris1' },
-            // Add new model? { id: 'new', name: 'New Girl', type: 'Type', file: 'filename' }
+            { name: "Mistress Viper", type: "Goth / Dom", file: "img1", folder: "" }, 
+            { name: "Raven", type: "JOI / Control", file: "img2", folder: "" },
+            { name: "Lilith", type: "Worship", file: "img3", folder: "" },
+            { name: "Doris", type: "Ebony / Tease", file: "doris1", folder: "arealkyyy/" } 
         ];
 
-        // 3. DEFINE GALLERY IMAGES
-        // List filenames for the VIP gallery section
+        // 2. GALLERY CONFIG
+        // All these seem to be in 'arealkyyy/' based on your screenshot
         const GALLERY_FILES = [
-            'doris1', 'doris2', 'doris3', 'doris4', 'doris5', 'doris6', 'doris7',
-            'img1', 'img2', 'img3', 'img4', 'img5'
+            "doris2", "doris3", "doris4", "doris5", "doris6", "doris7",
+            "b7ld0cydv2fibzco9jto", // Found this in your file list
+            "b8r4zdmi2n1oe1kkhxgx",
+            "bezbvtmjpuhnl66v9jxb"
         ];
+        const GALLERY_FOLDER = "arealkyyy/";
 
-        // ======================================================================
-        // ⚙️ SYSTEM CORE (DO NOT EDIT BELOW UNLESS YOU KNOW JS)
-        // ======================================================================
+        // =======================================================
+        // ⚙️ ENGINE
+        // =======================================================
 
         function log(msg, type='info') {
             const logger = document.getElementById('system-log');
-            const color = type === 'error' ? 'red' : '#0f0';
+            const color = type === 'error' ? 'red' : '#00ff00';
             logger.innerHTML += `<div style="color:${color}">> ${msg}</div>`;
             logger.scrollTop = logger.scrollHeight;
         }
 
-        // --- IMAGE LOADER ENGINE V3 ---
-        function smartImageLoad(imgElement, baseName) {
-            // Extensions to try in order
-            const extensions = ['.jpg', '.JPG', '.jpeg', '.JPEG', '.png', '.PNG', '.webp'];
+        function smartLoad(imgEl, folder, filename) {
+            // Priority: .webp (since you have many), then .jpg, .png, .jpeg
+            const extensions = ['.webp', '.jpg', '.jpeg', '.png', '.JPG'];
             let attempt = 0;
 
             function tryNext() {
                 if (attempt >= extensions.length) {
-                    log(`FAILED to load ${baseName} after all attempts.`, 'error');
-                    imgElement.src = "https://via.placeholder.com/300x400/111/fff?text=NO+IMAGE"; // Fallback
-                    const status = imgElement.parentElement.querySelector('.img-status');
-                    if(status) { status.style.display = 'block'; status.innerText = 'FILE NOT FOUND'; }
+                    log(`FAILED: ${filename} (All extensions tried)`, 'error');
+                    imgEl.src = 'https://via.placeholder.com/300?text=IMG+ERROR';
                     return;
                 }
-
-                const ext = extensions[attempt];
-                const url = REPO_URL + baseName + ext;
                 
-                log(`Trying: ${baseName}${ext}...`);
+                const ext = extensions[attempt];
+                // Construct URL: Root + Folder + Filename + Extension
+                const url = `${REPO_ROOT}${folder}${filename}${ext}`;
+                
+                // Only log the first attempt to keep debug clean
+                if(attempt === 0) log(`Looking for: ${folder}${filename}...`);
 
-                const testImg = new Image();
-                testImg.onload = function() {
-                    log(`SUCCESS: Loaded ${baseName}${ext}`);
-                    imgElement.src = url;
+                const tester = new Image();
+                tester.onload = () => {
+                    imgEl.src = url;
+                    imgEl.classList.remove('loading');
+                    log(`FOUND: ${filename}${ext}`);
                 };
-                testImg.onerror = function() {
+                tester.onerror = () => {
                     attempt++;
                     tryNext();
                 };
-                testImg.src = url;
+                tester.src = url;
             }
-
             tryNext();
         }
 
-        // --- RENDER FUNCTIONS ---
-        function renderModels() {
-            const grid = document.getElementById('model-grid');
-            grid.innerHTML = '';
-
-            MODELS.forEach(model => {
+        function init() {
+            // Render Models
+            const modelGrid = document.getElementById('model-grid');
+            MODELS.forEach(m => {
                 const card = document.createElement('div');
                 card.className = 'model-card';
                 card.innerHTML = `
                     <div class="img-wrapper">
-                        <img id="model-img-${model.id}" src="" alt="${model.name}">
-                        <div class="img-status"></div>
-                    </div>
-                    <div class="card-info">
-                        <h3 class="neon-text-pink">${model.name}</h3>
-                        <p>${model.type}</p>
-                        <button class="btn" onclick="startChat('${model.name}')">CHAT</button>
-                        <button class="btn blue" onclick="openModal('vip-modal')">TIP</button>
+                        <img id="m-${m.name}" src="" alt="${m.name}">
+                        <div class="card-info">
+                            <h3 class="neon-text-pink">${m.name}</h3>
+                            <p>${m.type}</p>
+                            <button class="btn" onclick="openModal('chat-modal')">CHAT</button>
+                        </div>
                     </div>
                 `;
-                grid.appendChild(card);
-                
-                // Trigger smart load
-                const imgEl = card.querySelector(`#model-img-${model.id}`);
-                smartImageLoad(imgEl, model.file);
+                modelGrid.appendChild(card);
+                smartLoad(card.querySelector('img'), m.folder, m.file);
+            });
+
+            // Render Gallery
+            const galleryGrid = document.getElementById('gallery-grid');
+            GALLERY_FILES.forEach((f, i) => {
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+                item.innerHTML = `
+                    <img id="g-${i}" src="" alt="Gallery ${i}">
+                    <div class="gallery-lock" onclick="openModal('vip-modal')"><i class="fas fa-lock fa-2x"></i></div>
+                `;
+                galleryGrid.appendChild(item);
+                smartLoad(item.querySelector('img'), GALLERY_FOLDER, f);
             });
         }
 
-        function renderGallery() {
-            const grid = document.getElementById('gallery-grid');
-            grid.innerHTML = '';
-            
-            GALLERY_FILES.forEach((file, index) => {
-                const div = document.createElement('div');
-                div.style.height = '150px';
-                div.style.overflow = 'hidden';
-                div.style.border = '1px solid #333';
-                div.style.position = 'relative';
-                
-                const img = document.createElement('img');
-                img.style.width = '100%';
-                img.style.height = '100%';
-                img.style.objectFit = 'cover';
-                img.id = `gallery-img-${index}`;
-                
-                div.appendChild(img);
-                grid.appendChild(div);
-                
-                smartImageLoad(img, file);
-            });
-        }
-
-        // --- INTERACTION ---
-        function enterSite() {
-            document.getElementById('age-gate').style.display = 'none';
-            document.getElementById('main-interface').style.display = 'block';
-            log('User entered site.');
-            log('Starting asset retrieval...');
-            renderModels();
-            renderGallery();
-        }
-
+        // Modal Logic
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-
-        function startChat(name) {
-            openModal('chat-modal');
-            const history = document.getElementById('chat-history');
-            history.innerHTML += `<div style="margin:10px 0; color:var(--neon-blue);"><strong>AI:</strong> Connecting to ${name}...</div>`;
-            history.innerHTML += `<div style="margin:10px 0;"><strong>${name}:</strong> ${getGreeting(name)}</div>`;
-            history.scrollTop = history.scrollHeight;
-        }
-
+        
         function sendChat() {
-            const input = document.getElementById('chat-input');
-            const val = input.value;
-            if(!val) return;
-            
-            const history = document.getElementById('chat-history');
-            history.innerHTML += `<div style="margin:10px 0; text-align:right; color:#fff;"><strong>YOU:</strong> ${val}</div>`;
-            input.value = '';
-            
+            const inp = document.getElementById('chat-input');
+            const hist = document.getElementById('chat-history');
+            if(!inp.value) return;
+            hist.innerHTML += `<div style="text-align:right; color:#ccc; margin:5px 0;">${inp.value}</div>`;
+            inp.value = '';
             setTimeout(() => {
-                const responses = [
-                    "I want you to tip me first.",
-                    "Tell me exactly what you want me to do.",
-                    "Mmm, sounds dirty.",
-                    "Join my VIP if you want to see that.",
-                    "I'm bored. Entertain me."
-                ];
-                const reply = responses[Math.floor(Math.random() * responses.length)];
-                history.innerHTML += `<div style="margin:10px 0;"><strong>Model:</strong> ${reply}</div>`;
-                history.scrollTop = history.scrollHeight;
-            }, 1000);
+                hist.innerHTML += `<div style="color:var(--neon-pink); margin:5px 0;"><strong>AI:</strong> That sounds naughty... tell me more.</div>`;
+                hist.scrollTop = hist.scrollHeight;
+            }, 800);
         }
 
-        function getGreeting(name) {
-            if(name.includes('Viper')) return "Kneel before you speak.";
-            if(name.includes('Raven')) return "Ready to take instructions?";
-            if(name.includes('Doris')) return "Hey sugar, what you looking for?";
-            return "Hello there.";
-        }
-
-        // Keyboard shortcut for debug
-        document.addEventListener('keydown', (e) => {
-            if(e.key === 'd' || e.key === 'D') {
-                const log = document.getElementById('system-log');
-                log.style.display = log.style.display === 'none' ? 'block' : 'none';
-            }
-        });
-
-        // Init
-        document.addEventListener('DOMContentLoaded', () => {
-             // Optional: Show log by default for diagnosis
-             document.getElementById('system-log').style.display = 'block';
-        });
+        window.onload = init;
 
     </script>
 </body>
