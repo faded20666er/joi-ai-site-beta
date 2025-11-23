@@ -5,210 +5,240 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JOI AI - Indulge Your Desires</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #111;
-            color: #eee;
+            background-color: #000;
+            color: #fff;
             margin: 0;
-            padding: 0;
             overflow-x: hidden;
         }
 
-        /* Age Gate Styles */
+        /* ... (rest of the CSS, keep the same as before) ... */
+       body {
+            font-family: 'Arial', sans-serif;
+            background-color: #000;
+            color: #fff;
+            margin: 0;
+            overflow-x: hidden;
+            background: linear-gradient(to bottom, #000000, #1a001a);
+            animation: gradientAnimation 10s infinite alternate;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background: linear-gradient(to bottom, #000000, #1a001a);
+            }
+            100% {
+                background: linear-gradient(to bottom, #1a001a, #330033);
+            }
+        }
+
         #age-gate {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            color: white;
+            background-color: rgba(0, 0, 0, 0.95);
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 1000;
         }
 
+        #age-gate-content {
+            background-color: #111;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #e91e63;
+        }
+
         #age-gate button {
-            background-color: #f00;
+            background-color: #e91e63;
             color: white;
             border: none;
             padding: 10px 20px;
             margin: 10px;
+            border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
+            transition: background-color 0.3s ease;
         }
 
-        /* Header Styles */
+        #age-gate button:hover {
+            background-color: #c2185b;
+        }
+
         header {
-            background-color: #000;
-            color: #fff;
+            background-color: rgba(0, 0, 0, 0.7);
             padding: 20px;
             text-align: center;
             position: relative;
-            overflow: hidden;
+            z-index: 100;
+            backdrop-filter: blur(5px);
+            border-bottom: 1px solid #e91e63;
         }
 
         header h1 {
-            font-size: 2.5em;
+            color: #e91e63;
             margin: 0;
-            letter-spacing: 2px;
-            text-shadow: 0 0 10px #ff69b4;
+            font-size: 2em;
+            text-shadow: 0 0 10px #e91e63;
         }
 
-        header p {
-            font-size: 1.2em;
-            color: #ddd;
-            margin: 10px 0;
-        }
-
-        /* Navigation Styles */
         nav {
-            background-color: #222;
-            overflow: hidden;
             display: flex;
             justify-content: center;
-            border-bottom: 2px solid #ff69b4;
+            margin-top: 10px;
         }
 
         nav a {
-            display: block;
-            color: white;
-            text-align: center;
-            padding: 14px 16px;
+            color: #fff;
             text-decoration: none;
-            transition: background-color 0.3s, color 0.3s;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            border: 1px solid #e91e63;
         }
 
         nav a:hover {
-            background-color: #ff69b4;
-            color: black;
+            background-color: #e91e63;
+            color: #000;
         }
 
-        /* Category Container Styles */
-        .category-container {
+        #models {
             display: flex;
             flex-direction: column;
             align-items: center;
             padding: 20px;
-            margin-bottom: 30px;
         }
 
-        .category-tabs {
-            display: flex;
+        .model-category {
+            width: 100%;
             margin-bottom: 20px;
-        }
-
-        .category-tabs button {
-            background-color: #444;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            margin: 0 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .category-tabs button.active {
-            background-color: #ff69b4;
-            color: black;
-        }
-
-        .category-content {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            width: 80%;
-        }
-
-        /* Model Card Styles */
-        .model-card {
-            background-color: #333;
-            border-radius: 8px;
+            border: 1px solid #e91e63;
+            border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s;
-            width: 200px;
-            margin-bottom: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
         }
 
-        .model-card:hover {
-            transform: translateY(-5px);
+        .category-header {
+            background-color: #e91e63;
+            color: #000;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .category-header:hover {
+            background-color: #c2185b;
+        }
+
+        .model-list {
+            display: flex;
+            overflow-x: auto;
+            padding: 10px;
+        }
+
+        .model-card {
+            flex: 0 0 auto;
+            width: 200px;
+            margin: 0 10px;
+            border: 1px solid #e91e63;
+            border-radius: 5px;
+            text-align: center;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
         }
 
         .model-card img {
             width: 100%;
-            height: 200px;
-            object-fit: cover;
-            display: block;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #e91e63;
         }
 
-        .model-card-info {
-            padding: 15px;
-            text-align: center;
-        }
-
-        .model-card-info h3 {
-            margin: 0 0 10px;
-            font-size: 1.3em;
+        .model-card h3 {
             color: #fff;
-        }
-
-        .model-card-info p {
-            font-size: 0.9em;
-            color: #bbb;
             margin: 0;
+            font-size: 1em;
+            text-shadow: 0 0 5px #e91e63;
         }
 
-        /* Live Feed Styles */
-        #live-feed {
-            background-color: #222;
+        .model-card p {
+            color: #ccc;
+            font-size: 0.8em;
+        }
+
+        .model-card button {
+            background-color: #e91e63;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .model-card button:hover {
+            background-color: #c2185b;
+        }
+        #live-cams {
             padding: 20px;
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.5);
             margin: 20px auto;
+            border-radius: 10px;
             width: 80%;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            max-width: 1200px;
+            border: 1px solid #e91e63;
+            backdrop-filter: blur(5px);
         }
 
-        #live-feed h2 {
-            color: #fff;
-            text-align: center;
+        #live-cams h2 {
+            color: #e91e63;
+            text-shadow: 0 0 10px #e91e63;
             margin-bottom: 20px;
         }
 
-        .live-cameras {
+        .cam-row {
             display: flex;
             justify-content: space-around;
             margin-bottom: 20px;
         }
 
-        .camera {
-            width: 200px;
-            border-radius: 8px;
+        .cam-item {
+            width: 20%;
+            border: 1px solid #e91e63;
+            border-radius: 5px;
             overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
         }
 
-        .camera img {
+        .cam-item img {
             width: 100%;
             height: auto;
             display: block;
         }
 
-        .activity-ticker {
-            background-color: #333;
+        .cam-item h3 {
             color: #fff;
             padding: 10px;
-            border-radius: 5px;
-            font-size: 0.9em;
+            margin: 0;
+            font-size: 1em;
+            text-shadow: 0 0 5px #e91e63;
         }
-
-        /* Chat Modal Styles */
-        #chat-modal {
+        /* General Styles */
+        .modal {
             display: none;
             position: fixed;
             top: 0;
@@ -216,59 +246,26 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.8);
-            z-index: 1001;
+            z-index: 1000;
+            overflow: auto;
         }
 
         .modal-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #222;
+            position: relative;
+            background-color: #111;
+            margin: 10% auto;
             padding: 20px;
-            border-radius: 8px;
+            border: 1px solid #e91e63;
             width: 80%;
             max-width: 600px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.4s;
         }
 
-        .modal-header {
-            color: #fff;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .chat-messages {
-            height: 200px;
-            overflow-y: scroll;
-            padding: 10px;
-            background-color: #333;
-            color: #fff;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-
-        .chat-input {
-            display: flex;
-        }
-
-        .chat-input input {
-            flex-grow: 1;
-            padding: 8px;
-            border: none;
-            border-radius: 5px;
-            background-color: #444;
-            color: #fff;
-        }
-
-        .chat-input button {
-            background-color: #ff69b4;
-            color: black;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-left: 5px;
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
         }
 
         .close-button {
@@ -276,26 +273,535 @@
             top: 10px;
             right: 10px;
             color: #fff;
-            cursor: pointer;
             font-size: 20px;
+            cursor: pointer;
         }
 
-        /* VIP Content Styles */
-        #vip-content {
-            background-color: #333;
-            padding: 20px;
-            margin: 20px auto;
-            width: 80%;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            display: none;
+        /* Chat Modal Styles */
+        #chat-modal .modal-content {
+            text-align: left;
         }
 
-        #vip-content h2 {
+        #chat-log {
+            height: 300px;
+            overflow-y: scroll;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #e91e63;
             color: #fff;
-            text-align: center;
-            margin-bottom: 20px;
         }
 
-        #vip-content p {
-            color
+        #chat-input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #333;
+            color: #fff;
+            border: 1px solid #e91e63;
+            border-radius: 5px;
+        }
+
+        #send-button {
+            background-color: #e91e63;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #send-button:hover {
+            background-color: #c2185b;
+        }
+
+        /* Payment Modal Styles */
+        #payment-modal .modal-content {
+            text-align: center;
+        }
+
+        #payment-modal input[type="text"],
+        #payment-modal input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #333;
+            color: #fff;
+            border: 1px solid #e91e63;
+            border-radius: 5px;
+        }
+
+        #payment-modal button {
+            background-color: #e91e63;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #payment-modal button:hover {
+            background-color: #c2185b;
+        }
+
+        /* Custom Requests Modal Styles */
+        #custom-request-modal .modal-content {
+            text-align: left;
+        }
+
+        #custom-request-modal textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #333;
+            color: #fff;
+            border: 1px solid #e91e63;
+            border-radius: 5px;
+        }
+
+        #custom-request-modal button {
+            background-color: #e91e63;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #custom-request-modal button:hover {
+            background-color: #c2185b;
+        }
+
+        /* VIP Gallery Modal Styles */
+        #vip-gallery-modal .modal-content {
+            text-align: center;
+        }
+
+        #vip-gallery-modal img {
+            width: 80%;
+            max-width: 500px;
+            margin: 10px 0;
+            border: 1px solid #e91e63;
+            border-radius: 5px;
+        }
+        #footer {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #e91e63;
+            backdrop-filter: blur(5px);
+            color: #fff;
+            font-size: 0.9em;
+        }
+
+        #footer a {
+            color: #e91e63;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        #footer a:hover {
+            color: #fff;
+        }
+        /* Tabs Styles */
+        .tab-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-bottom: 1px solid #e91e63;
+            backdrop-filter: blur(5px);
+        }
+
+        .tab-button {
+            color: #fff;
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+
+        .tab-button:hover {
+            border-color: #e91e63;
+        }
+
+        .tab-button.active {
+            border-color: #e91e63;
+            color: #e91e63;
+        }
+
+        /* Feeds Styles */
+        .feed-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+        }
+
+        .feed-item {
+            width: 30%;
+            margin-bottom: 20px;
+            border: 1px solid #e91e63;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .feed-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .feed-item h3 {
+            color: #fff;
+            padding: 10px;
+            margin: 0;
+            font-size: 1.1em;
+            text-shadow: 0 0 5px #e91e63;
+        }
+
+        .feed-item p {
+            color: #ccc;
+            padding: 0 10px 10px;
+            font-size: 0.9em;
+        }
+        /* Activity Ticker Styles */
+        #activity-ticker {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+            height: 30px;
+            border-top: 1px solid #e91e63;
+            border-bottom: 1px solid #e91e63;
+            backdrop-filter: blur(5px);
+        }
+
+        #activity-ticker div {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            line-height: 30px;
+            text-align: center;
+            -moz-transform: translateX(100%);
+            -webkit-transform: translateX(100%);
+            transform: translateX(100%);
+            -moz-animation: activity-ticker 15s linear infinite;
+            -webkit-animation: activity-ticker 15s linear infinite;
+            animation: activity-ticker 30s linear infinite;
+        }
+
+        @-moz-keyframes activity-ticker {
+            0%   { -moz-transform: translateX(100%); }
+            100% { -moz-transform: translateX(-100%); }
+        }
+        @-webkit-keyframes activity-ticker {
+            0%   { -webkit-transform: translateX(100%); }
+            100% { -webkit-transform: translateX(-100%); }
+        }
+        @keyframes activity-ticker {
+            0%   {
+                -moz-transform: translateX(100%);
+                -webkit-transform: translateX(100%);
+                transform: translateX(100%);
+            }
+            100% {
+                -moz-transform: translateX(-100%);
+                -webkit-transform: translateX(-100%);
+                transform: translateX(-100%);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="age-gate">
+        <div id="age-gate-content">
+            <h2>Age Verification</h2>
+            <p>You must be 18+ to enter this site.</p>
+            <button onclick="acceptAge()">I am 18+</button>
+            <button onclick="declineAge()">I am not</button>
+        </div>
+    </div>
+
+    <header>
+        <h1>JOI AI</h1>
+        <nav>
+            <a href="#" onclick="openModal('chat-modal')">Chat</a>
+            <a href="#" onclick="openModal('custom-request-modal')">Custom Request</a>
+            <a href="#" onclick="openModal('vip-gallery-modal')">VIP Gallery</a>
+        </nav>
+    </header>
+
+    <div id="activity-ticker">
+        <div>
+            New user signed up! | Model Doris is now live! | Someone just requested a custom JOI! | VIP gallery updated!
+        </div>
+    </div>
+
+    <div class="tab-container">
+        <button class="tab-button active" onclick="showTab('all')">All</button>
+        <button class="tab-button" onclick="showTab('viper')">Mistress Viper</button>
+        <button class="tab-button" onclick="showTab('raven')">Raven</button>
+        <button class="tab-button" onclick="showTab('lilith')">Lilith</button>
+        <button class="tab-button" onclick="showTab('doris')">Doris</button>
+    </div>
+
+    <div id="models">
+         <div class="model-category" data-category="viper">
+            <div class="category-header" onclick="toggleCategory('viper')">Mistress Viper</div>
+            <div class="model-list">
+                <div class="model-card">
+                    <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/img1.jpg?raw=true" alt="Mistress Viper">
+                    <h3>Mistress Viper</h3>
+                    <p>Goth Mommy / Domination</p>
+                    <button onclick="openModal('chat-modal'); setCurrentModel('Viper')">Chat with Viper</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="model-category" data-category="raven">
+            <div class="category-header" onclick="toggleCategory('raven')">Raven</div>
+            <div class="model-list">
+                <div class="model-card">
+                    <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/img2.jpg?raw=true" alt="Raven">
+                    <h3>Raven</h3>
+                    <p>Strap-on / JOI</p>
+                    <button onclick="openModal('chat-modal'); setCurrentModel('Raven')">Chat with Raven</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="model-category" data-category="lilith">
+            <div class="category-header" onclick="toggleCategory('lilith')">Lilith</div>
+            <div class="model-list">
+                <div class="model-card">
+                    <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/img3.jpg?raw=true" alt="Lilith">
+                    <h3>Lilith</h3>
+                    <p>Leather Fetish / Worship</p>
+                    <button onclick="openModal('chat-modal'); setCurrentModel('Lilith')">Chat with Lilith</button>
+                </div>
+            </div>
+        </div>
+
+         <div class="model-category" data-category="doris">
+            <div class="category-header" onclick="toggleCategory('doris')">Doris</div>
+            <div class="model-list">
+                <div class="model-card">
+                    <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/ebony1.jpg?raw=true" alt="Doris">
+                    <h3>Doris</h3>
+                    <p>Ebony / Video Teasers</p>
+                    <button onclick="openModal('chat-modal'); setCurrentModel('Doris')">Chat with Doris</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="live-cams">
+        <h2>Live Now</h2>
+        <div class="cam-row">
+             <div class="cam-item">
+                <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/img1.jpg?raw=true" alt="Live Cam 1">
+                <h3>Mistress Viper</h3>
+            </div>
+            <div class="cam-item">
+                <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/img2.jpg?raw=true" alt="Live Cam 2">
+                <h3>Raven</h3>
+            </div>
+            <div class="cam-item">
+                <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/img3.jpg?raw=true" alt="Live Cam 3">
+                <h3>Lilith</h3>
+            </div>
+             <div class="cam-item">
+                <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/ebony1.jpg?raw=true" alt="Live Cam 4">
+                <h3>Doris</h3>
+            </div>
+        </div>
+    </div>
+
+    <div id="chat-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('chat-modal')">&times;</span>
+            <h2>Chat with <span id="current-model-name"></span></h2>
+            <div id="chat-log"></div>
+            <input type="text" id="chat-input" placeholder="Type your message...">
+            <button id="send-button" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <div id="payment-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('payment-modal')">&times;</span>
+            <h2>Payment Information</h2>
+            <input type="text" placeholder="Card Number">
+            <input type="text" placeholder="Expiration Date">
+            <input type="number" placeholder="CVV">
+            <button onclick="processPayment()">Pay Now</button>
+        </div>
+    </div>
+
+    <div id="custom-request-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('custom-request-modal')">&times;</span>
+            <h2>Custom Request</h2>
+            <textarea placeholder="Describe your custom JOI request..."></textarea>
+            <button onclick="submitCustomRequest()">Submit Request</button>
+        </div>
+    </div>
+
+    <div id="vip-gallery-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('vip-gallery-modal')">&times;</span>
+            <h2>VIP Gallery</h2>
+            <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/img5.jpg?raw=true" alt="VIP Image 1">
+            <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/img6.jpg?raw=true" alt="VIP Image 2">
+            <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/img7.jpg?raw=true" alt="VIP Image 3">
+             <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/img8.jpg?raw=true" alt="VIP Image 4">
+            <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/img9.jpg?raw=true" alt="VIP Image 5">
+        </div>
+    </div>
+
+    <footer id="footer">
+        <p>&copy; 2024 JOI AI. All rights reserved. | <a href="#">Terms of Service</a> | <a href="#">Privacy Policy</a></p>
+    </footer>
+
+    <script>
+        let currentModel = '';
+
+        function acceptAge() {
+            document.getElementById('age-gate').style.display = 'none';
+        }
+
+        function declineAge() {
+            alert('You must be 18+ to enter.');
+        }
+
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function setCurrentModel(modelName) {
+            currentModel = modelName;
+            document.getElementById('current-model-name').innerText = modelName;
+        }
+
+        function sendMessage() {
+            const chatInput = document.getElementById('chat-input');
+            const chatLog = document.getElementById('chat-log');
+            const message = chatInput.value;
+
+            let response = getAIChatResponse(currentModel, message);
+
+            chatLog.innerHTML += `<p><strong>You:</strong> ${message}</p>`;
+            chatLog.innerHTML += `<p><strong>${currentModel}:</strong> ${response}</p>`;
+            chatInput.value = '';
+            chatLog.scrollTop = chatLog.scrollHeight;
+        }
+
+        function processPayment() {
+            alert('Payment processed (not really). Enjoy!');
+            closeModal('payment-modal');
+        }
+
+        function submitCustomRequest() {
+            alert('Custom request submitted (not really).');
+            closeModal('custom-request-modal');
+        }
+
+        function toggleCategory(category) {
+            const categoryDiv = document.querySelector(`.model-category[data-category="${category}"] .model-list`);
+            categoryDiv.style.display = categoryDiv.style.display === 'none' ? 'flex' : 'none';
+        }
+
+        function showTab(tabName) {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => button.classList.remove('active'));
+            document.querySelector(`.tab-button[onclick="showTab('${tabName}')"]`).classList.add('active');
+
+            const modelCategories = document.querySelectorAll('.model-category');
+            modelCategories.forEach(category => {
+                category.style.display = tabName === 'all' || category.dataset.category === tabName ? 'block' : 'none';
+            });
+        }
+
+        function getAIChatResponse(model, message) {
+            message = message.toLowerCase();
+
+            if (model === 'Viper') {
+                if (message.includes("slut")) return "You dare call me that, worm? Get on your knees and beg forgiveness!";
+                if (message.includes("mommy")) return "That's right, I like it when you call me mommy. Now, do as I say.";
+                if (message.includes("obey")) return "Good. Obedience is a virtue. Now lick my boots clean.";
+                return "Silence! You will speak when spoken to.";
+            } else if (model === 'Doris') {
+                if (message.includes("hey")) return "Hey boo, what you want?";
+                if (message.includes("dick")) return "Ooh, you tryna get nasty? I like that.";
+                if (message.includes("hood")) return "Keep it real with me, papi. I know what you want.";
+                return "You know I'm all about that real shit.";
+            } else if (model === 'Raven') {
+                 if (message.includes("strap")) return "Ready to get strapped, baby? I'm in charge now.";
+                if (message.includes("dominate")) return "That's my line. I'm the boss here, and you're gonna love it.";
+                if (message.includes("joi")) return "Listen up, buttercup. You're gonna do exactly what I tell you.";
+                return "Get ready for some serious pleasure. On my terms.";
+            } else if (model === 'Lilith') {
+                if (message.includes("leather")) return "Ah, you appreciate the finer things. Leather is my second skin.";
+                if (message.includes("worship")) return "That's right, baby. Worship every inch of me.";
+                if (message.includes("feet")) return "My feet deserve your utmost attention. Start licking.";
+                return "You know what I want. Now give it to me.";
+            }
+            return "I'm thinking...";
+        }
+
+        //Image Loader
+         function imageExists(url, callback) {
+            var img = new Image();
+            img.onload = function() { callback(true); };
+            img.onerror = function() { callback(false); };
+            img.src = url;
+        }
+
+        function smartLoadImage(imgElement, baseImageUrl) {
+            const extensions = ['.jpg', '.png', '.webp'];
+            let index = 0;
+
+            function tryLoad() {
+                if (index < extensions.length) {
+                    const url = baseImageUrl + extensions[index];
+                    imageExists(url, function(exists) {
+                        if (exists) {
+                            imgElement.src = url;
+                        } else {
+                            index++;
+                            tryLoad();
+                        }
+                    });
+                } else {
+                    imgElement.src = 'placeholder-image.jpg'; // Fallback
+                }
+            }
+
+            tryLoad();
+        }
+
+        //Error Handling
+        window.onerror = function(message, source, lineno, colno, error) {
+            alert(`Error: ${message}\nSource: ${source}\nLine: ${lineno}\nColumn: ${colno}\nError object: ${error}`);
+        };
+    </script>
+
+</body>
+</html>
+
