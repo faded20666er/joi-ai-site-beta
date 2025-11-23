@@ -1,551 +1,494 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JOI AI - Indulge Your Desires</title>
+    <title>JOI AI - Your Ultimate Fantasy</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #000;
-            color: #fff;
-            margin: 0;
-            overflow-x: hidden;
+        :root {
+            --primary-color: #e91e63; /* Hot Pink */
+            --secondary-color: #ffeb3b; /* Gold */
+            --accent-color: #f44336; /* Red for CTAs */
+            --background-dark: #000000;
+            --background-gradient-start: #1a001a;
+            --background-gradient-end: #330033;
+            --glass-effect-bg: rgba(0, 0, 0, 0.5);
+            --neon-border: 1px solid var(--primary-color);
+            --pulse-shadow: 0 0 15px var(--primary-color);
         }
 
-        /* ... (rest of the CSS, keep the same as before) ... */
-       body {
-            font-family: 'Arial', sans-serif;
-            background-color: #000;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to bottom, var(--background-gradient-start), var(--background-gradient-end));
+            background-attachment: fixed;
             color: #fff;
             margin: 0;
             overflow-x: hidden;
-            background: linear-gradient(to bottom, #000000, #1a001a);
-            animation: gradientAnimation 10s infinite alternate;
+            animation: gradientAnimation 15s infinite alternate;
         }
 
         @keyframes gradientAnimation {
-            0% {
-                background: linear-gradient(to bottom, #000000, #1a001a);
-            }
-            100% {
-                background: linear-gradient(to bottom, #1a001a, #330033);
-            }
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
         }
 
-        #age-gate {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.95);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        #age-gate-content {
-            background-color: #111;
-            padding: 20px;
+        /* Glassmorphism & Neon Effects */
+        .glass-panel {
+            background: var(--glass-effect-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border-radius: 10px;
-            text-align: center;
-            border: 2px solid #e91e63;
+            border: var(--neon-border);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
         }
 
-        #age-gate button {
-            background-color: #e91e63;
+        .neon-text {
+            color: #fff;
+            text-shadow: var(--pulse-shadow), 0 0 20px #fff;
+            animation: pulse 2s infinite alternate;
+        }
+
+        .cta-button {
+            background-color: var(--accent-color);
             color: white;
             border: none;
-            padding: 10px 20px;
-            margin: 10px;
+            padding: 12px 25px;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 8px var(--accent-color);
+            animation: pulse-cta 1.5s infinite;
         }
 
-        #age-gate button:hover {
-            background-color: #c2185b;
+        .cta-button:hover {
+            background-color: #d32f2f;
+            box-shadow: 0 0 15px var(--accent-color), 0 0 25px #d32f2f;
+            transform: translateY(-2px);
         }
 
+        @keyframes pulse {
+            from { opacity: 1; }
+            to { opacity: 0.7; }
+        }
+
+        @keyframes pulse-cta {
+            0% { box-shadow: 0 0 8px var(--accent-color); }
+            50% { box-shadow: 0 0 15px var(--accent-color), 0 0 25px var(--accent-color); }
+            100% { box-shadow: 0 0 8px var(--accent-color); }
+        }
+
+        /* Age Gate */
+        #age-gate {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 0.5s ease-in-out;
+        }
+        #age-gate.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        #age-gate-content {
+            text-align: center;
+            padding: 30px;
+            border: 2px solid var(--primary-color);
+            background: rgba(20, 20, 20, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 0 20px var(--primary-color);
+        }
+        #age-gate h2 { color: var(--primary-color); margin-bottom: 15px; }
+        #age-gate p { margin-bottom: 20px; color: #ccc; }
+        #age-gate button {
+            padding: 10px 20px; margin: 0 10px; border-radius: 5px;
+            cursor: pointer; transition: background-color 0.3s ease;
+            border: 1px solid var(--primary-color);
+        }
+        #age-gate button:first-of-type { background-color: var(--primary-color); color: white; }
+        #age-gate button:last-of-type { background-color: transparent; color: var(--primary-color); }
+        #age-gate button:hover { filter: brightness(1.2); }
+
+        /* Header */
         header {
-            background-color: rgba(0, 0, 0, 0.7);
-            padding: 20px;
+            padding: 25px 0;
             text-align: center;
             position: relative;
             z-index: 100;
-            backdrop-filter: blur(5px);
-            border-bottom: 1px solid #e91e63;
+            border-bottom: 1px solid var(--primary-color);
+            margin-bottom: 20px;
         }
-
         header h1 {
-            color: #e91e63;
-            margin: 0;
-            font-size: 2em;
-            text-shadow: 0 0 10px #e91e63;
+            margin: 0; font-size: 2.8em;
+            color: var(--primary-color);
+            text-shadow: var(--pulse-shadow);
+            animation: flicker 3s infinite alternate;
         }
+        @keyframes flicker { 50% { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px var(--primary-color), 0 0 20px var(--primary-color); } }
 
         nav {
+            margin-top: 15px;
             display: flex;
             justify-content: center;
-            margin-top: 10px;
+            gap: 20px;
         }
-
         nav a {
-            color: #fff;
-            text-decoration: none;
-            padding: 10px 20px;
-            margin: 0 10px;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-            border: 1px solid #e91e63;
+            color: #fff; text-decoration: none; padding: 10px 20px;
+            border-radius: 5px; transition: all 0.3s ease;
+            border: 1px solid var(--primary-color);
+            text-transform: uppercase; font-weight: bold;
         }
-
         nav a:hover {
-            background-color: #e91e63;
+            background-color: var(--primary-color);
             color: #000;
+            box-shadow: 0 0 10px var(--primary-color);
+            transform: translateY(-2px);
         }
 
+        /* Activity Ticker */
+        #activity-ticker {
+            padding: 12px;
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+            height: 40px;
+            border-top: 1px solid var(--primary-color);
+            border-bottom: 1px solid var(--primary-color);
+            margin: 20px 0;
+        }
+        #activity-ticker div {
+            position: absolute;
+            width: 100%; height: 100%;
+            margin: 0; line-height: 40px;
+            text-align: center;
+            transform: translateX(100%);
+            animation: activity-ticker 45s linear infinite;
+            font-size: 0.9em;
+            color: var(--secondary-color);
+        }
+        @keyframes activity-ticker {
+            0%   { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* Tabs */
+        .tab-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            padding: 10px;
+            background: var(--glass-effect-bg);
+            border-bottom: 1px solid var(--primary-color);
+        }
+        .tab-button {
+            color: #fff; padding: 12px 25px; cursor: pointer;
+            border: none; background: none;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            font-size: 1.1em; font-weight: bold;
+            margin: 0 5px;
+            border-radius: 5px;
+        }
+        .tab-button:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        .tab-button.active {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            box-shadow: 0 0 10px var(--primary-color);
+        }
+
+        /* Models Section */
         #models {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .model-category {
+            margin-bottom: 0; /* Overriding previous style */
+            border: none; /* Overriding previous style */
+            background: none; /* Overriding previous style */
+            backdrop-filter: none; /* Overriding previous style */
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px;
         }
-
-        .model-category {
-            width: 100%;
-            margin-bottom: 20px;
-            border: 1px solid #e91e63;
-            border-radius: 10px;
-            overflow: hidden;
-            background-color: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(5px);
-        }
-
         .category-header {
-            background-color: #e91e63;
+            background-color: var(--primary-color);
             color: #000;
-            padding: 10px;
+            padding: 15px;
             text-align: center;
             font-weight: bold;
-            font-size: 1.2em;
+            font-size: 1.4em;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
+            width: 100%;
+            border-radius: 10px 10px 0 0;
+            border: 1px solid var(--primary-color);
         }
-
         .category-header:hover {
             background-color: #c2185b;
+            color: white;
+            box-shadow: 0 0 15px var(--primary-color);
         }
-
         .model-list {
             display: flex;
             overflow-x: auto;
-            padding: 10px;
+            padding: 20px 10px;
+            background: var(--glass-effect-bg);
+            border-radius: 0 0 10px 10px;
+            border: var(--neon-border);
+            border-top: none;
+            justify-content: center;
+            gap: 20px;
         }
-
         .model-card {
-            flex: 0 0 auto;
-            width: 200px;
-            margin: 0 10px;
-            border: 1px solid #e91e63;
-            border-radius: 5px;
+            flex: none; /* Important for flexbox */
+            width: 220px;
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
             text-align: center;
-            padding: 10px;
-            background-color: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            background-color: rgba(0,0,0,0.8);
             backdrop-filter: blur(5px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-
+        .model-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px var(--primary-color);
+        }
         .model-card img {
             width: 100%;
+            height: 250px; /* Fixed height for consistency */
+            object-fit: cover; /* Ensures image covers the area */
             border-radius: 5px;
-            margin-bottom: 10px;
-            border: 1px solid #e91e63;
+            margin-bottom: 15px;
+            border: 1px solid var(--secondary-color);
         }
-
         .model-card h3 {
-            color: #fff;
-            margin: 0;
-            font-size: 1em;
-            text-shadow: 0 0 5px #e91e63;
+            color: var(--secondary-color);
+            margin: 0 0 5px 0;
+            font-size: 1.2em;
+            text-shadow: 0 0 8px var(--secondary-color);
         }
-
         .model-card p {
             color: #ccc;
-            font-size: 0.8em;
+            font-size: 0.9em;
+            margin-bottom: 15px;
         }
-
         .model-card button {
-            background-color: #e91e63;
+            background-color: var(--accent-color);
             color: white;
             border: none;
-            padding: 8px 16px;
+            padding: 10px 20px;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px var(--accent-color);
         }
-
         .model-card button:hover {
-            background-color: #c2185b;
+            background-color: #d32f2f;
+            box-shadow: 0 0 15px #d32f2f;
+            transform: translateY(-1px);
         }
+
+        /* Live Cams Section */
         #live-cams {
-            padding: 20px;
+            padding: 30px;
             text-align: center;
-            background-color: rgba(0, 0, 0, 0.5);
-            margin: 20px auto;
-            border-radius: 10px;
-            width: 80%;
+            margin: 30px auto;
             max-width: 1200px;
-            border: 1px solid #e91e63;
-            backdrop-filter: blur(5px);
+            border: 1px solid var(--primary-color);
         }
-
         #live-cams h2 {
-            color: #e91e63;
-            text-shadow: 0 0 10px #e91e63;
-            margin-bottom: 20px;
+            color: var(--primary-color);
+            text-shadow: var(--pulse-shadow);
+            margin-bottom: 25px;
+            font-size: 2em;
         }
-
         .cam-row {
             display: flex;
             justify-content: space-around;
-            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 20px;
         }
-
         .cam-item {
-            width: 20%;
-            border: 1px solid #e91e63;
-            border-radius: 5px;
+            width: 22%; /* Adjusted for better spacing */
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
             overflow: hidden;
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgba(0,0,0,0.7);
             backdrop-filter: blur(5px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-
+        .cam-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px var(--primary-color);
+        }
         .cam-item img {
             width: 100%;
-            height: auto;
+            height: 180px; /* Fixed height */
+            object-fit: cover;
             display: block;
+            border-bottom: 1px solid var(--primary-color);
         }
-
         .cam-item h3 {
-            color: #fff;
+            color: var(--secondary-color);
             padding: 10px;
             margin: 0;
             font-size: 1em;
-            text-shadow: 0 0 5px #e91e63;
+            text-shadow: 0 0 5px var(--secondary-color);
         }
-        /* General Styles */
+
+        /* Modals */
         .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
+            display: none; position: fixed; z-index: 1001;
+            left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
             overflow: auto;
         }
-
         .modal-content {
             position: relative;
-            background-color: #111;
-            margin: 10% auto;
-            padding: 20px;
-            border: 1px solid #e91e63;
-            width: 80%;
-            max-width: 600px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            animation: fadeIn 0.4s;
+            background-color: #1a1a1a;
+            margin: 8% auto;
+            padding: 30px;
+            border: 1px solid var(--primary-color);
+            width: 90%; max-width: 650px;
+            border-radius: 15px;
+            box-shadow: 0 0 25px var(--primary-color);
+            animation: zoomIn 0.4s ease-out;
         }
-
-        @keyframes fadeIn {
-            from {opacity: 0;}
-            to {opacity: 1;}
+        @keyframes zoomIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
-
         .close-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            color: #fff;
-            font-size: 20px;
-            cursor: pointer;
+            position: absolute; top: 15px; right: 15px;
+            color: #fff; font-size: 28px; cursor: pointer;
+            transition: color 0.3s ease;
         }
+        .close-button:hover { color: var(--primary-color); }
 
-        /* Chat Modal Styles */
-        #chat-modal .modal-content {
-            text-align: left;
-        }
-
+        /* Chat Modal */
+        #chat-modal .modal-content { background-color: rgba(20, 20, 20, 0.95); }
+        #chat-modal h2 { color: var(--primary-color); text-align: center; margin-bottom: 20px; }
         #chat-log {
-            height: 300px;
-            overflow-y: scroll;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #e91e63;
+            height: 350px; overflow-y: scroll; padding: 15px;
+            margin-bottom: 15px; border-radius: 8px;
+            background-color: rgba(0,0,0,0.6);
+            border: 1px solid var(--primary-color);
             color: #fff;
         }
-
+        #chat-log p { margin: 0 0 10px 0; line-height: 1.5; }
+        #chat-log strong { color: var(--secondary-color); }
         #chat-input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            background-color: #333;
-            color: #fff;
-            border: 1px solid #e91e63;
+            width: calc(100% - 80px); padding: 12px;
+            margin-right: 5px; background-color: #333;
+            color: #fff; border: 1px solid var(--primary-color);
             border-radius: 5px;
         }
+        #send-button { width: 70px; } /* Adjusted for input */
 
-        #send-button {
-            background-color: #e91e63;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        #send-button:hover {
-            background-color: #c2185b;
-        }
-
-        /* Payment Modal Styles */
-        #payment-modal .modal-content {
-            text-align: center;
-        }
-
+        /* Payment Modal */
+        #payment-modal .modal-content { text-align: center; }
+        #payment-modal h2 { color: var(--primary-color); }
         #payment-modal input[type="text"],
         #payment-modal input[type="number"] {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            background-color: #333;
-            color: #fff;
-            border: 1px solid #e91e63;
-            border-radius: 5px;
+            width: calc(100% - 20px); padding: 12px; margin: 10px 0;
+            background-color: #333; color: #fff;
+            border: 1px solid var(--primary-color); border-radius: 5px;
         }
+        #payment-modal button { /* Inherits cta-button styles */ }
 
-        #payment-modal button {
-            background-color: #e91e63;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        #payment-modal button:hover {
-            background-color: #c2185b;
-        }
-
-        /* Custom Requests Modal Styles */
-        #custom-request-modal .modal-content {
-            text-align: left;
-        }
-
+        /* Custom Request Modal */
+        #custom-request-modal .modal-content { text-align: left; }
+        #custom-request-modal h2 { color: var(--primary-color); }
         #custom-request-modal textarea {
-            width: 100%;
-            height: 150px;
-            padding: 10px;
-            margin-bottom: 10px;
-            background-color: #333;
-            color: #fff;
-            border: 1px solid #e91e63;
-            border-radius: 5px;
+            width: calc(100% - 20px); height: 150px; padding: 12px;
+            margin-bottom: 15px; background-color: #333;
+            color: #fff; border: 1px solid var(--primary-color);
+            border-radius: 5px; resize: vertical;
         }
+        #custom-request-modal button { /* Inherits cta-button styles */ }
 
-        #custom-request-modal button {
-            background-color: #e91e63;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        #custom-request-modal button:hover {
-            background-color: #c2185b;
-        }
-
-        /* VIP Gallery Modal Styles */
-        #vip-gallery-modal .modal-content {
-            text-align: center;
-        }
-
+        /* VIP Gallery Modal */
+        #vip-gallery-modal .modal-content { text-align: center; }
+        #vip-gallery-modal h2 { color: var(--primary-color); }
         #vip-gallery-modal img {
-            width: 80%;
-            max-width: 500px;
-            margin: 10px 0;
-            border: 1px solid #e91e63;
-            border-radius: 5px;
+            width: 80%; max-width: 500px; margin: 15px 0;
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
         }
+
+        /* Footer */
         #footer {
             background-color: rgba(0, 0, 0, 0.7);
-            padding: 20px;
+            padding: 25px;
             text-align: center;
-            border-top: 1px solid #e91e63;
-            backdrop-filter: blur(5px);
-            color: #fff;
             font-size: 0.9em;
+            color: #ccc;
+            margin-top: 40px;
+            border-top: 1px solid var(--primary-color);
+            backdrop-filter: blur(5px);
         }
-
         #footer a {
-            color: #e91e63;
+            color: var(--primary-color);
             text-decoration: none;
             transition: color 0.3s ease;
         }
+        #footer a:hover { color: #fff; }
 
-        #footer a:hover {
-            color: #fff;
-        }
-        /* Tabs Styles */
-        .tab-container {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            background-color: rgba(0, 0, 0, 0.5);
-            border-bottom: 1px solid #e91e63;
-            backdrop-filter: blur(5px);
-        }
-
-        .tab-button {
-            color: #fff;
-            padding: 10px 20px;
-            cursor: pointer;
-            border: none;
-            background: none;
-            border-bottom: 2px solid transparent;
-            transition: border-color 0.3s ease;
-        }
-
-        .tab-button:hover {
-            border-color: #e91e63;
-        }
-
-        .tab-button.active {
-            border-color: #e91e63;
-            color: #e91e63;
-        }
-
-        /* Feeds Styles */
-        .feed-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            padding: 20px;
-        }
-
+        /* Specific Content Styling */
+        .feed-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 20px; max-width: 1200px; margin: 0 auto; }
         .feed-item {
-            width: 30%;
-            margin-bottom: 20px;
-            border: 1px solid #e91e63;
-            border-radius: 10px;
-            overflow: hidden;
-            background-color: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(5px);
+            width: 30%; min-width: 250px;
+            border: 1px solid var(--primary-color);
+            border-radius: 10px; overflow: hidden;
+            background-color: var(--glass-effect-bg);
+            backdrop-filter: blur(8px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
+        .feed-item:hover { transform: translateY(-5px); box-shadow: 0 0 20px var(--primary-color); }
+        .feed-item img { width: 100%; height: 200px; object-fit: cover; display: block; }
+        .feed-item h3 { color: var(--secondary-color); padding: 15px; margin: 0; font-size: 1.2em; text-shadow: 0 0 8px var(--secondary-color); }
+        .feed-item p { color: #ccc; padding: 0 15px 15px; font-size: 0.95em; line-height: 1.5; }
 
-        .feed-item img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .feed-item h3 {
-            color: #fff;
-            padding: 10px;
-            margin: 0;
-            font-size: 1.1em;
-            text-shadow: 0 0 5px #e91e63;
-        }
-
-        .feed-item p {
-            color: #ccc;
-            padding: 0 10px 10px;
-            font-size: 0.9em;
-        }
-        /* Activity Ticker Styles */
-        #activity-ticker {
-            background-color: rgba(0, 0, 0, 0.7);
-            color: #fff;
-            padding: 10px;
-            text-align: center;
-            overflow: hidden;
-            position: relative;
-            height: 30px;
-            border-top: 1px solid #e91e63;
-            border-bottom: 1px solid #e91e63;
-            backdrop-filter: blur(5px);
-        }
-
-        #activity-ticker div {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            line-height: 30px;
-            text-align: center;
-            -moz-transform: translateX(100%);
-            -webkit-transform: translateX(100%);
-            transform: translateX(100%);
-            -moz-animation: activity-ticker 15s linear infinite;
-            -webkit-animation: activity-ticker 15s linear infinite;
-            animation: activity-ticker 30s linear infinite;
-        }
-
-        @-moz-keyframes activity-ticker {
-            0%   { -moz-transform: translateX(100%); }
-            100% { -moz-transform: translateX(-100%); }
-        }
-        @-webkit-keyframes activity-ticker {
-            0%   { -webkit-transform: translateX(100%); }
-            100% { -webkit-transform: translateX(-100%); }
-        }
-        @keyframes activity-ticker {
-            0%   {
-                -moz-transform: translateX(100%);
-                -webkit-transform: translateX(100%);
-                transform: translateX(100%);
-            }
-            100% {
-                -moz-transform: translateX(-100%);
-                -webkit-transform: translateX(-100%);
-                transform: translateX(-100%);
-            }
-        }
     </style>
 </head>
 <body>
 
     <div id="age-gate">
         <div id="age-gate-content">
-            <h2>Age Verification</h2>
+            <h2 class="neon-text">Age Verification</h2>
             <p>You must be 18+ to enter this site.</p>
-            <button onclick="acceptAge()">I am 18+</button>
+            <button class="cta-button" onclick="acceptAge()">I am 18+</button>
             <button onclick="declineAge()">I am not</button>
         </div>
     </div>
 
     <header>
-        <h1>JOI AI</h1>
+        <h1 class="neon-text">JOI AI</h1>
         <nav>
-            <a href="#" onclick="openModal('chat-modal')">Chat</a>
-            <a href="#" onclick="openModal('custom-request-modal')">Custom Request</a>
-            <a href="#" onclick="openModal('vip-gallery-modal')">VIP Gallery</a>
+            <a href="#" onclick="openModal('chat-modal'); setCurrentModel('General AI'); return false;">Chat</a>
+            <a href="#" onclick="openModal('custom-request-modal'); return false;">Custom Request</a>
+            <a href="#" onclick="openModal('vip-gallery-modal'); return false;">VIP Gallery</a>
+            <a href="#" onclick="openModal('payment-modal'); return false;">Upgrade VIP</a>
         </nav>
     </header>
 
     <div id="activity-ticker">
         <div>
-            New user signed up! | Model Doris is now live! | Someone just requested a custom JOI! | VIP gallery updated!
+            ✨ New user! Welcome! | Mistress Viper just finished a session! | Raven is accepting custom requests! | Doris teased new content! | Lilith is ready to play! | 💖 Become a VIP for exclusive access!
         </div>
     </div>
 
@@ -558,115 +501,119 @@
     </div>
 
     <div id="models">
-         <div class="model-category" data-category="viper">
-            <div class="category-header" onclick="toggleCategory('viper')">Mistress Viper</div>
+        <div class="model-category" data-category="viper">
+            <div class="category-header">Mistress Viper</div>
             <div class="model-list">
                 <div class="model-card">
                     <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/img1.jpg?raw=true" alt="Mistress Viper">
-                    <h3>Mistress Viper</h3>
+                    <h3 class="neon-text">Mistress Viper</h3>
                     <p>Goth Mommy / Domination</p>
-                    <button onclick="openModal('chat-modal'); setCurrentModel('Viper')">Chat with Viper</button>
+                    <button class="cta-button" onclick="openModal('chat-modal'); setCurrentModel('Viper');">Chat with Viper</button>
                 </div>
             </div>
         </div>
 
         <div class="model-category" data-category="raven">
-            <div class="category-header" onclick="toggleCategory('raven')">Raven</div>
+            <div class="category-header">Raven</div>
             <div class="model-list">
                 <div class="model-card">
                     <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/img2.jpg?raw=true" alt="Raven">
-                    <h3>Raven</h3>
+                    <h3 class="neon-text">Raven</h3>
                     <p>Strap-on / JOI</p>
-                    <button onclick="openModal('chat-modal'); setCurrentModel('Raven')">Chat with Raven</button>
+                    <button class="cta-button" onclick="openModal('chat-modal'); setCurrentModel('Raven');">Chat with Raven</button>
                 </div>
             </div>
         </div>
 
         <div class="model-category" data-category="lilith">
-            <div class="category-header" onclick="toggleCategory('lilith')">Lilith</div>
+            <div class="category-header">Lilith</div>
             <div class="model-list">
                 <div class="model-card">
                     <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/img3.jpg?raw=true" alt="Lilith">
-                    <h3>Lilith</h3>
+                    <h3 class="neon-text">Lilith</h3>
                     <p>Leather Fetish / Worship</p>
-                    <button onclick="openModal('chat-modal'); setCurrentModel('Lilith')">Chat with Lilith</button>
+                    <button class="cta-button" onclick="openModal('chat-modal'); setCurrentModel('Lilith');">Chat with Lilith</button>
                 </div>
             </div>
         </div>
 
-         <div class="model-category" data-category="doris">
-            <div class="category-header" onclick="toggleCategory('doris')">Doris</div>
+        <div class="model-category" data-category="doris">
+            <div class="category-header">Doris</div>
             <div class="model-list">
                 <div class="model-card">
                     <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/ebony1.jpg?raw=true" alt="Doris">
-                    <h3>Doris</h3>
+                    <h3 class="neon-text">Doris</h3>
                     <p>Ebony / Video Teasers</p>
-                    <button onclick="openModal('chat-modal'); setCurrentModel('Doris')">Chat with Doris</button>
+                    <button class="cta-button" onclick="openModal('chat-modal'); setCurrentModel('Doris');">Chat with Doris</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="live-cams">
-        <h2>Live Now</h2>
+    <div id="live-cams" class="glass-panel">
+        <h2>Live Cams</h2>
         <div class="cam-row">
-             <div class="cam-item">
-                <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/img1.jpg?raw=true" alt="Live Cam 1">
-                <h3>Mistress Viper</h3>
+            <div class="cam-item">
+                <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/img1.jpg?raw=true" alt="Live Cam Viper">
+                <h3 class="neon-text">Mistress Viper</h3>
             </div>
             <div class="cam-item">
-                <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/img2.jpg?raw=true" alt="Live Cam 2">
-                <h3>Raven</h3>
+                <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/img2.jpg?raw=true" alt="Live Cam Raven">
+                <h3 class="neon-text">Raven</h3>
             </div>
             <div class="cam-item">
-                <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/img3.jpg?raw=true" alt="Live Cam 3">
-                <h3>Lilith</h3>
+                <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/img3.jpg?raw=true" alt="Live Cam Lilith">
+                <h3 class="neon-text">Lilith</h3>
             </div>
-             <div class="cam-item">
-                <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/ebony1.jpg?raw=true" alt="Live Cam 4">
-                <h3>Doris</h3>
+            <div class="cam-item">
+                <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/ebony1.jpg?raw=true" alt="Live Cam Doris">
+                <h3 class="neon-text">Doris</h3>
             </div>
         </div>
     </div>
 
+    <!-- Modals -->
     <div id="chat-modal" class="modal">
         <div class="modal-content">
             <span class="close-button" onclick="closeModal('chat-modal')">&times;</span>
-            <h2>Chat with <span id="current-model-name"></span></h2>
+            <h2 id="current-model-name"></h2>
             <div id="chat-log"></div>
             <input type="text" id="chat-input" placeholder="Type your message...">
-            <button id="send-button" onclick="sendMessage()">Send</button>
+            <button id="send-button" class="cta-button" onclick="sendMessage()">Send</button>
         </div>
     </div>
 
     <div id="payment-modal" class="modal">
         <div class="modal-content">
             <span class="close-button" onclick="closeModal('payment-modal')">&times;</span>
-            <h2>Payment Information</h2>
-            <input type="text" placeholder="Card Number">
-            <input type="text" placeholder="Expiration Date">
-            <input type="number" placeholder="CVV">
-            <button onclick="processPayment()">Pay Now</button>
+            <h2 class="neon-text">VIP Subscription</h2>
+            <p>Unlock exclusive content and features!</p>
+            <input type="text" placeholder="Card Number" required>
+            <input type="text" placeholder="MM/YY" required>
+            <input type="text" placeholder="CVV" required>
+            <button class="cta-button" onclick="processPayment()">Unlock VIP ($19.99/month)</button>
         </div>
     </div>
 
     <div id="custom-request-modal" class="modal">
         <div class="modal-content">
             <span class="close-button" onclick="closeModal('custom-request-modal')">&times;</span>
-            <h2>Custom Request</h2>
-            <textarea placeholder="Describe your custom JOI request..."></textarea>
-            <button onclick="submitCustomRequest()">Submit Request</button>
+            <h2 class="neon-text">Custom Request</h2>
+            <p>Describe your fantasy in detail. Our AI models will bring it to life!</p>
+            <textarea placeholder="e.g., 'I want Mistress Viper to tie me up and tease me with her boots...'"></textarea>
+            <button class="cta-button" onclick="submitCustomRequest()">Submit Request</button>
         </div>
     </div>
 
     <div id="vip-gallery-modal" class="modal">
         <div class="modal-content">
             <span class="close-button" onclick="closeModal('vip-gallery-modal')">&times;</span>
-            <h2>VIP Gallery</h2>
+            <h2 class="neon-text">VIP Gallery</h2>
+            <p>A glimpse of what awaits you as a VIP...</p>
             <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/img5.jpg?raw=true" alt="VIP Image 1">
             <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/img6.jpg?raw=true" alt="VIP Image 2">
             <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/img7.jpg?raw=true" alt="VIP Image 3">
-             <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/img8.jpg?raw=true" alt="VIP Image 4">
+            <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/img8.jpg?raw=true" alt="VIP Image 4">
             <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/img9.jpg?raw=true" alt="VIP Image 5">
         </div>
     </div>
@@ -677,56 +624,127 @@
 
     <script>
         let currentModel = '';
+        const models = {
+            'Viper': { bio: "Goth Mommy / Domination", image: "img1.jpg" },
+            'Raven': { bio: "Strap-on / JOI", image: "img2.jpg" },
+            'Lilith': { bio: "Leather Fetish / Worship", image: "img3.jpg" },
+            'Doris': { bio: "Ebony / Video Teasers", image: "ebony1.jpg" }
+        };
 
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if age gate should be shown (e.g., via local storage)
+            if (!localStorage.getItem('ageVerified')) {
+                document.getElementById('age-gate').classList.remove('hidden');
+            } else {
+                document.getElementById('age-gate').classList.add('hidden');
+            }
+            // Load initial tab content
+            showTab('all');
+            // Start ticker animation
+            startTicker();
+        });
+
+        // --- Age Gate ---
         function acceptAge() {
-            document.getElementById('age-gate').style.display = 'none';
+            localStorage.setItem('ageVerified', 'true');
+            document.getElementById('age-gate').classList.add('hidden');
         }
-
         function declineAge() {
-            alert('You must be 18+ to enter.');
+            alert('Access denied. You must be 18+ to enter.');
+            // Optionally redirect or show a block page
         }
 
+        // --- Modals ---
         function openModal(modalId) {
             document.getElementById(modalId).style.display = 'block';
         }
-
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
         }
 
+        // --- Model and Chat Interaction ---
         function setCurrentModel(modelName) {
             currentModel = modelName;
-            document.getElementById('current-model-name').innerText = modelName;
+            const modalTitle = document.getElementById('current-model-name');
+            if (modalTitle) {
+                modalTitle.innerText = modelName === 'General AI' ? 'AI Assistant' : modelName;
+            }
+            // Optionally clear chat log when switching models
+            document.getElementById('chat-log').innerHTML = '';
         }
 
         function sendMessage() {
             const chatInput = document.getElementById('chat-input');
             const chatLog = document.getElementById('chat-log');
-            const message = chatInput.value;
+            const message = chatInput.value.trim();
 
-            let response = getAIChatResponse(currentModel, message);
+            if (!message) return; // Don't send empty messages
 
             chatLog.innerHTML += `<p><strong>You:</strong> ${message}</p>`;
-            chatLog.innerHTML += `<p><strong>${currentModel}:</strong> ${response}</p>`;
             chatInput.value = '';
+
+            // Simulate AI response
+            let aiResponse = getAIChatResponse(currentModel, message);
+            setTimeout(() => {
+                chatLog.innerHTML += `<p><strong>${currentModel}:</strong> ${aiResponse}</p>`;
+                chatLog.scrollTop = chatLog.scrollHeight;
+            }, Math.random() * 1000 + 500); // Simulate typing delay
+
             chatLog.scrollTop = chatLog.scrollHeight;
         }
 
-        function processPayment() {
-            alert('Payment processed (not really). Enjoy!');
-            closeModal('payment-modal');
+        function getAIChatResponse(model, message) {
+            message = message.toLowerCase();
+            let response = "I'm thinking..."; // Default response
+
+            switch(model) {
+                case 'Viper':
+                    if (message.includes("slut")) response = "You dare call me that, worm? Get on your knees and beg forgiveness!";
+                    else if (message.includes("mommy")) response = "That's right, I like it when you call me mommy. Now, do as I say.";
+                    else if (message.includes("obey")) response = "Good. Obedience is a virtue. Now lick my boots clean.";
+                    else if (message.includes("command")) response = "You want a command? Fine. Kneel.";
+                    else response = "Silence! You will speak when spoken to, or face my displeasure.";
+                    break;
+                case 'Doris':
+                    if (message.includes("hey")) response = "Hey boo, what you want?";
+                    else if (message.includes("dick")) response = "Ooh, you tryna get nasty? I like that.";
+                    else if (message.includes("hood")) response = "Keep it real with me, papi. I know what you want.";
+                    else if (message.includes("baby")) response = "You know I'm all about that real shit, daddy.";
+                    else response = "What's up? You lookin' for some fun?";
+                    break;
+                case 'Raven':
+                    if (message.includes("strap")) response = "Ready to get strapped, baby? I'm in charge now.";
+                    else if (message.includes("dominate")) response = "That's my line. I'm the boss here, and you're gonna love it.";
+                    else if (message.includes("joi")) response = "Listen up, buttercup. You're gonna do exactly what I tell you.";
+                    else if (message.includes("control")) response = "You want to be controlled? Good. That's exactly where you belong.";
+                    else response = "Get ready for some serious pleasure. On my terms.";
+                    break;
+                case 'Lilith':
+                    if (message.includes("leather")) response = "Ah, you appreciate the finer things. Leather is my second skin.";
+                    else if (message.includes("worship")) response = "That's right, baby. Worship every inch of me.";
+                    else if (message.includes("feet")) response = "My feet deserve your utmost attention. Start licking.";
+                    else if (message.includes("slave")) response = "You wish to be my slave? Crawl closer.";
+                    else response = "You know what I want. Now give it to me.";
+                    break;
+                 case 'General AI':
+                    response = "How can I assist you today?";
+                    break;
+            }
+            return response;
         }
 
+        // --- Payment & Custom Request ---
+        function processPayment() {
+            alert('Thank you for your VIP subscription! Enjoy the exclusive content.');
+            closeModal('payment-modal');
+        }
         function submitCustomRequest() {
-            alert('Custom request submitted (not really).');
+            alert('Your custom request has been submitted and will be reviewed by our team!');
             closeModal('custom-request-modal');
         }
 
-        function toggleCategory(category) {
-            const categoryDiv = document.querySelector(`.model-category[data-category="${category}"] .model-list`);
-            categoryDiv.style.display = categoryDiv.style.display === 'none' ? 'flex' : 'none';
-        }
-
+        // --- Tab Functionality ---
         function showTab(tabName) {
             const tabButtons = document.querySelectorAll('.tab-button');
             tabButtons.forEach(button => button.classList.remove('active'));
@@ -734,74 +752,70 @@
 
             const modelCategories = document.querySelectorAll('.model-category');
             modelCategories.forEach(category => {
-                category.style.display = tabName === 'all' || category.dataset.category === tabName ? 'block' : 'none';
+                if (tabName === 'all' || category.dataset.category === tabName) {
+                    category.style.display = 'flex'; // Use flex for grid compatibility
+                } else {
+                    category.style.display = 'none';
+                }
             });
         }
 
-        function getAIChatResponse(model, message) {
-            message = message.toLowerCase();
-
-            if (model === 'Viper') {
-                if (message.includes("slut")) return "You dare call me that, worm? Get on your knees and beg forgiveness!";
-                if (message.includes("mommy")) return "That's right, I like it when you call me mommy. Now, do as I say.";
-                if (message.includes("obey")) return "Good. Obedience is a virtue. Now lick my boots clean.";
-                return "Silence! You will speak when spoken to.";
-            } else if (model === 'Doris') {
-                if (message.includes("hey")) return "Hey boo, what you want?";
-                if (message.includes("dick")) return "Ooh, you tryna get nasty? I like that.";
-                if (message.includes("hood")) return "Keep it real with me, papi. I know what you want.";
-                return "You know I'm all about that real shit.";
-            } else if (model === 'Raven') {
-                 if (message.includes("strap")) return "Ready to get strapped, baby? I'm in charge now.";
-                if (message.includes("dominate")) return "That's my line. I'm the boss here, and you're gonna love it.";
-                if (message.includes("joi")) return "Listen up, buttercup. You're gonna do exactly what I tell you.";
-                return "Get ready for some serious pleasure. On my terms.";
-            } else if (model === 'Lilith') {
-                if (message.includes("leather")) return "Ah, you appreciate the finer things. Leather is my second skin.";
-                if (message.includes("worship")) return "That's right, baby. Worship every inch of me.";
-                if (message.includes("feet")) return "My feet deserve your utmost attention. Start licking.";
-                return "You know what I want. Now give it to me.";
-            }
-            return "I'm thinking...";
-        }
-
-        //Image Loader
-         function imageExists(url, callback) {
-            var img = new Image();
-            img.onload = function() { callback(true); };
-            img.onerror = function() { callback(false); };
+        // --- Image Loading ---
+        function imageExists(url, callback) {
+            const img = new Image();
+            img.onload = () => callback(true);
+            img.onerror = () => callback(false);
             img.src = url;
         }
 
-        function smartLoadImage(imgElement, baseImageUrl) {
+        function smartLoadImage(imgElement, baseImageName) {
             const extensions = ['.jpg', '.png', '.webp'];
-            let index = 0;
-
-            function tryLoad() {
-                if (index < extensions.length) {
-                    const url = baseImageUrl + extensions[index];
-                    imageExists(url, function(exists) {
-                        if (exists) {
-                            imgElement.src = url;
-                        } else {
-                            index++;
-                            tryLoad();
-                        }
-                    });
-                } else {
-                    imgElement.src = 'placeholder-image.jpg'; // Fallback
-                }
-            }
-
-            tryLoad();
+            let loaded = false;
+            extensions.forEach((ext, index) => {
+                if (loaded) return;
+                const url = `https://github.com/faded20666er/joi-ai-site-beta/blob/main/${baseImageName}${ext}?raw=true`;
+                imageExists(url, (exists) => {
+                    if (exists) {
+                        imgElement.src = url;
+                        loaded = true;
+                    } else if (index === extensions.length - 1 && !loaded) {
+                        imgElement.alt = "Image not found"; // Set alt text if no image loads
+                        // Optionally set a default placeholder image
+                        // imgElement.src = 'path/to/placeholder.png';
+                    }
+                });
+            });
         }
 
-        //Error Handling
+        // --- Error Handling ---
         window.onerror = function(message, source, lineno, colno, error) {
-            alert(`Error: ${message}\nSource: ${source}\nLine: ${lineno}\nColumn: ${colno}\nError object: ${error}`);
+            console.error(`Global Error: ${message} at ${source}:${lineno}:${colno}`, error);
+            // Optionally display a user-friendly error message
+            // alert(`An unexpected error occurred. Please try again later.`);
         };
-    </script>
 
+        // --- Activity Ticker Animation ---
+        function startTicker() {
+            const tickerDiv = document.querySelector('#activity-ticker div');
+            // Re-apply animation if needed, though CSS handles it. Ensure content is loaded.
+        }
+
+        // --- Initial rendering of images (call after DOM is ready) ---
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.model-card img').forEach(img => {
+                const baseName = img.src.split('/').pop().replace('?raw=true', '').replace(/\.(jpg|png|webp)$/, '');
+                smartLoadImage(img, baseName);
+            });
+            document.querySelectorAll('.cam-item img').forEach(img => {
+                const baseName = img.src.split('/').pop().replace('?raw=true', '').replace(/\.(jpg|png|webp)$/, '');
+                smartLoadImage(img, baseName);
+            });
+             document.querySelectorAll('#vip-gallery-modal img').forEach(img => {
+                const baseName = img.src.split('/').pop().replace('?raw=true', '').replace(/\.(jpg|png|webp)$/, '');
+                smartLoadImage(img, baseName);
+            });
+        });
+
+    </script>
 </body>
 </html>
-
