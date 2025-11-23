@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JOI AI - Your Ultimate Fantasy</title>
+    <script src="https://js.stripe.com/v3/"></script> <!-- Stripe Integration -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script> <!-- Replace with your GA ID -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         :root {
@@ -17,6 +19,8 @@
             --neon-border: 1px solid var(--primary-color);
             --pulse-shadow: 0 0 15px var(--primary-color);
         }
+
+        * { box-sizing: border-box; }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -32,6 +36,40 @@
             0% { background-position: 0% 0%; }
             100% { background-position: 100% 100%; }
         }
+
+        #age-gate {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 10000;
+            transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+        }
+        #age-gate.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        #age-gate-content {
+            text-align: center;
+            padding: 40px;
+            border: 2px solid var(--primary-color);
+            background: rgba(20, 20, 20, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 0 30px var(--primary-color);
+            max-width: 500px;
+        }
+        #age-gate h2 { color: var(--primary-color); margin-bottom: 20px; font-size: 2em; }
+        #age-gate p { margin-bottom: 30px; color: #ccc; font-size: 1.1em; }
+        #age-gate button {
+            padding: 15px 30px; margin: 10px; border-radius: 5px;
+            cursor: pointer; transition: all 0.3s ease;
+            border: 2px solid var(--primary-color);
+            font-size: 1em; font-weight: bold; text-transform: uppercase;
+        }
+        #age-gate button:first-of-type { background-color: var(--primary-color); color: white; }
+        #age-gate button:last-of-type { background-color: transparent; color: var(--primary-color); }
+        #age-gate button:hover { filter: brightness(1.3); transform: scale(1.05); }
 
         .glass-panel {
             background: var(--glass-effect-bg);
@@ -68,74 +106,11 @@
             transform: translateY(-2px);
         }
 
-        @keyframes pulse {
-            from { opacity: 1; }
-            to { opacity: 0.7; }
-        }
-
+        @keyframes pulse { from { opacity: 1; } to { opacity: 0.7; } }
         @keyframes pulse-cta {
             0% { box-shadow: 0 0 8px var(--accent-color); }
             50% { box-shadow: 0 0 15px var(--accent-color), 0 0 25px var(--accent-color); }
             100% { box-shadow: 0 0 8px var(--accent-color); }
-        }
-
-        /* Age Gate - FIXED */
-        #age-gate {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.95);
-            display: flex; 
-            justify-content: center; 
-            align-items: center;
-            z-index: 10000;
-            transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
-        }
-        #age-gate.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-        #age-gate-content {
-            text-align: center;
-            padding: 40px;
-            border: 2px solid var(--primary-color);
-            background: rgba(20, 20, 20, 0.95);
-            border-radius: 15px;
-            box-shadow: 0 0 30px var(--primary-color);
-            max-width: 500px;
-        }
-        #age-gate h2 { 
-            color: var(--primary-color); 
-            margin-bottom: 20px; 
-            font-size: 2em;
-        }
-        #age-gate p { 
-            margin-bottom: 30px; 
-            color: #ccc; 
-            font-size: 1.1em;
-        }
-        #age-gate button {
-            padding: 15px 30px; 
-            margin: 10px; 
-            border-radius: 5px;
-            cursor: pointer; 
-            transition: all 0.3s ease;
-            border: 2px solid var(--primary-color);
-            font-size: 1em;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-        #age-gate button:first-of-type { 
-            background-color: var(--primary-color); 
-            color: white; 
-        }
-        #age-gate button:last-of-type { 
-            background-color: transparent; 
-            color: var(--primary-color); 
-        }
-        #age-gate button:hover { 
-            filter: brightness(1.3);
-            transform: scale(1.05);
         }
 
         header {
@@ -236,10 +211,6 @@
             margin: 0 auto;
         }
         .model-category {
-            margin-bottom: 0;
-            border: none;
-            background: none;
-            backdrop-filter: none;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -296,6 +267,7 @@
             margin-bottom: 15px;
             border: 1px solid var(--secondary-color);
         }
+        .model-card img.error { background: #333; display: flex; align-items: center; justify-content: center; color: #ccc; font-size: 0.8em; }
         .model-card h3 {
             color: var(--secondary-color);
             margin: 0 0 5px 0;
@@ -372,6 +344,7 @@
             display: block;
             border-bottom: 1px solid var(--primary-color);
         }
+        .cam-item img.error { background: #333; display: flex; align-items: center; justify-content: center; color: #ccc; font-size: 0.8em; }
         .cam-item h3 {
             color: var(--secondary-color);
             padding: 10px;
@@ -581,6 +554,7 @@
             transform: scale(1.05);
             box-shadow: 0 0 20px var(--primary-color);
         }
+        #vip-gallery-modal .gallery-grid img.error { background: #333; display: flex; align-items: center; justify-content: center; color: #ccc; font-size: 0.8em; }
 
         #footer {
             background-color: rgba(0, 0, 0, 0.7);
@@ -626,15 +600,59 @@
             z-index: 9999;
         }
 
+        /* Upsell Popup */
+        #upsell-popup {
+            position: fixed;
+            top: 20%; left: 50%; transform: translateX(-50%);
+            background: var(--glass-effect-bg);
+            border: 2px solid var(--primary-color);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            z-index: 1002;
+            display: none;
+            max-width: 400px;
+        }
+        #upsell-popup h3 { color: var(--primary-color); }
+        #upsell-popup .cta-button { margin-top: 15px; }
+
+        /* Email Capture */
+        #email-capture {
+            background: var(--glass-effect-bg);
+            padding: 20px;
+            text-align: center;
+            margin: 20px auto;
+            max-width: 500px;
+            border-radius: 10px;
+            border: var(--neon-border);
+        }
+        #email-capture input {
+            padding: 10px;
+            width: 70%;
+            background: #333;
+            color: #fff;
+            border: 1px solid var(--primary-color);
+            border-radius: 5px;
+        }
+        #email-capture button { padding: 10px 20px; margin-left: 10px; }
+
     </style>
 </head>
 <body>
+
+    <!-- Google Analytics -->
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID'); // Replace with your Google Analytics ID
+    </script>
 
     <div id="age-gate">
         <div id="age-gate-content">
             <h2 class="neon-text">🔞 Age Verification</h2>
             <p>You must be 18 years or older to enter this site.</p>
-            <button onclick="acceptAge()">I am 18+</button>
+            <button id="btn-accept" onclick="acceptAge()">I am 18+</button>
             <button onclick="declineAge()">I am not 18+</button>
         </div>
     </div>
@@ -650,9 +668,22 @@
         </nav>
     </header>
 
+    <!-- Email Capture for Leads -->
+    <div id="email-capture">
+        <h3>Get Exclusive Updates & Discounts</h3>
+        <p>Sign up for VIP alerts and 10% off your first purchase!</p>
+        <input type="email" id="email-input" placeholder="Enter your email">
+        <button class="cta-button" onclick="captureEmail()">Subscribe</button>
+        <!-- Mailchimp Form Embed - Replace with your form action -->
+        <form action="YOUR_MAILCHIMP_FORM_URL" method="post" id="mc-form" style="display:none;">
+            <input type="email" name="EMAIL" id="mc-email">
+            <input type="submit" value="Subscribe">
+        </form>
+    </div>
+
     <div id="activity-ticker">
         <div>
-            ✨ New user! Welcome! | Mistress Viper just finished a session! | Raven is accepting custom requests! | Doris teased new content! | Lilith is ready to play! | 💖 Become a VIP for exclusive access!
+            ✨ New user! Welcome! | Mistress Viper just finished a session! | Raven is accepting custom requests! | Doris teased new content! | Lilith is ready to play! | 💖 Become a VIP for exclusive access! | Just tipped $50 - Thanks!
         </div>
     </div>
 
@@ -665,54 +696,54 @@
     </div>
 
     <div id="models">
-        <div class="model-category" data-category="viper">
+        <div class="model-category" data-category="viper" style="display:flex;">
             <div class="category-header">Mistress Viper</div>
             <div class="model-list">
                 <div class="model-card">
-                    <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/img1.jpg?raw=true" alt="Mistress Viper">
+                    <img id="viper-img" src="" alt="Mistress Viper" onerror="handleImageError(this, 'img1')">
                     <h3 class="neon-text">Mistress Viper</h3>
                     <p>Goth Mommy / Domination</p>
                     <button class="cta-button" onclick="openModal('chat-modal'); setCurrentModel('Viper');">Chat with Viper</button>
-                    <button class="tip-button" onclick="openTipModal('Viper');">💰 Tip Viper</button>
+                    <button class="tip-button" onclick="openTipModal('Viper', 5)">💰 Tip Viper</button>
                 </div>
             </div>
         </div>
 
-        <div class="model-category" data-category="raven">
+        <div class="model-category" data-category="raven" style="display:flex;">
             <div class="category-header">Raven</div>
             <div class="model-list">
                 <div class="model-card">
-                    <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/img2.jpg?raw=true" alt="Raven">
+                    <img id="raven-img" src="" alt="Raven" onerror="handleImageError(this, 'img2')">
                     <h3 class="neon-text">Raven</h3>
                     <p>Strap-on / JOI</p>
                     <button class="cta-button" onclick="openModal('chat-modal'); setCurrentModel('Raven');">Chat with Raven</button>
-                    <button class="tip-button" onclick="openTipModal('Raven');">💰 Tip Raven</button>
+                    <button class="tip-button" onclick="openTipModal('Raven', 10)">💰 Tip Raven</button>
                 </div>
             </div>
         </div>
 
-        <div class="model-category" data-category="lilith">
+        <div class="model-category" data-category="lilith" style="display:flex;">
             <div class="category-header">Lilith</div>
             <div class="model-list">
                 <div class="model-card">
-                    <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/img3.jpg?raw=true" alt="Lilith">
+                    <img id="lilith-img" src="" alt="Lilith" onerror="handleImageError(this, 'img3')">
                     <h3 class="neon-text">Lilith</h3>
                     <p>Leather Fetish / Worship</p>
                     <button class="cta-button" onclick="openModal('chat-modal'); setCurrentModel('Lilith');">Chat with Lilith</button>
-                    <button class="tip-button" onclick="openTipModal('Lilith');">💰 Tip Lilith</button>
+                    <button class="tip-button" onclick="openTipModal('Lilith', 25)">💰 Tip Lilith</button>
                 </div>
             </div>
         </div>
 
-        <div class="model-category" data-category="doris">
+        <div class="model-category" data-category="doris" style="display:flex;">
             <div class="category-header">Doris</div>
             <div class="model-list">
                 <div class="model-card">
-                    <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/doris1.jpg?raw=true" alt="Doris">
+                    <img id="doris-img" src="" alt="Doris" onerror="handleImageError(this, 'doris1')">
                     <h3 class="neon-text">Doris</h3>
                     <p>Ebony / Video Teasers</p>
                     <button class="cta-button" onclick="openModal('chat-modal'); setCurrentModel('Doris');">Chat with Doris</button>
-                    <button class="tip-button" onclick="openTipModal('Doris');">💰 Tip Doris</button>
+                    <button class="tip-button" onclick="openTipModal('Doris', 50)">💰 Tip Doris</button>
                 </div>
             </div>
         </div>
@@ -722,19 +753,19 @@
         <h2>Live Cams</h2>
         <div class="cam-row">
             <div class="cam-item">
-                <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/img1.jpg?raw=true" alt="Live Cam Viper">
+                <img id="live-viper" src="" alt="Live Cam Viper" onerror="handleImageError(this, 'img1')">
                 <h3 class="neon-text">Mistress Viper</h3>
             </div>
             <div class="cam-item">
-                <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/img2.jpg?raw=true" alt="Live Cam Raven">
+                <img id="live-raven" src="" alt="Live Cam Raven" onerror="handleImageError(this, 'img2')">
                 <h3 class="neon-text">Raven</h3>
             </div>
             <div class="cam-item">
-                <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/img3.jpg?raw=true" alt="Live Cam Lilith">
+                <img id="live-lilith" src="" alt="Live Cam Lilith" onerror="handleImageError(this, 'img3')">
                 <h3 class="neon-text">Lilith</h3>
             </div>
             <div class="cam-item">
-                <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/doris1.jpg?raw=true" alt="Live Cam Doris">
+                <img id="live-doris" src="" alt="Live Cam Doris" onerror="handleImageError(this, 'doris1')">
                 <h3 class="neon-text">Doris</h3>
             </div>
         </div>
@@ -742,37 +773,46 @@
 
     <div id="affiliate-section">
         <h2 class="neon-text">🛍️ Recommended Products & Services</h2>
+        <p style="text-align:center; color:#ccc;">Earn commissions by promoting these – replace links below with your affiliate IDs!</p>
         <div class="affiliate-grid">
             <div class="affiliate-card">
                 <h3>Premium Toys</h3>
-                <p>Explore our curated collection of adult toys and accessories.</p>
-                <button class="cta-button" onclick="window.open('https://example.com/toys', '_blank')">Shop Now</button>
+                <p>Curated adult toys and accessories.</p>
+                <button class="cta-button" onclick="window.open('https://adultforce.com/affiliate-link', '_blank'); gtag('event', 'click', {'event_category': 'affiliate', 'event_label': 'toys'});">Shop Now</button>
             </div>
             <div class="affiliate-card">
                 <h3>Lingerie Collection</h3>
-                <p>Exclusive lingerie sets worn by our models.</p>
-                <button class="cta-button" onclick="window.open('https://example.com/lingerie', '_blank')">Browse</button>
+                <p>Sexy sets like our models wear.</p>
+                <button class="cta-button" onclick="window.open('https://crakrevenue.com/lingerie-affiliate', '_blank'); gtag('event', 'click', {'event_category': 'affiliate', 'event_label': 'lingerie'});">Browse</button>
             </div>
             <div class="affiliate-card">
                 <h3>Dating Apps</h3>
-                <p>Meet real people for discreet encounters.</p>
-                <button class="cta-button" onclick="window.open('https://example.com/dating', '_blank')">Join Now</button>
+                <p>Discreet encounters with real people.</p>
+                <button class="cta-button" onclick="window.open('https://dating-affiliate.com/link', '_blank'); gtag('event', 'click', {'event_category': 'affiliate', 'event_label': 'dating'});">Join Now</button>
             </div>
             <div class="affiliate-card">
                 <h3>Cam Sites</h3>
-                <p>Live cam shows with thousands of models.</p>
-                <button class="cta-button" onclick="window.open('https://example.com/cams', '_blank')">Watch Live</button>
+                <p>Live cams with thousands of models.</p>
+                <button class="cta-button" onclick="window.open('https://chaturbate.com/affiliate', '_blank'); gtag('event', 'click', {'event_category': 'affiliate', 'event_label': 'cams'});">Watch Live</button>
             </div>
         </div>
     </div>
 
-    <!-- Modals -->
+    <!-- Upsell Popup -->
+    <div id="upsell-popup">
+        <h3>🔥 Hot Deal!</h3>
+        <p>Upgrade to Premium VIP and get 20% off custom requests today!</p>
+        <button class="cta-button" onclick="openModal('subscription-modal'); closeUpsell();">Claim Deal</button>
+        <button onclick="closeUpsell()">No Thanks</button>
+    </div>
+
+    <!-- Modals (same as before, but with Stripe buttons) -->
     <div id="chat-modal" class="modal">
         <div class="modal-content">
             <span class="close-button" onclick="closeModal('chat-modal')">&times;</span>
             <h2 id="current-model-name"></h2>
             <div id="chat-log"></div>
-            <input type="text" id="chat-input" placeholder="Type your message...">
+            <input type="text" id="chat-input" placeholder="Type your message..." onkeypress="if(event.key==='Enter') sendMessage();">
             <button id="send-button" class="cta-button" onclick="sendMessage()">Send</button>
         </div>
     </div>
@@ -791,7 +831,7 @@
                         <li>Basic Gallery Access</li>
                         <li>Email Support</li>
                     </ul>
-                    <button class="cta-button" onclick="selectSubscription('basic', 9.99)">Subscribe</button>
+                    <button class="cta-button" onclick="createStripeCheckout('basic', 999)">Subscribe Now (Stripe)</button>
                 </div>
                 <div class="tier-card">
                     <h3>Premium VIP</h3>
@@ -803,7 +843,7 @@
                         <li>Weekly Custom Content</li>
                         <li>10% Off Custom Requests</li>
                     </ul>
-                    <button class="cta-button" onclick="selectSubscription('premium', 19.99)">Subscribe</button>
+                    <button class="cta-button" onclick="createStripeCheckout('premium', 1999)">Subscribe Now (Stripe)</button>
                 </div>
                 <div class="tier-card elite">
                     <h3>⭐ Elite VIP ⭐</h3>
@@ -816,22 +856,9 @@
                         <li>Exclusive Behind-the-Scenes</li>
                         <li>Free Custom Requests (2/mo)</li>
                     </ul>
-                    <button class="cta-button" onclick="selectSubscription('elite', 49.99)">Subscribe</button>
+                    <button class="cta-button" onclick="createStripeCheckout('elite', 4999)">Subscribe Now (Stripe)</button>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <div id="payment-processing-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-button" onclick="closeModal('payment-processing-modal')">&times;</span>
-            <h2 class="neon-text" id="payment-title">Complete Your Purchase</h2>
-            <p id="payment-description"></p>
-            <input type="text" class="payment-input" placeholder="Card Number" required>
-            <input type="text" class="payment-input" placeholder="MM/YY" required>
-            <input type="text" class="payment-input" placeholder="CVV" required>
-            <input type="text" class="payment-input" placeholder="Cardholder Name" required>
-            <button class="cta-button" onclick="processPayment()">Complete Payment</button>
         </div>
     </div>
 
@@ -849,7 +876,7 @@
                 <div class="tip-amount" onclick="selectTip('custom')">Custom</div>
             </div>
             <input type="number" id="custom-tip-amount" class="payment-input" placeholder="Enter custom amount" style="display:none;">
-            <button class="cta-button" onclick="processTip()">Send Tip</button>
+            <button class="cta-button" onclick="processTipWithStripe()">Send Tip via Stripe</button>
         </div>
     </div>
 
@@ -862,25 +889,21 @@
             <div class="request-pricing">
                 <h4>Select Request Type:</h4>
                 <label>
-                    <input type="radio" name="request-type" value="15" checked>
-                    Photo Set (5-10 images) - $15
+                    <input type="radio" name="request-type" value="1500" checked> Photo Set (5-10 images) - $15
                 </label>
                 <label>
-                    <input type="radio" name="request-type" value="35">
-                    Short Video (1-3 min) - $35
+                    <input type="radio" name="request-type" value="3500"> Short Video (1-3 min) - $35
                 </label>
                 <label>
-                    <input type="radio" name="request-type" value="75">
-                    Full Video (5-10 min) - $75
+                    <input type="radio" name="request-type" value="7500"> Full Video (5-10 min) - $75
                 </label>
                 <label>
-                    <input type="radio" name="request-type" value="150">
-                    Premium Package (Video + Photos + Chat) - $150
+                    <input type="radio" name="request-type" value="15000"> Premium Package - $150
                 </label>
             </div>
             
             <textarea id="custom-request-text" placeholder="e.g., 'I want Mistress Viper to tie me up and tease me with her boots...'"></textarea>
-            <button class="cta-button" onclick="submitCustomRequest()">Submit Request</button>
+            <button class="cta-button" onclick="submitCustomRequestWithStripe()">Pay & Submit via Stripe</button>
         </div>
     </div>
 
@@ -890,249 +913,68 @@
             <h2 class="neon-text">VIP Gallery</h2>
             <p>A glimpse of what awaits you as a VIP...</p>
             <div class="gallery-grid">
-                <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/doris1.jpg?raw=true" alt="VIP Image 1">
-                <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/doris2.jpg?raw=true" alt="VIP Image 2">
-                <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/doris3.jpg?raw=true" alt="VIP Image 3">
-                <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/doris4.jpg?raw=true" alt="VIP Image 4">
-                <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/doris5.jpg?raw=true" alt="VIP Image 5">
-                <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/doris6.jpg?raw=true" alt="VIP Image 6">
-                <img src="https://github.com/faded20666er/joi-ai-site-beta/blob/main/doris7.jpg?raw=true" alt="VIP Image 7">
+                <img src="" alt="VIP 1" onerror="handleImageError(this, 'doris1')">
+                <img src="" alt="VIP 2" onerror="handleImageError(this, 'doris2')">
+                <img src="" alt="VIP 3" onerror="handleImageError(this, 'doris3')">
+                <img src="" alt="VIP 4" onerror="handleImageError(this, 'doris4')">
+                <img src="" alt="VIP 5" onerror="handleImageError(this, 'doris5')">
+                <img src="" alt="VIP 6" onerror="handleImageError(this, 'doris6')">
+                <img src="" alt="VIP 7" onerror="handleImageError(this, 'doris7')">
+                <img src="" alt="VIP 8" onerror="handleImageError(this, 'img4')">
+                <img src="" alt="VIP 9" onerror="handleImageError(this, 'img5')">
             </div>
+            <button class="cta-button" onclick="openModal('subscription-modal'); closeModal('vip-gallery-modal');" style="margin-top:20px;">Unlock Full Gallery - Subscribe Now</button>
         </div>
     </div>
 
     <footer id="footer">
-        <p>&copy; 2024 JOI AI. All rights reserved. | <a href="#">Terms of Service</a> | <a href="#">Privacy Policy</a> | <a href="#">Affiliate Disclosure</a></p>
+        <p>&copy; 2024 JOI AI. All rights reserved. | <a href="#">Terms</a> | <a href="#">Privacy</a> | <a href="#">Affiliate Disclosure</a></p>
     </footer>
 
     <script>
+        // Stripe Setup - Replace 'pk_test_...' with your Stripe Publishable Key
+        const stripe = Stripe('pk_test_YOUR_STRIPE_PUBLISHABLE_KEY_HERE');
+        const stripeCheckoutSessionId = 'cs_test_...'; // Will be dynamic
+
         let currentModel = '';
         let selectedTipAmount = 0;
         let currentTipModel = '';
-        
+        let chatHistory = {}; // For varied responses
+
         const models = {
-            'Viper': { bio: "Goth Mommy / Domination", image: "img1.jpg" },
-            'Raven': { bio: "Strap-on / JOI", image: "img2.jpg" },
-            'Lilith': { bio: "Leather Fetish / Worship", image: "img3.jpg" },
-            'Doris': { bio: "Ebony / Video Teasers", image: "doris1.jpg" }
+            'Viper': { bio: "Goth Mommy / Domination", baseImage: "img1" },
+            'Raven': { bio: "Strap-on / JOI", baseImage: "img2" },
+            'Lilith': { bio: "Leather Fetish / Worship", baseImage: "img3" },
+            'Doris': { bio: "Ebony / Video Teasers", baseImage: "doris1" }
         };
 
-        // Age gate functions - FIXED
+        // Age Gate
         function acceptAge() {
-            try {
-                localStorage.setItem('ageVerified', 'true');
-                document.getElementById('age-gate').classList.add('hidden');
-                console.log('Age verified');
-            } catch(e) {
-                console.error('LocalStorage error:', e);
-                document.getElementById('age-gate').classList.add('hidden');
-            }
+            localStorage.setItem('ageVerified', 'true');
+            document.getElementById('age-gate').classList.add('hidden');
+            setTimeout(() => loadAllImages(), 500);
+            showUpsellPopup(); // Trigger upsell after entry
         }
         
         function declineAge() {
-            alert('Access denied. You must be 18+ to enter this site.');
+            alert('Access denied. You must be 18+.');
             window.location.href = 'https://www.google.com';
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            try {
-                if (!localStorage.getItem('ageVerified')) {
-                    document.getElementById('age-gate').style.display = 'flex';
-                } else {
-                    document.getElementById('age-gate').classList.add('hidden');
-                }
-            } catch(e) {
-                console.error('LocalStorage check error:', e);
-                document.getElementById('age-gate').style.display = 'flex';
+            if (localStorage.getItem('ageVerified')) {
+                document.getElementById('age-gate').classList.add('hidden');
+                loadAllImages();
+                showTab('all');
             }
             showTab('all');
-            loadAllImages();
         });
 
-        function openModal(modalId) {
-            document.getElementById(modalId).style.display = 'block';
-        }
-        
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-
-        function setCurrentModel(modelName) {
-            currentModel = modelName;
-            const modalTitle = document.getElementById('current-model-name');
-            if (modalTitle) {
-                modalTitle.innerText = modelName === 'General AI' ? 'AI Assistant' : modelName;
-            }
-            document.getElementById('chat-log').innerHTML = '';
-        }
-
-        function sendMessage() {
-            const chatInput = document.getElementById('chat-input');
-            const chatLog = document.getElementById('chat-log');
-            const message = chatInput.value.trim();
-
-            if (!message) return;
-
-            chatLog.innerHTML += `<p><strong>You:</strong> ${message}</p>`;
-            chatInput.value = '';
-
-            let aiResponse = getAIChatResponse(currentModel, message);
-            setTimeout(() => {
-                chatLog.innerHTML += `<p><strong>${currentModel}:</strong> ${aiResponse}</p>`;
-                chatLog.scrollTop = chatLog.scrollHeight;
-            }, Math.random() * 1000 + 500);
-
-            chatLog.scrollTop = chatLog.scrollHeight;
-        }
-
-        function getAIChatResponse(model, message) {
-            message = message.toLowerCase();
-            let response = "I'm thinking...";
-
-            switch(model) {
-                case 'Viper':
-                    if (message.includes("slut")) response = "You dare call me that, worm? Get on your knees and beg forgiveness!";
-                    else if (message.includes("mommy")) response = "That's right, I like it when you call me mommy. Now, do as I say.";
-                    else if (message.includes("obey")) response = "Good. Obedience is a virtue. Now lick my boots clean.";
-                    else if (message.includes("command")) response = "You want a command? Fine. Kneel.";
-                    else response = "Silence! You will speak when spoken to, or face my displeasure.";
-                    break;
-                case 'Doris':
-                    if (message.includes("hey")) response = "Hey boo, what you want?";
-                    else if (message.includes("dick")) response = "Ooh, you tryna get nasty? I like that.";
-                    else if (message.includes("hood")) response = "Keep it real with me, papi. I know what you want.";
-                    else if (message.includes("baby")) response = "You know I'm all about that real shit, daddy.";
-                    else response = "What's up? You lookin' for some fun?";
-                    break;
-                case 'Raven':
-                    if (message.includes("strap")) response = "Ready to get strapped, baby? I'm in charge now.";
-                    else if (message.includes("dominate")) response = "That's my line. I'm the boss here, and you're gonna love it.";
-                    else if (message.includes("joi")) response = "Listen up, buttercup. You're gonna do exactly what I tell you.";
-                    else if (message.includes("control")) response = "You want to be controlled? Good. That's exactly where you belong.";
-                    else response = "Get ready for some serious pleasure. On my terms.";
-                    break;
-                case 'Lilith':
-                    if (message.includes("leather")) response = "Ah, you appreciate the finer things. Leather is my second skin.";
-                    else if (message.includes("worship")) response = "That's right, baby. Worship every inch of me.";
-                    else if (message.includes("feet")) response = "My feet deserve your utmost attention. Start licking.";
-                    else if (message.includes("slave")) response = "You wish to be my slave? Crawl closer.";
-                    else response = "You know what I want. Now give it to me.";
-                    break;
-                 case 'General AI':
-                    response = "How can I assist you today?";
-                    break;
-            }
-            return response;
-        }
-
-        function selectSubscription(tier, price) {
-            const tierNames = {
-                'basic': 'Basic VIP',
-                'premium': 'Premium VIP',
-                'elite': 'Elite VIP'
-            };
-            
-            document.getElementById('payment-title').innerText = `Subscribe to ${tierNames[tier]}`;
-            document.getElementById('payment-description').innerText = `You're subscribing to ${tierNames[tier]} for $${price}/month. Billed monthly, cancel anytime.`;
-            
-            closeModal('subscription-modal');
-            openModal('payment-processing-modal');
-        }
-
-        function openTipModal(modelName) {
-            currentTipModel = modelName;
-            document.getElementById('tip-model-name').innerText = modelName;
-            selectedTipAmount = 0;
-            document.querySelectorAll('.tip-amount').forEach(el => el.classList.remove('selected'));
-            document.getElementById('custom-tip-amount').style.display = 'none';
-            openModal('tip-modal');
-        }
-
-        function selectTip(amount) {
-            document.querySelectorAll('.tip-amount').forEach(el => el.classList.remove('selected'));
-            event.target.classList.add('selected');
-            
-            if (amount === 'custom') {
-                document.getElementById('custom-tip-amount').style.display = 'block';
-                selectedTipAmount = 0;
-            } else {
-                document.getElementById('custom-tip-amount').style.display = 'none';
-                selectedTipAmount = amount;
-            }
-        }
-
-        function processTip() {
-            let tipAmount = selectedTipAmount;
-            
-            if (selectedTipAmount === 0) {
-                tipAmount = parseFloat(document.getElementById('custom-tip-amount').value);
-            }
-            
-            if (!tipAmount || tipAmount <= 0) {
-                alert('Please select or enter a valid tip amount.');
-                return;
-            }
-            
-            showTipAnimation(tipAmount);
-            alert(`Thank you! Your $${tipAmount} tip to ${currentTipModel} has been processed!`);
-            closeModal('tip-modal');
-        }
-
-        function showTipAnimation(amount) {
-            const tipElement = document.createElement('div');
-            tipElement.className = 'tip-float';
-            tipElement.innerText = `+$${amount}`;
-            tipElement.style.left = (Math.random() * 80 + 10) + '%';
-            tipElement.style.top = '50%';
-            document.body.appendChild(tipElement);
-            
-            setTimeout(() => {
-                document.body.removeChild(tipElement);
-            }, 2000);
-        }
-
-        function submitCustomRequest() {
-            const requestText = document.getElementById('custom-request-text').value.trim();
-            const selectedType = document.querySelector('input[name="request-type"]:checked');
-            
-            if (!requestText) {
-                alert('Please describe your custom request.');
-                return;
-            }
-            
-            if (!selectedType) {
-                alert('Please select a request type.');
-                return;
-            }
-            
-            const price = parseFloat(selectedType.value);
-            
-            document.getElementById('payment-title').innerText = 'Custom Request Payment';
-            document.getElementById('payment-description').innerText = `Your custom request will cost $${price}. You'll receive your content within 24-48 hours.`;
-            
-            closeModal('custom-request-modal');
-            openModal('payment-processing-modal');
-        }
-
-        function processPayment() {
-            alert('Payment processed successfully! Thank you for your purchase.');
-            closeModal('payment-processing-modal');
-        }
-
-        function showTab(tabName) {
-            const tabButtons = document.querySelectorAll('.tab-button');
-            tabButtons.forEach(button => button.classList.remove('active'));
-            const activeButton = document.querySelector(`.tab-button[onclick="showTab('${tabName}')"]`);
-            if(activeButton) activeButton.classList.add('active');
-
-            const modelCategories = document.querySelectorAll('.model-category');
-            modelCategories.forEach(category => {
-                if (tabName === 'all' || category.dataset.category === tabName) {
-                    category.style.display = 'flex';
-                } else {
-                    category.style.display = 'none';
-                }
-            });
+        // Image Loading - Enhanced with .jpeg support
+        function handleImageError(img, baseName) {
+            img.classList.add('error');
+            img.innerHTML = 'Image Loading... <i class="fas fa-image"></i>';
+            smartLoadImage(img, baseName);
         }
 
         function imageExists(url, callback) {
@@ -1143,33 +985,285 @@
         }
 
         function smartLoadImage(imgElement, baseImageName) {
-            const extensions = ['.jpg', '.png', '.webp'];
+            const extensions = ['.jpg', '.jpeg', '.png', '.webp'];
             let loaded = false;
-            extensions.forEach((ext, index) => {
+            extensions.forEach((ext) => {
                 if (loaded) return;
                 const url = `https://github.com/faded20666er/joi-ai-site-beta/blob/main/${baseImageName}${ext}?raw=true`;
                 imageExists(url, (exists) => {
                     if (exists && !loaded) {
                         imgElement.src = url;
+                        imgElement.classList.remove('error');
+                        imgElement.innerHTML = '';
                         loaded = true;
-                    } else if (index === extensions.length - 1 && !loaded) {
-                        imgElement.alt = "Image not found";
+                        console.log(`Loaded: ${url}`);
                     }
                 });
             });
+            // Fallback placeholder after 3s
+            setTimeout(() => {
+                if (!loaded) {
+                    imgElement.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2NjYyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlIE5vdCBGb3VuZDwvdGV4dD48L3N2Zz4=';
+                }
+            }, 3000);
         }
 
         function loadAllImages() {
-            document.querySelectorAll('.model-card img, .cam-item img, #vip-gallery-modal .gallery-grid img').forEach(img => {
-                const baseName = img.src.split('/').pop().replace('?raw=true', '').replace(/\.(jpg|png|webp)$/, '');
-                smartLoadImage(img, baseName);
+            // Model images
+            smartLoadImage(document.getElementById('viper-img'), 'img1');
+            smartLoadImage(document.getElementById('raven-img'), 'img2');
+            smartLoadImage(document.getElementById('lilith-img'), 'img3');
+            smartLoadImage(document.getElementById('doris-img'), 'doris1');
+            // Live cams
+            smartLoadImage(document.getElementById('live-viper'), 'img1');
+            smartLoadImage(document.getElementById('live-raven'), 'img2');
+            smartLoadImage(document.getElementById('live-lilith'), 'img3');
+            smartLoadImage(document.getElementById('live-doris'), 'doris1');
+            // VIP gallery
+            for (let i = 1; i <= 7; i++) {
+                const galleryImg = document.querySelector(`#vip-gallery-modal .gallery-grid img:nth-child(${i})`);
+                if (galleryImg) smartLoadImage(galleryImg, `doris${i}`);
+            }
+            // Additional imgs 4-9 if uploaded
+            for (let i = 4; i <= 9; i++) {
+                const extraImg = document.querySelector(`#vip-gallery-modal .gallery-grid img:nth-child(${i + 7})`);
+                if (extraImg) smartLoadImage(extraImg, `img${i}`);
+            }
+        }
+
+        // Modals
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+            gtag('event', 'open_modal', {'modal': modalId});
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function setCurrentModel(modelName) {
+            currentModel = modelName;
+            document.getElementById('current-model-name').innerText = modelName === 'General AI' ? 'AI Assistant' : modelName;
+            document.getElementById('chat-log').innerHTML = `<p><strong>${modelName}:</strong> Hello! What can I do for you today? 😘</p>`;
+            if (!chatHistory[modelName]) chatHistory[modelName] = [];
+        }
+
+        function sendMessage() {
+            const chatInput = document.getElementById('chat-input');
+            const chatLog = document.getElementById('chat-log');
+            const message = chatInput.value.trim().toLowerCase();
+
+            if (!message) return;
+
+            chatLog.innerHTML += `<p><strong>You:</strong> ${chatInput.value}</p>`;
+            chatInput.value = '';
+
+            let aiResponse = getAIChatResponse(currentModel, message);
+            setTimeout(() => {
+                chatLog.innerHTML += `<p><strong>${currentModel}:</strong> ${aiResponse}</p>`;
+                chatLog.scrollTop = chatLog.scrollHeight;
+                chatHistory[currentModel].push({user: message, ai: aiResponse});
+            }, Math.random() * 1500 + 800); // Varied delay
+
+            chatLog.scrollTop = chatLog.scrollHeight;
+        }
+
+        // Enhanced Chat Responses - More varied with randomization
+        function getAIChatResponse(model, message) {
+            chatHistory[model] = chatHistory[model] || [];
+            const historyLength = chatHistory[model].length;
+            message = message.toLowerCase();
+
+            // Base responses array for variety
+            const baseResponses = [
+                "Tell me more about what you want...",
+                "Mmm, that sounds intriguing. Keep going.",
+                "I love where this is going. What next?",
+                "You're making me excited. Describe it in detail."
+            ];
+
+            switch(model) {
+                case 'Viper':
+                    if (message.includes('mommy') || message.includes('dom')) {
+                        const domResponses = [
+                            "Good boy. Mommy knows best. Now obey.",
+                            "That's right, call me Mommy. Kneel and listen.",
+                            "Mommy's in charge. What do you need from me?",
+                            "You please Mommy when you submit. Tell me your fantasy."
+                        ];
+                        return domResponses[Math.floor(Math.random() * domResponses.length)];
+                    } else if (message.includes('command') || message.includes('obey')) {
+                        const commandResponses = [
+                            "Kneel now, pet. Worship me properly.",
+                            "Strip and wait for my next order.",
+                            "On your knees, slave. Beg for mercy.",
+                            "Good. Follow my lead and you'll be rewarded."
+                        ];
+                        return commandResponses[Math.floor(Math.random() * commandResponses.length)];
+                    } else if (message.includes('boot') || message.includes('goth')) {
+                        return "My black boots are waiting for your tongue. Describe how you'd worship them.";
+                    } else {
+                        return baseResponses[Math.floor(Math.random() * baseResponses.length)] + " But remember, I demand respect.";
+                    }
+                case 'Doris':
+                    if (message.includes('hey') || message.includes('boo')) {
+                        const greetResponses = [
+                            "Hey sexy, what's on your mind? 😏",
+                            "What's good, baby? Tell me everything.",
+                            "Hey there, you lookin' fine. Spill it.",
+                            "Sup papi? I'm all ears... and more."
+                        ];
+                        return greetResponses[Math.floor(Math.random() * greetResponses.length)];
+                    } else if (message.includes('ebony') || message.includes('tease')) {
+                        return "You love this chocolate, don't you? Tell me how you'd handle me.";
+                    } else if (message.includes('video') || message.includes('play')) {
+                        const playResponses = [
+                            "Wanna see me move? Tip for a private tease.",
+                            "I got moves that'll make you weak. What you want?",
+                            "Playtime? Let's make it hot. Describe your scene.",
+                            "Video vibes? I'm ready to perform for you."
+                        ];
+                        return playResponses[Math.floor(Math.random() * playResponses.length)];
+                    } else {
+                        return baseResponses[Math.floor(Math.random() * baseResponses.length)] + " Keep it real with me, daddy.";
+                    }
+                case 'Raven':
+                    if (message.includes('strap') || message.includes('joi')) {
+                        const joiResponses = [
+                            "Strap ready? Stroke slow for me, exactly as I say.",
+                            "JOI time. Hands on your cock, eyes on me. Start now.",
+                            "You want the strap? Earn it by following my rhythm.",
+                            "Listen close: up... down... faster. Good boy."
+                        ];
+                        return joiResponses[Math.floor(Math.random() * joiResponses.length)];
+                    } else if (message.includes('control') || message.includes('dominate')) {
+                        return "I own you now. Tell me how you'll surrender.";
+                    } else {
+                        return baseResponses[Math.floor(Math.random() * baseResponses.length)] + " But I'm the one in control here.";
+                    }
+                case 'Lilith':
+                    if (message.includes('leather') || message.includes('fetish')) {
+                        const fetishResponses = [
+                            "Leather clings to my skin like a lover. Worship it.",
+                            "Feel the leather against you? Kiss every inch.",
+                            "My fetish gear is ready. What piece excites you most?",
+                            "Leather and lust – describe your ritual."
+                        ];
+                        return fetishResponses[Math.floor(Math.random() * fetishResponses.length)];
+                    } else if (message.includes('worship') || message.includes('slave')) {
+                        return "Bow down and adore me, slave. Start with my feet.";
+                    } else {
+                        return baseResponses[Math.floor(Math.random() * baseResponses.length)] + " Leather makes everything better.";
+                    }
+                case 'General AI':
+                    return baseResponses[Math.floor(Math.random() * baseResponses.length)] + " Which model would you like to chat with?";
+                default:
+                    return "I'm here for your pleasure. What fantasy shall we explore?";
+            }
+        }
+
+        // Stripe Integration
+        async function createStripeCheckout(tier, priceCents) {
+            gtag('event', 'purchase_intent', {'item': tier, 'value': priceCents / 100});
+            const response = await fetch('/create-checkout-session', { // You'll need a backend endpoint for this
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ tier, price: priceCents })
+            });
+            const { id: sessionId } = await response.json();
+            stripe.redirectToCheckout({ sessionId });
+        }
+
+        function processTipWithStripe() {
+            let tipAmount = selectedTipAmount;
+            if (selectedTipAmount === 0) tipAmount = parseFloat(document.getElementById('custom-tip-amount').value);
+            if (!tipAmount || tipAmount <= 0) {
+                alert('Please select or enter a valid tip amount.');
+                return;
+            }
+            createStripeCheckout(`Tip to ${currentTipModel}`, tipAmount * 100);
+            showTipAnimation(tipAmount);
+            closeModal('tip-modal');
+        }
+
+        function submitCustomRequestWithStripe() {
+            const requestText = document.getElementById('custom-request-text').value.trim();
+            const selectedType = document.querySelector('input[name="request-type"]:checked');
+            if (!requestText || !selectedType) {
+                alert('Please fill out all fields.');
+                return;
+            }
+            const priceCents = parseInt(selectedType.value);
+            // Save request to backend if needed
+            createStripeCheckout('Custom Request', priceCents);
+            closeModal('custom-request-modal');
+        }
+
+        // Other functions (selectTip, showTipAnimation, showTab, etc.) remain the same as V9.1
+        function selectTip(amount) {
+            document.querySelectorAll('.tip-amount').forEach(el => el.classList.remove('selected'));
+            event.target.classList.add('selected');
+            if (amount === 'custom') {
+                document.getElementById('custom-tip-amount').style.display = 'block';
+                selectedTipAmount = 0;
+            } else {
+                document.getElementById('custom-tip-amount').style.display = 'none';
+                selectedTipAmount = amount;
+            }
+        }
+
+        function showTipAnimation(amount) {
+            const tipElement = document.createElement('div');
+            tipElement.className = 'tip-float';
+            tipElement.innerText = `+$${amount}`;
+            tipElement.style.left = (Math.random() * 80 + 10) + '%';
+            tipElement.style.top = '50%';
+            document.body.appendChild(tipElement);
+            setTimeout(() => document.body.removeChild(tipElement), 2000);
+        }
+
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`[onclick="showTab('${tabName}')"]`).classList.add('active');
+            document.querySelectorAll('.model-category').forEach(cat => {
+                cat.style.display = (tabName === 'all' || cat.dataset.category === tabName) ? 'flex' : 'none';
             });
         }
 
-        window.onerror = function(message, source, lineno, colno, error) {
-            console.error(`Global Error: ${message} at ${source}:${lineno}:${colno}`, error);
-        };
+        function openTipModal(modelName, defaultTip) {
+            currentTipModel = modelName;
+            document.getElementById('tip-model-name').innerText = modelName;
+            selectedTipAmount = defaultTip;
+            selectTip(defaultTip);
+            openModal('tip-modal');
+            gtag('event', 'open_tip', {'model': modelName});
+        }
 
+        // Upsell & Email
+        function showUpsellPopup() {
+            setTimeout(() => {
+                if (Math.random() > 0.5) { // 50% chance
+                    document.getElementById('upsell-popup').style.display = 'block';
+                }
+            }, 5000);
+        }
+
+        function closeUpsell() {
+            document.getElementById('upsell-popup').style.display = 'none';
+        }
+
+        function captureEmail() {
+            const email = document.getElementById('email-input').value;
+            if (email) {
+                document.getElementById('mc-email').value = email;
+                document.getElementById('mc-form').submit(); // Submits to Mailchimp
+                alert('Thanks! Check your email for exclusive offers.');
+                gtag('event', 'lead', {'method': 'email'});
+            }
+        }
+
+        // Error Handling
+        window.onerror = (msg, url, line) => console.error(`Error: ${msg} at ${line}`);
     </script>
 </body>
 </html>
