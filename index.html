@@ -1,9 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JOI AI | ELITE ACCESS</title>
+    <!-- Stripe for Payments -->
     <script src="https://js.stripe.com/v3/"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
@@ -22,7 +24,7 @@
         body {
             background-color: var(--bg-dark);
             background-image: 
-                linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)),
+                linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)),
                 url('https://www.transparenttextures.com/patterns/dark-matter.png'); 
             color: #eee;
             font-family: 'Rajdhani', sans-serif;
@@ -30,10 +32,12 @@
             overflow-x: hidden;
         }
 
+        /* TYPOGRAPHY */
         h1, h2, h3 { font-family: 'Orbitron', sans-serif; text-transform: uppercase; letter-spacing: 2px; }
         .neon-text-pink { color: #fff; text-shadow: 0 0 10px var(--neon-pink); }
         .neon-text-blue { color: #fff; text-shadow: 0 0 10px var(--neon-blue); }
 
+        /* BUTTONS */
         .btn {
             background: rgba(0,0,0,0.5);
             border: 1px solid var(--neon-pink);
@@ -45,8 +49,9 @@
             text-transform: uppercase;
             font-weight: bold;
             letter-spacing: 1px;
+            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
         }
-        .btn:hover { background: var(--neon-pink); color: #fff; box-shadow: 0 0 25px var(--neon-pink); }
+        .btn:hover { background: var(--neon-pink); color: #fff; box-shadow: 0 0 25px var(--neon-pink); transform: scale(1.05); }
         .btn.blue { border-color: var(--neon-blue); color: var(--neon-blue); }
         .btn.blue:hover { background: var(--neon-blue); color: #000; box-shadow: 0 0 25px var(--neon-blue); }
 
@@ -88,6 +93,19 @@
         }
         .model-card:hover .img-wrapper img { transform: scale(1.05); }
 
+        /* LIVE DOT ANIMATION */
+        .live-status {
+            position: absolute; top: 15px; left: 15px;
+            background: rgba(0,0,0,0.7); padding: 5px 10px; border-radius: 20px;
+            font-size: 0.8rem; color: #fff; display: flex; align-items: center;
+            border: 1px solid #444;
+        }
+        .dot {
+            width: 8px; height: 8px; background-color: #0f0; border-radius: 50%;
+            margin-right: 8px; animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0% { opacity: 1; box-shadow: 0 0 0 0 rgba(0,255,0,0.7); } 70% { opacity: 1; box-shadow: 0 0 0 10px rgba(0,255,0,0); } 100% { opacity: 0; } }
+
         .card-info { padding: 20px; text-align: center; position: absolute; bottom: 0; width: 100%; background: linear-gradient(to top, #000 0%, transparent 100%); }
         .card-info h3 { margin: 0; font-size: 1.8rem; text-shadow: 0 2px 4px #000; }
         .card-info p { margin: 5px 0 15px; color: #ccc; font-weight: 500; text-shadow: 0 1px 2px #000; }
@@ -99,6 +117,7 @@
             padding: 2px;
             margin: 40px 0;
             position: relative;
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.1);
         }
         .video-highlight video { width: 100%; display: block; }
         .video-label {
@@ -115,24 +134,28 @@
         }
         .gallery-item {
             height: 250px; overflow: hidden; border: 1px solid #333; position: relative;
-            cursor: pointer;
+            cursor: pointer; transition: 0.3s;
         }
+        .gallery-item:hover { border-color: var(--neon-blue); }
         .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.3s; }
-        .gallery-item:hover img { opacity: 0.7; }
+        .gallery-item:hover img { opacity: 0.7; transform: scale(1.1); }
+        
         .gallery-lock {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            display: flex; justify-content: center; align-items: center;
-            background: rgba(0,0,0,0.5); opacity: 0; transition: 0.3s;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            background: rgba(0,0,0,0.6); opacity: 0; transition: 0.3s;
+            color: #fff;
         }
         .gallery-item:hover .gallery-lock { opacity: 1; }
 
-        /* DEBUG LOG */
+        /* DEBUG LOG (HIDDEN BY DEFAULT) */
         #system-log {
             position: fixed; bottom: 10px; right: 10px; width: 350px; max-height: 200px;
             background: rgba(0,0,0,0.95); border: 1px solid var(--neon-blue);
             color: #00ff00; font-family: monospace; font-size: 11px;
             padding: 10px; overflow-y: auto; z-index: 9999;
             box-shadow: 0 0 20px rgba(0,0,0,0.8);
+            display: none; /* Press D to show */
         }
 
         /* MODALS */
@@ -145,19 +168,20 @@
             background: #111; border: 1px solid var(--neon-pink);
             width: 90%; max-width: 500px; padding: 30px;
             position: relative; box-shadow: 0 0 40px rgba(255, 0, 85, 0.2);
+            text-align: center;
         }
         
     </style>
 </head>
 <body>
 
-    <!-- DEBUGGER -->
+    <!-- SYSTEM LOG (Press 'D' to toggle) -->
     <div id="system-log">
-        <div>> JOI SYSTEM V12.0 INITIALIZED</div>
-        <div>> ACCESSING REPOSITORY...</div>
+        <div>> SYSTEM READY</div>
+        <div>> PRESS 'D' TO HIDE THIS LOG</div>
     </div>
 
-    <!-- MAIN UI -->
+    <!-- HEADER -->
     <header>
         <div class="logo">JOI<span>.AI</span></div>
         <nav>
@@ -172,10 +196,9 @@
         <!-- VIDEO HIGHLIGHT -->
         <div class="video-highlight">
             <div class="video-label">LIVE PREVIEW</div>
-            <!-- Using your MP4 file -->
-            <video controls poster="" muted autoplay loop>
+            <!-- Main Video -->
+            <video controls poster="" muted autoplay loop playsinline>
                 <source src="https://raw.githubusercontent.com/faded20666er/joi-ai-site-beta/main/3787074055589217371.mp4" type="video/mp4">
-                Your browser does not support video.
             </video>
         </div>
 
@@ -183,41 +206,56 @@
         <div id="model-grid"></div>
 
         <h2 class="neon-text-blue" id="gallery" style="margin-top: 60px;">EXCLUSIVE FEED</h2>
-        <p style="color:#888;">Images from 'arealkyyy' folder loaded directly.</p>
+        <p style="color:#888;">Latest uploads from the vault.</p>
         <div id="gallery-grid"></div>
     </div>
 
-    <!-- MODALS -->
+    <!-- CHAT MODAL -->
     <div id="chat-modal" class="modal-overlay">
-        <div class="modal-box">
-            <span style="float:right; cursor:pointer; font-size:24px;" onclick="closeModal('chat-modal')">&times;</span>
+        <div class="modal-box" style="text-align: left;">
+            <span style="float:right; cursor:pointer; font-size:24px; color:#fff;" onclick="closeModal('chat-modal')">&times;</span>
             <h2 class="neon-text-blue">SECURE CHAT</h2>
             <div id="chat-history" style="height: 250px; background:#000; margin-bottom:15px; padding:10px; overflow-y:auto; border:1px solid #333;">
                 <div style="color:var(--neon-blue)">System: Choose a model to begin...</div>
             </div>
-            <input type="text" id="chat-input" placeholder="Type a message..." style="width:70%; padding:10px; background:#222; border:none; color:#fff;">
+            <input type="text" id="chat-input" placeholder="Type a message..." style="width:70%; padding:10px; background:#222; border:none; color:#fff;" onkeypress="if(event.key==='Enter') sendChat()">
             <button class="btn blue" onclick="sendChat()">SEND</button>
         </div>
     </div>
 
+    <!-- VIP / PAYMENT MODAL -->
     <div id="vip-modal" class="modal-overlay">
-        <div class="modal-box" style="text-align:center;">
-            <span style="float:right; cursor:pointer;" onclick="closeModal('vip-modal')">&times;</span>
-            <h2 class="neon-text-pink">VIP ACCESS REQUIRED</h2>
-            <p>Unlock all 250+ photos and full length videos.</p>
-            <button class="btn blue" style="width:100%; margin-top:20px;" onclick="alert('Redirecting to Stripe...')">UNLOCK - $19.99</button>
+        <div class="modal-box">
+            <span style="float:right; cursor:pointer; color:#fff;" onclick="closeModal('vip-modal')">&times;</span>
+            <h2 class="neon-text-pink" style="margin-bottom: 10px;">VIP ACCESS REQUIRED</h2>
+            <p style="color:#ccc; margin-bottom: 30px;">Unlock 250+ photos, full length videos, and custom requests.</p>
+            
+            <div style="display:flex; gap:10px; justify-content:center; margin-bottom:20px;">
+                <div style="border:1px solid #333; padding:15px; width:45%; cursor:pointer;" onclick="this.style.borderColor='#00f3ff'">
+                    <h4 style="margin:0; color:#fff;">WEEKLY</h4>
+                    <div style="font-size:1.5em; color:var(--neon-blue)">$9.99</div>
+                </div>
+                <div style="border:1px solid var(--neon-pink); padding:15px; width:45%; cursor:pointer; background:rgba(255,0,85,0.1);">
+                    <h4 style="margin:0; color:#fff;">MONTHLY</h4>
+                    <div style="font-size:1.5em; color:var(--neon-pink)">$19.99</div>
+                </div>
+            </div>
+
+            <button class="btn blue" style="width:100%;" onclick="startStripeCheckout()">PROCEED TO CHECKOUT</button>
+            <p style="font-size:0.7em; color:#666; margin-top:15px;">Secure payment via Stripe. Discreet billing.</p>
         </div>
     </div>
 
     <script>
         // =======================================================
-        // 🔧 MASTER CONFIGURATION
+        // 🔧 CONTENT CONFIGURATION
         // =======================================================
         
         const REPO_ROOT = "https://raw.githubusercontent.com/faded20666er/joi-ai-site-beta/main/";
+        const STRIPE_KEY = 'pk_test_YOUR_KEY_HERE'; // 🔴 REPLACE WITH YOUR STRIPE KEY
+        const stripe = Stripe(STRIPE_KEY);
 
-        // 1. MODELS CONFIG
-        // Note: Viper/Raven are in root. Doris is in 'arealkyyy/'
+        // Models List
         const MODELS = [
             { name: "Mistress Viper", type: "Goth / Dom", file: "img1", folder: "" }, 
             { name: "Raven", type: "JOI / Control", file: "img2", folder: "" },
@@ -225,19 +263,33 @@
             { name: "Doris", type: "Ebony / Tease", file: "doris1", folder: "arealkyyy/" } 
         ];
 
-        // 2. GALLERY CONFIG
-        // All these seem to be in 'arealkyyy/' based on your screenshot
+        // Gallery List (Expanded from your screenshots)
         const GALLERY_FILES = [
-            "doris2", "doris3", "doris4", "doris5", "doris6", "doris7",
-            "b7ld0cydv2fibzco9jto", // Found this in your file list
-            "b8r4zdmi2n1oe1kkhxgx",
-            "bezbvtmjpuhnl66v9jxb"
+            { name: "doris2", folder: "arealkyyy/" },
+            { name: "doris3", folder: "arealkyyy/" },
+            { name: "doris4", folder: "arealkyyy/" },
+            { name: "doris5", folder: "arealkyyy/" },
+            { name: "doris6", folder: "arealkyyy/" },
+            { name: "doris7", folder: "arealkyyy/" },
+            { name: "b7ld0cydv2fibzco9jto", folder: "arealkyyy/" }, // Screenshot file
+            { name: "b8r4zdmi2n1oe1kkhxgx", folder: "arealkyyy/" }, // Screenshot file
+            { name: "img4", folder: "" },
+            { name: "img5", folder: "" },
+            { name: "ebony1", folder: "" }, // Will try ebony1.jpg, ebony1.png, ebony1.jpg.png
+            { name: "ebony2", folder: "" }
         ];
-        const GALLERY_FOLDER = "arealkyyy/";
 
         // =======================================================
-        // ⚙️ ENGINE
+        // ⚙️ ENGINE (LOGIC)
         // =======================================================
+
+        // Toggle Debug Log with 'D' key
+        document.addEventListener('keydown', (e) => {
+            if(e.key === 'd' || e.key === 'D') {
+                const log = document.getElementById('system-log');
+                log.style.display = log.style.display === 'none' ? 'block' : 'none';
+            }
+        });
 
         function log(msg, type='info') {
             const logger = document.getElementById('system-log');
@@ -247,29 +299,25 @@
         }
 
         function smartLoad(imgEl, folder, filename) {
-            // Priority: .webp (since you have many), then .jpg, .png, .jpeg
-            const extensions = ['.webp', '.jpg', '.jpeg', '.png', '.JPG'];
+            // Updated extension list to handle the weird .jpg.png files seen in screenshot
+            const extensions = ['.webp', '.jpg', '.jpeg', '.png', '.JPG', '.jpg.png', '.jpg.webp'];
             let attempt = 0;
 
             function tryNext() {
                 if (attempt >= extensions.length) {
-                    log(`FAILED: ${filename} (All extensions tried)`, 'error');
-                    imgEl.src = 'https://via.placeholder.com/300?text=IMG+ERROR';
+                    log(`FAILED: ${filename}`, 'error');
+                    imgEl.src = 'https://via.placeholder.com/300x400/111/333?text=NO+IMG';
                     return;
                 }
                 
                 const ext = extensions[attempt];
-                // Construct URL: Root + Folder + Filename + Extension
                 const url = `${REPO_ROOT}${folder}${filename}${ext}`;
                 
-                // Only log the first attempt to keep debug clean
-                if(attempt === 0) log(`Looking for: ${folder}${filename}...`);
-
+                // Load image in background
                 const tester = new Image();
                 tester.onload = () => {
                     imgEl.src = url;
-                    imgEl.classList.remove('loading');
-                    log(`FOUND: ${filename}${ext}`);
+                    log(`LOADED: ${filename}${ext}`);
                 };
                 tester.onerror = () => {
                     attempt++;
@@ -287,12 +335,14 @@
                 const card = document.createElement('div');
                 card.className = 'model-card';
                 card.innerHTML = `
+                    <div class="live-status"><div class="dot"></div> ONLINE</div>
                     <div class="img-wrapper">
-                        <img id="m-${m.name}" src="" alt="${m.name}">
+                        <img src="" alt="${m.name}">
                         <div class="card-info">
                             <h3 class="neon-text-pink">${m.name}</h3>
                             <p>${m.type}</p>
                             <button class="btn" onclick="openModal('chat-modal')">CHAT</button>
+                            <button class="btn blue" style="margin-left:5px;" onclick="openModal('vip-modal')">TIP</button>
                         </div>
                     </div>
                 `;
@@ -302,19 +352,22 @@
 
             // Render Gallery
             const galleryGrid = document.getElementById('gallery-grid');
-            GALLERY_FILES.forEach((f, i) => {
+            GALLERY_FILES.forEach(f => {
                 const item = document.createElement('div');
                 item.className = 'gallery-item';
                 item.innerHTML = `
-                    <img id="g-${i}" src="" alt="Gallery ${i}">
-                    <div class="gallery-lock" onclick="openModal('vip-modal')"><i class="fas fa-lock fa-2x"></i></div>
+                    <img src="" alt="Gallery File">
+                    <div class="gallery-lock" onclick="openModal('vip-modal')">
+                        <i class="fas fa-lock fa-2x" style="margin-bottom:10px;"></i>
+                        <span style="font-family:'Orbitron'">VIP ONLY</span>
+                    </div>
                 `;
                 galleryGrid.appendChild(item);
-                smartLoad(item.querySelector('img'), GALLERY_FOLDER, f);
+                smartLoad(item.querySelector('img'), f.folder, f.name);
             });
         }
 
-        // Modal Logic
+        // --- INTERACTION ---
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
         
@@ -322,12 +375,30 @@
             const inp = document.getElementById('chat-input');
             const hist = document.getElementById('chat-history');
             if(!inp.value) return;
+            
             hist.innerHTML += `<div style="text-align:right; color:#ccc; margin:5px 0;">${inp.value}</div>`;
+            const userMsg = inp.value;
             inp.value = '';
+            
             setTimeout(() => {
-                hist.innerHTML += `<div style="color:var(--neon-pink); margin:5px 0;"><strong>AI:</strong> That sounds naughty... tell me more.</div>`;
+                let reply = "Mmm... tell me more.";
+                if(userMsg.includes('hello')) reply = "Hey sexy. What are you looking for?";
+                if(userMsg.includes('price') || userMsg.includes('cost')) reply = "Check the VIP section for my rates. 😘";
+                if(userMsg.includes('meet')) reply = "I'm digital, baby. But I can feel real.";
+                
+                hist.innerHTML += `<div style="color:var(--neon-pink); margin:5px 0;"><strong>AI:</strong> ${reply}</div>`;
                 hist.scrollTop = hist.scrollHeight;
-            }, 800);
+            }, 1000);
+        }
+
+        function startStripeCheckout() {
+            // Simple redirect to a checkout link or Stripe API logic
+            // Option 1: If you have a Stripe Payment Link (easiest, no code backend needed)
+            // window.location.href = 'https://buy.stripe.com/YOUR_LINK_HERE';
+            
+            // Option 2: API (Requires backend)
+            alert("To accept real money, create a Payment Link in Stripe Dashboard and paste it in the code line 282!");
+            // window.open('https://buy.stripe.com/test_...', '_blank'); 
         }
 
         window.onload = init;
