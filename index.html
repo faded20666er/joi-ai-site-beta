@@ -103,9 +103,8 @@
         <h2 class="neon-blue">LIVE FEED</h2>
         <div class="hero-video">
             <video id="main-player" controls autoplay muted loop playsinline>
-                <!-- This specific file was found in your repo -->
+                <!-- Default video if nothing else loads -->
                 <source src="https://raw.githubusercontent.com/faded20666er/joi-ai-site-beta/main/3787074055589217371.mp4" type="video/mp4">
-                Your browser does not support the video tag.
             </video>
         </div>
         
@@ -137,7 +136,7 @@
 
     <script>
         // ========================================================
-        // 🔧 THE AUTO-HUNTER ENGINE
+        // 🔧 THE AUTO-HUNTER ENGINE (V15.0)
         // ========================================================
         
         const REPO_ROOT = "https://raw.githubusercontent.com/faded20666er/joi-ai-site-beta/main/";
@@ -149,15 +148,14 @@
         ];
 
         // 2. AUTO-SCAN CONFIGURATION
-        // The script will try to find:
-        // img1.jpg ... img50.jpg
-        // ebony1.jpg ... ebony20.jpg
-        // doris1.jpg ... doris20.jpg (in 'arealkyyy/' folder)
+        // Now set to scan for "1.jpg", "2.jpg" as well as "img1.jpg", "img2.jpg"
         const SCAN_PATTERNS = [
-            { prefix: 'img', start: 1, end: 50, folder: '' },
+            { prefix: '', start: 1, end: 100, folder: '' },       // Scans for 1.jpg ... 100.jpg
+            { prefix: 'img', start: 1, end: 50, folder: '' },     // Scans for img1.jpg ... img50.jpg
             { prefix: 'ebony', start: 1, end: 20, folder: '' },
             { prefix: 'doris', start: 1, end: 20, folder: 'arealkyyy/' },
-            { prefix: 'video', start: 1, end: 10, folder: '', type: 'video' }
+            { prefix: '', start: 1, end: 20, folder: '', type: 'video' },     // Scans for 1.mp4 ... 20.mp4
+            { prefix: 'video', start: 1, end: 10, folder: '', type: 'video' } // Scans for video1.mp4...
         ];
 
         // 3. EXTENSIONS TO TRY (In order)
