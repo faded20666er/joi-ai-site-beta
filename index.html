@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JOI AI | UNLOCKED VAULT</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <title>JOI AI | SYSTEM V16</title>
     <script src="https://js.stripe.com/v3/"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
@@ -12,9 +13,7 @@
         :root {
             --neon-pink: #ff0055;
             --neon-blue: #00f3ff;
-            --neon-purple: #bc13fe;
             --bg-dark: #050505;
-            --panel-bg: rgba(16, 16, 20, 0.98);
         }
 
         body {
@@ -23,240 +22,190 @@
             color: #eee;
             font-family: 'Rajdhani', sans-serif;
             margin: 0;
-            overflow-x: hidden;
+            padding-bottom: 50px;
         }
 
-        /* UTILITIES */
-        h1, h2, h3 { font-family: 'Orbitron', sans-serif; text-transform: uppercase; letter-spacing: 2px; }
+        /* DEBUG BOX */
+        #debug-console {
+            background: #111; border: 2px solid red; color: #0f0;
+            font-family: monospace; padding: 15px; margin: 20px;
+            max-height: 200px; overflow-y: scroll; font-size: 12px;
+            display: block; /* Visible for troubleshooting */
+        }
+
+        /* GENERAL STYLES */
+        h1, h2 { font-family: 'Orbitron', sans-serif; text-transform: uppercase; }
         .neon-pink { color: var(--neon-pink); text-shadow: 0 0 10px var(--neon-pink); }
         .neon-blue { color: var(--neon-blue); text-shadow: 0 0 10px var(--neon-blue); }
-        .hidden { display: none !important; }
 
-        /* BUTTONS */
         .btn {
             background: transparent; border: 1px solid var(--neon-pink); color: var(--neon-pink);
-            padding: 10px 25px; font-family: 'Orbitron'; cursor: pointer; transition: 0.3s;
-            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+            padding: 10px 25px; font-family: 'Orbitron'; cursor: pointer; margin: 5px;
         }
-        .btn:hover { background: var(--neon-pink); color: #fff; box-shadow: 0 0 15px var(--neon-pink); }
-        .btn.blue { border-color: var(--neon-blue); color: var(--neon-blue); }
-        .btn.blue:hover { background: var(--neon-blue); color: #000; box-shadow: 0 0 15px var(--neon-blue); }
+        .btn:hover { background: var(--neon-pink); color: #fff; }
 
-        /* HEADER */
         header {
             display: flex; justify-content: space-between; align-items: center; padding: 20px 40px;
-            background: rgba(0,0,0,0.9); border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 100;
+            background: rgba(0,0,0,0.9); border-bottom: 1px solid #333;
         }
-        .logo { font-size: 2rem; font-weight: 700; color: #fff; }
 
-        /* HERO & VIDEO */
-        .hero-video {
-            width: 100%; max-width: 1200px; margin: 20px auto;
-            border: 1px solid var(--neon-blue); background: #000;
-            box-shadow: 0 0 30px rgba(0, 243, 255, 0.15);
-        }
-        .hero-video video { width: 100%; display: block; max-height: 600px; }
-
-        /* GALLERY GRID */
         .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
-        
+
+        .hero-video {
+            width: 100%; border: 1px solid var(--neon-blue); background: #000;
+            margin-bottom: 20px;
+        }
+        video { width: 100%; max-height: 600px; display: block; }
+
+        /* GALLERY */
         .masonry-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 15px; margin-top: 30px;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px; margin-top: 30px;
         }
         .gallery-item {
             position: relative; overflow: hidden; border: 1px solid #333;
-            background: #111; min-height: 200px; transition: 0.3s;
+            aspect-ratio: 2/3; background: #111;
         }
-        .gallery-item:hover { transform: scale(1.02); border-color: var(--neon-pink); z-index: 10; }
-        .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
         
-        /* Loading / Error States */
-        .loading-placeholder {
-            display: flex; justify-content: center; align-items: center; height: 100%;
-            color: #444; font-size: 0.8rem;
-        }
-
-        /* MODALS */
+        /* MODAL */
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center;
+            background: rgba(0,0,0,0.95); z-index: 2000; justify-content: center; align-items: center;
         }
         .modal-content {
             background: #111; border: 1px solid var(--neon-pink); padding: 30px;
-            max-width: 500px; width: 90%; text-align: center; position: relative;
+            max-width: 400px; text-align: center;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo">JOI<span class="neon-blue">.AI</span></div>
-        <div>
-            <button class="btn" onclick="document.getElementById('gallery-section').scrollIntoView()">GALLERY</button>
-            <button class="btn blue" onclick="openModal('vip-modal')">VIP CLUB</button>
-        </div>
-    </header>
-
-    <!-- VIDEO PLAYER: AUTO-DETECTS VIDEO FILES -->
-    <div class="container">
-        <h2 class="neon-blue">LIVE FEED</h2>
-        <div class="hero-video">
-            <video id="main-player" controls autoplay muted loop playsinline>
-                <!-- Default video if nothing else loads -->
-                <source src="https://raw.githubusercontent.com/faded20666er/joi-ai-site-beta/main/3787074055589217371.mp4" type="video/mp4">
-            </video>
-        </div>
-        
-        <!-- AUTO VIDEO LIST -->
-        <div id="video-thumbnails" style="display:flex; gap:10px; overflow-x:auto; padding:10px 0;">
-            <!-- Javascript will fill this if it finds video1.mp4, video2.mp4... -->
-        </div>
+    <!-- DEBUGGER: TELLS YOU WHAT IS HAPPENING -->
+    <div id="debug-console">
+        <strong>SYSTEM LOG (V16.0):</strong><br>
+        Scanning for assets...<br>
     </div>
 
-    <!-- MAIN GALLERY -->
-    <div class="container" id="gallery-section">
-        <h2 class="neon-pink">UNCENSORED ARCHIVE <span style="font-size:0.5em; color:#666">(AUTO-SYNC)</span></h2>
-        <p style="color:#888;">Scanning repository for new uploads...</p>
-        
-        <div class="masonry-grid" id="gallery-grid">
-            <!-- Images appear here automatically -->
+    <header>
+        <div class="logo" style="font-size:2rem; font-weight:bold;">JOI<span class="neon-blue">.AI</span></div>
+        <button class="btn" onclick="document.getElementById('vip-modal').style.display='flex'">VIP ACCESS</button>
+    </header>
+
+    <div class="container">
+        <!-- VIDEO PLAYER -->
+        <h2 class="neon-blue">LIVE CAMS</h2>
+        <div class="hero-video">
+            <video id="main-player" controls autoplay muted loop playsinline>
+                <source src="" type="video/mp4">
+            </video>
         </div>
+        <div id="video-list" style="display:flex; gap:10px; overflow-x:auto;"></div>
+
+        <!-- IMAGE GALLERY -->
+        <h2 class="neon-pink" style="margin-top:40px;">PRIVATE GALLERY</h2>
+        <div class="masonry-grid" id="gallery-grid"></div>
     </div>
 
     <!-- VIP MODAL -->
     <div id="vip-modal" class="modal">
         <div class="modal-content">
-            <span style="position:absolute; top:10px; right:15px; cursor:pointer; font-size:20px;" onclick="closeModal('vip-modal')">&times;</span>
-            <h2 class="neon-pink">UNLOCK FULL RESOLUTION</h2>
-            <p>Get access to 4K downloads and custom requests.</p>
-            <button class="btn blue" style="width:100%; margin-top:20px;">UNLOCK $19.99</button>
+            <h2 class="neon-pink">LOCKED</h2>
+            <p>Join the VIP list to unlock full videos.</p>
+            <button class="btn" onclick="document.getElementById('vip-modal').style.display='none'">CLOSE</button>
         </div>
     </div>
 
     <script>
-        // ========================================================
-        // 🔧 THE AUTO-HUNTER ENGINE (V15.0)
-        // ========================================================
-        
-        const REPO_ROOT = "https://raw.githubusercontent.com/faded20666er/joi-ai-site-beta/main/";
-        
-        // 1. KNOWN WEIRD FILENAMES (Paste exact long names here if you don't want to rename them)
-        const MANUAL_FILES = [
-            "4528bf5f87a62f272c545d597f354ebc_f_edited-Picsart-AiImageEnhancer-Picsart-AiImageEnhancer-Picsart-AiImageEnhancer.jpg",
-            "img5.jpg", "img7.jpeg", "img8.jpeg", "img9.jpeg"
-        ];
-
-        // 2. AUTO-SCAN CONFIGURATION
-        // Now set to scan for "1.jpg", "2.jpg" as well as "img1.jpg", "img2.jpg"
-        const SCAN_PATTERNS = [
-            { prefix: '', start: 1, end: 100, folder: '' },       // Scans for 1.jpg ... 100.jpg
-            { prefix: 'img', start: 1, end: 50, folder: '' },     // Scans for img1.jpg ... img50.jpg
-            { prefix: 'ebony', start: 1, end: 20, folder: '' },
-            { prefix: 'doris', start: 1, end: 20, folder: 'arealkyyy/' },
-            { prefix: '', start: 1, end: 20, folder: '', type: 'video' },     // Scans for 1.mp4 ... 20.mp4
-            { prefix: 'video', start: 1, end: 10, folder: '', type: 'video' } // Scans for video1.mp4...
-        ];
-
-        // 3. EXTENSIONS TO TRY (In order)
-        const EXTENSIONS = ['.jpg', '.jpeg', '.png', '.webp', '.JPG', '.PNG'];
-
-        // ========================================================
-        // ⚙️ LOGIC
-        // ========================================================
-
+        const REPO = "https://raw.githubusercontent.com/faded20666er/joi-ai-site-beta/main/";
+        const logBox = document.getElementById('debug-console');
         const grid = document.getElementById('gallery-grid');
-        const videoList = document.getElementById('video-thumbnails');
+        const vidList = document.getElementById('video-list');
+        const player = document.getElementById('main-player');
 
-        // Function to attempt loading an image
-        function tryLoadImage(folder, filename) {
-            // If it's a full filename with extension (from MANUAL_FILES)
-            if(filename.includes('.')) {
-                createImageTile(folder + filename);
-                return;
-            }
-
-            // Otherwise, try extensions
-            let attempt = 0;
-            function nextExt() {
-                if(attempt >= EXTENSIONS.length) return; // Give up silently (don't show broken image)
-                
-                const ext = EXTENSIONS[attempt];
-                const url = REPO_ROOT + folder + filename + ext;
-                
-                const img = new Image();
-                img.onload = () => createImageTile(url);
-                img.onerror = () => {
-                    attempt++;
-                    nextExt();
-                };
-                img.src = url;
-            }
-            nextExt();
+        function log(msg, type='neutral') {
+            const color = type === 'success' ? '#0f0' : (type === 'error' ? '#f00' : '#aaa');
+            logBox.innerHTML += `<span style="color:${color}">${msg}</span><br>`;
+            logBox.scrollTop = logBox.scrollHeight;
         }
 
-        // Create the HTML tile
-        function createImageTile(url) {
-            // Check duplicates
-            if(document.querySelector(`img[src="${url}"]`)) return;
+        // AUTO-SCANNER CONFIG
+        const FILES_TO_CHECK = [];
+        
+        // 1. Add "1.jpg" to "50.jpg"
+        for(let i=1; i<=50; i++) FILES_TO_CHECK.push({ name: `${i}`, type: 'img' });
+        
+        // 2. Add "img1.jpg" to "img50.jpg" (Legacy support)
+        for(let i=1; i<=50; i++) FILES_TO_CHECK.push({ name: `img${i}`, type: 'img' });
+        
+        // 3. Add "1.mp4" to "10.mp4"
+        for(let i=1; i<=10; i++) FILES_TO_CHECK.push({ name: `${i}`, type: 'vid' });
 
+        // EXTENSIONS
+        const IMG_EXTS = ['.jpg', '.jpeg', '.png', '.webp', '.JPG'];
+
+        async function checkFile(baseName, type) {
+            if(type === 'img') {
+                // Try every extension
+                for(let ext of IMG_EXTS) {
+                    const url = REPO + baseName + ext;
+                    const img = new Image();
+                    img.onload = () => {
+                        log(`[FOUND] ${baseName}${ext}`, 'success');
+                        addToGallery(url);
+                    };
+                    img.onerror = () => {
+                        // Silent fail
+                    };
+                    img.src = url;
+                }
+            } else if (type === 'vid') {
+                const url = REPO + baseName + '.mp4';
+                // Simple fetch check for video
+                fetch(url, {method: 'HEAD'}).then(res => {
+                    if(res.ok) {
+                        log(`[FOUND VIDEO] ${baseName}.mp4`, 'success');
+                        addToVideo(url, baseName);
+                    }
+                }).catch(e => {});
+            }
+        }
+
+        function addToGallery(url) {
+            // Avoid duplicates
+            if(document.querySelector(`img[src="${url}"]`)) return;
+            
             const div = document.createElement('div');
             div.className = 'gallery-item';
-            div.innerHTML = `
-                <img src="${url}" onclick="openModal('vip-modal')">
-                <div style="position:absolute; bottom:0; width:100%; padding:5px; background:rgba(0,0,0,0.7); font-size:10px; color:#aaa;">
-                    LOCKED CONTENT
-                </div>
-            `;
+            div.innerHTML = `<img src="${url}" onclick="document.getElementById('vip-modal').style.display='flex'">`;
             grid.appendChild(div);
         }
 
-        // Video checker
-        function tryLoadVideo(filename) {
-            const url = REPO_ROOT + filename + '.mp4';
-            const vid = document.createElement('video');
-            vid.onloadeddata = () => {
-                // Video exists! Add to list
-                const btn = document.createElement('button');
-                btn.className = 'btn';
-                btn.style.fontSize = '0.8rem';
-                btn.innerText = filename;
-                btn.onclick = () => {
-                    const player = document.getElementById('main-player');
-                    player.src = url;
-                    player.play();
-                };
-                videoList.appendChild(btn);
+        function addToVideo(url, name) {
+            const btn = document.createElement('button');
+            btn.className = 'btn';
+            btn.innerText = `CAM ${name}`;
+            btn.onclick = () => {
+                player.src = url;
+                player.play();
             };
-            vid.src = url;
+            vidList.appendChild(btn);
+            
+            // Auto-play first found video
+            if(player.getAttribute('src') === "") {
+                player.src = url;
+            }
         }
 
-        // --- RUN SCANNERS ---
-        function startScan() {
-            console.log("Starting Asset Scan...");
-
-            // 1. Load Manual List
-            MANUAL_FILES.forEach(f => tryLoadImage('', f));
-
-            // 2. Run Patterns
-            SCAN_PATTERNS.forEach(pattern => {
-                for(let i = pattern.start; i <= pattern.end; i++) {
-                    const name = pattern.prefix + i;
-                    if(pattern.type === 'video') {
-                        tryLoadVideo(name);
-                    } else {
-                        tryLoadImage(pattern.folder, name);
-                    }
-                }
-            });
-        }
-
-        // Modals
-        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
-        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-
-        // Start
-        window.onload = startScan;
+        // START SCAN
+        log("Starting Scan...");
+        FILES_TO_CHECK.forEach(f => checkFile(f.name, f.type));
+        
+        // Manual check for the specific long file
+        const manualFile = "4528bf5f87a62f272c545d597f354ebc_f_edited-Picsart-AiImageEnhancer-Picsart-AiImageEnhancer-Picsart-AiImageEnhancer.jpg";
+        const img = new Image();
+        img.onload = () => addToGallery(REPO + manualFile);
+        img.src = REPO + manualFile;
 
     </script>
 </body>
