@@ -1,500 +1,301 @@
 
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JOI AI</title>
+    <title>JOI AI - Indulge Your Desires</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             background-color: #111;
-            color: #fff;
+            color: #eee;
             margin: 0;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            min-height: 100vh;
+            padding: 0;
+            overflow-x: hidden;
         }
 
-        header {
-            background-color: rgba(0, 0, 0, 0.5);
-            padding: 20px;
-            text-align: center;
-            width: 100%;
-            backdrop-filter: blur(5px);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        nav {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            padding: 10px 20px;
-            border: 1px solid #fff;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        nav a:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-
+        /* Age Gate Styles */
         #age-gate {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.95);
+            background-color: rgba(0, 0, 0, 0.9);
+            color: white;
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             z-index: 1000;
         }
 
         #age-gate button {
+            background-color: #f00;
+            color: white;
+            border: none;
             padding: 10px 20px;
             margin: 10px;
-            border: none;
-            background-color: #e403a3;
-            color: white;
-            border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            font-size: 16px;
         }
 
-        #age-gate button:hover {
-            background-color: #be0287;
-        }
-
-        main {
-            width: 90%;
-            max-width: 1200px;
+        /* Header Styles */
+        header {
+            background-color: #000;
+            color: #fff;
             padding: 20px;
-            margin-top: 20px;
-            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
         }
 
-        #categories {
+        header h1 {
+            font-size: 2.5em;
+            margin: 0;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px #ff69b4;
+        }
+
+        header p {
+            font-size: 1.2em;
+            color: #ddd;
+            margin: 10px 0;
+        }
+
+        /* Navigation Styles */
+        nav {
+            background-color: #222;
+            overflow: hidden;
             display: flex;
-            justify-content: space-around;
+            justify-content: center;
+            border-bottom: 2px solid #ff69b4;
+        }
+
+        nav a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #ff69b4;
+            color: black;
+        }
+
+        /* Category Container Styles */
+        .category-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
             margin-bottom: 30px;
         }
 
-        .category {
-            padding: 15px 20px;
-            background-color: rgba(0, 0, 0, 0.7);
-            border-radius: 8px;
-            text-align: center;
+        .category-tabs {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .category-tabs button {
+            background-color: #444;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 5px;
             cursor: pointer;
-            transition: transform 0.3s;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            border: 1px solid #e403a3;
+            font-size: 16px;
+            transition: background-color 0.3s, color 0.3s;
         }
 
-        .category:hover {
-            transform: translateY(-5px);
+        .category-tabs button.active {
+            background-color: #ff69b4;
+            color: black;
         }
 
-        .model-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        .category-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
             gap: 20px;
+            width: 80%;
         }
 
+        /* Model Card Styles */
         .model-card {
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: #333;
             border-radius: 8px;
-            padding: 15px;
-            text-align: center;
+            overflow: hidden;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            border: 1px solid #e403a3;
+            transition: transform 0.3s;
+            width: 200px;
+            margin-bottom: 20px;
+        }
+
+        .model-card:hover {
+            transform: translateY(-5px);
         }
 
         .model-card img {
             width: 100%;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            object-fit: cover;
             height: 200px;
+            object-fit: cover;
+            display: block;
         }
 
-        .model-card h3 {
-            margin-bottom: 5px;
-            color: #e403a3;
+        .model-card-info {
+            padding: 15px;
+            text-align: center;
         }
 
-        .model-card p {
-            color: #ddd;
+        .model-card-info h3 {
+            margin: 0 0 10px;
+            font-size: 1.3em;
+            color: #fff;
+        }
+
+        .model-card-info p {
+            font-size: 0.9em;
+            color: #bbb;
+            margin: 0;
+        }
+
+        /* Live Feed Styles */
+        #live-feed {
+            background-color: #222;
+            padding: 20px;
+            margin: 20px auto;
+            width: 80%;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        #live-feed h2 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .live-cameras {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .camera {
+            width: 200px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .camera img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .activity-ticker {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
             font-size: 0.9em;
         }
 
-        .live-feed {
-            display: flex;
-            overflow-x: auto;
-            margin-bottom: 20px;
-            padding: 10px;
-            background-color: rgba(0, 0, 0, 0.7);
-            border-radius: 8px;
-        }
-
-        .live-feed img {
-            width: 150px;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 5px;
-            margin-right: 10px;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-
-        .live-feed img:hover {
-            transform: scale(1.1);
-        }
-
+        /* Chat Modal Styles */
         #chat-modal {
             display: none;
             position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1001;
+        }
+
+        .modal-content {
+            position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: rgba(0, 0, 0, 0.9);
+            background-color: #222;
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-            z-index: 1001;
+            border-radius: 8px;
             width: 80%;
             max-width: 600px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
         }
 
-        #chat-modal h2 {
-            color: #e403a3;
+        .modal-header {
+            color: #fff;
             margin-bottom: 15px;
             text-align: center;
         }
 
-        #chat-area {
+        .chat-messages {
             height: 200px;
-            overflow-y: auto;
+            overflow-y: scroll;
             padding: 10px;
-            border: 1px solid #e403a3;
-            margin-bottom: 15px;
-            color: #fff;
-        }
-
-        #user-input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #e403a3;
-            background-color: #222;
+            background-color: #333;
             color: #fff;
             border-radius: 5px;
+            margin-bottom: 10px;
         }
 
-        #send-button {
-            padding: 10px 20px;
+        .chat-input {
+            display: flex;
+        }
+
+        .chat-input input {
+            flex-grow: 1;
+            padding: 8px;
             border: none;
-            background-color: #e403a3;
-            color: white;
+            border-radius: 5px;
+            background-color: #444;
+            color: #fff;
+        }
+
+        .chat-input button {
+            background-color: #ff69b4;
+            color: black;
+            border: none;
+            padding: 8px 15px;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        #send-button:hover {
-            background-color: #be0287;
-        }
-
-        .message {
-            margin-bottom: 10px;
-            padding: 8px;
-            border-radius: 5px;
-        }
-
-        .user-message {
-            background-color: #333;
-            text-align: right;
-        }
-
-        .ai-message {
-            background-color: #555;
-            text-align: left;
+            margin-left: 5px;
         }
 
         .close-button {
             position: absolute;
             top: 10px;
             right: 10px;
-            cursor: pointer;
-            color: #e403a3;
-            font-size: 1.2em;
-        }
-
-        .profile-tab {
-            padding: 10px 15px;
-            background-color: rgba(0, 0, 0, 0.7);
-            border: none;
-            border-radius: 5px;
             color: #fff;
             cursor: pointer;
-            transition: background-color 0.3s;
+            font-size: 20px;
         }
 
-        .profile-tab:hover {
-            background-color: rgba(228, 3, 163, 0.7);
-        }
-
-        .profile-content {
-            display: none;
+        /* VIP Content Styles */
+        #vip-content {
+            background-color: #333;
             padding: 20px;
-            background-color: rgba(0, 0, 0, 0.7);
+            margin: 20px auto;
+            width: 80%;
             border-radius: 8px;
-            margin-top: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            display: none;
         }
 
-        .profile-content.active {
-            display: block;
-        }
-
-        .tab-container {
-            display: flex;
-            justify-content: center;
+        #vip-content h2 {
+            color: #fff;
+            text-align: center;
             margin-bottom: 20px;
         }
 
-        .tab-container button {
-            margin: 0 10px;
-        }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            background-color: rgba(0, 0, 0, 0.5);
-            width: 100%;
-            backdrop-filter: blur(5px);
-            position: fixed;
-            bottom: 0;
-        }
-    </style>
-</head>
-
-<body>
-
-    <div id="age-gate">
-        <h1>Age Verification</h1>
-        <p>You must be 18+ to enter this site.</p>
-        <button onclick="document.getElementById('age-gate').style.display='none'">I am 18+</button>
-        <button onclick="window.location.href='https://www.google.com'">I am Not</button>
-    </div>
-
-    <header>
-        <h1>JOI AI</h1>
-        <nav>
-            <a href="#">Home</a>
-            <a href="#">VIP Content</a>
-            <a href="#">Custom Requests</a>
-        </nav>
-    </header>
-
-    <main>
-        <div id="categories">
-            <div class="category" onclick="showCategory('virtual-girlfriends')">Virtual Girlfriends</div>
-            <div class="category" onclick="showCategory('custom-requests')">Custom Requests</div>
-            <div class="category" onclick="showCategory('live-feed')">Live Feed</div>
-        </div>
-
-        <section id="virtual-girlfriends">
-            <h2>Virtual Girlfriends</h2>
-            <div class="tab-container">
-                <button class="profile-tab" onclick="showProfile('viper')">Mistress Viper</button>
-                <button class="profile-tab" onclick="showProfile('doris')">Doris</button>
-            </div>
-
-            <div id="viper" class="profile-content">
-                <div class="model-grid">
-                    <div class="model-card">
-                        <img src="viper1.jpg" alt="Mistress Viper">
-                        <h3>Mistress Viper</h3>
-                        <p>Dominate your desires with a goth goddess. I'll make you beg.</p>
-                        <button onclick="openChat('viper')">Chat Now</button>
-                    </div>
-                </div>
-            </div>
-
-            <div id="doris" class="profile-content">
-                <div class="model-grid">
-                    <div class="model-card">
-                        <img src="doris1.jpg" alt="Doris">
-                        <h3>Doris</h3>
-                        <p>Ebony goddess ready to play. Let's explore your limits, white boy.</p>
-                        <button onclick="openChat('doris')">Chat Now</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="custom-requests" style="display: none;">
-            <h2>Custom Requests</h2>
-            <p>Submit your personalized JOI requests and let our AI models fulfill your fantasies.</p>
-            <form>
-                <textarea placeholder="Describe your fantasy..."></textarea>
-                <button type="submit">Submit Request</button>
-            </form>
-        </section>
-
-        <section id="live-feed" style="display: none;">
-            <h2>Live Feed</h2>
-            <div class="live-feed">
-                <img src="img1.jpg" alt="Live Feed 1" onclick="openChat('random')">
-                <img src="img2.jpg" alt="Live Feed 2" onclick="openChat('random')">
-                <img src="img3.jpg" alt="Live Feed 3" onclick="openChat('random')">
-                <img src="img4.jpg" alt="Live Feed 4" onclick="openChat('random')">
-                <img src="img5.jpg" alt="Live Feed 5" onclick="openChat('random')">
-                <img src="img6.jpg" alt="Live Feed 6" onclick="openChat('random')">
-                <img src="img7.jpg" alt="Live Feed 7" onclick="openChat('random')">
-                <img src="img8.jpg" alt="Live Feed 8" onclick="openChat('random')">
-                <img src="img9.jpg" alt="Live Feed 9" onclick="openChat('random')">
-            </div>
-        </section>
-    </main>
-
-    <div id="chat-modal">
-        <span class="close-button" onclick="closeChat()">×</span>
-        <h2 id="chat-title"></h2>
-        <div id="chat-area"></div>
-        <input type="text" id="user-input" placeholder="Type your message...">
-        <button id="send-button" onclick="sendMessage()">Send</button>
-    </div>
-
-    <footer>
-        <p>&copy; 2024 JOI AI. All rights reserved.</p>
-    </footer>
-
-    <script>
-        function showCategory(category) {
-            document.querySelectorAll('section').forEach(section => section.style.display = 'none');
-            document.getElementById(category).style.display = 'block';
-        }
-
-        function showProfile(profileId) {
-            document.querySelectorAll('.profile-content').forEach(content => content.style.display = 'none');
-            document.getElementById(profileId).style.display = 'block';
-        }
-
-        function openChat(modelName) {
-            document.getElementById('chat-modal').style.display = 'block';
-            document.getElementById('chat-title').innerText = `Chatting with ${modelName}`;
-        }
-
-        function closeChat() {
-            document.getElementById('chat-modal').style.display = 'none';
-        }
-
-        function sendMessage() {
-            const userInput = document.getElementById('user-input').value;
-            const chatArea = document.getElementById('chat-area');
-            const modelName = document.getElementById('chat-title').innerText.split(' ')[2]; // Extract model name
-
-            // Display user's message
-            const userMessage = document.createElement('div');
-            userMessage.classList.add('message', 'user-message');
-            userMessage.innerText = userInput;
-            chatArea.appendChild(userMessage);
-
-            // Get AI response based on the model
-            const aiResponse = getAIResponse(modelName, userInput);
-
-            // Display AI's message
-            const aiMessage = document.createElement('div');
-            aiMessage.classList.add('message', 'ai-message');
-            aiMessage.innerText = aiResponse;
-            chatArea.appendChild(aiMessage);
-
-            // Clear user input
-            document.getElementById('user-input').value = '';
-
-            // Scroll to the bottom of the chat
-            chatArea.scrollTop = chatArea.scrollHeight;
-        }
-
-        function getAIResponse(modelName, userInput) {
-            if (modelName === 'viper') {
-                const responses = [
-                    "Shut up, bitch.",
-                    "Stroke that fuck dick, pervert.",
-                    "Loser.",
-                    "You're nothing but a dumb white boy, faggot.",
-                    "Beg for it, sissy."
-                ];
-                return responses[Math.floor(Math.random() * responses.length)];
-            } else if (modelName === 'doris') {
-                const responses = [
-                    "Oh, you like that, white boy?",
-                    "Keep stroking it for me, dumb white boy.",
-                    "You're such a pervert, addicted to my nigger cock.",
-                    "I love seeing you get so worked up, white bitch.",
-                    "Nigger cum is all you deserve, nigger loving slut."
-                ];
-                return responses[Math.floor(Math.random() * responses.length)];
-            } else {
-                return "I'm here to help you explore your desires."; // Default response
-            }
-        }
-        function tryLoadImage(img, baseName) {
-            const extensions = ['.jpg', '.png', '.webp'];
-            let index = 0;
-
-            function loadImage() {
-                if (index < extensions.length) {
-                    const src = baseName + extensions[index];
-                    img.onload = () => {
-                        // Image loaded successfully, do nothing
-                    };
-                    img.onerror = () => {
-                        index++;
-                        loadImage(); // Try the next extension
-                    };
-                    img.src = src; // Set the src to start loading
-                } else {
-                    // No image found
-                    img.src = 'placeholder.jpg'; // Use a placeholder image
-                }
-            }
-
-            loadImage();
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const images = document.querySelectorAll('img');
-            images.forEach(img => {
-                const src = img.getAttribute('src');
-                if (src) {
-                    tryLoadImage(img, src.substring(0, src.lastIndexOf('.')));
-                }
-            });
-
-            // Initially show the Virtual Girlfriends category
-            showCategory('virtual-girlfriends');
-            showProfile('viper');
-        });
-    </script>
-
-</body>
-
-</html>
-
-
+        #vip-content p {
+            color
