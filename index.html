@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIPER | EXCLUSIVE</title>
+    <title>VIPER | OFFICIAL SITE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #ff0f5b;
             --accent: #00f2ea;
             --gold: #ffd700;
             --dark: #050505;
-            --glass-panel: rgba(20, 20, 20, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --panel: #111;
+            --border: rgba(255, 255, 255, 0.1);
         }
 
         body {
@@ -22,490 +22,439 @@
             color: #eee;
             font-family: 'Inter', sans-serif;
             margin: 0;
-            padding-bottom: 100px;
-            min-height: 100vh;
+            padding-bottom: 80px;
+            overflow-x: hidden;
         }
 
-        /* PREMIUM HEADER */
-        header {
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 20px 30px;
-            background: rgba(0,0,0,0.8); 
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--glass-border); 
-            position: sticky; top: 0; z-index: 100;
+        /* NAVIGATION TABS */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0;
+            background: rgba(0,0,0,0.9); backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border); z-index: 100;
+            display: flex; justify-content: center; padding: 0 10px;
         }
-        
+        .nav-inner {
+            display: flex; gap: 20px; max-width: 1200px; width: 100%; overflow-x: auto;
+            padding: 15px 0;
+        }
+        .nav-item {
+            color: #888; text-transform: uppercase; font-size: 0.8rem; font-weight: 600;
+            cursor: pointer; padding: 5px 10px; white-space: nowrap; transition: 0.3s;
+            border-radius: 20px;
+        }
+        .nav-item:hover { color: #fff; }
+        .nav-item.active { background: var(--primary); color: #fff; box-shadow: 0 0 15px var(--primary); }
+
+        .logo-area {
+            text-align: center; margin-top: 80px; margin-bottom: 20px;
+        }
         .logo { 
-            font-size: 1.8rem; font-weight: 700; color: #fff; 
-            font-family: 'Cinzel', serif; letter-spacing: 2px;
-            text-shadow: 0 0 10px rgba(255, 15, 91, 0.5);
-            cursor: pointer; user-select: none;
-        }
-        
-        .cta-btn {
-            background: linear-gradient(90deg, var(--primary), #990033);
-            color: #fff; padding: 10px 25px; border-radius: 30px; 
-            text-decoration: none; font-weight: 600; font-size: 0.9rem;
-            box-shadow: 0 0 20px rgba(255, 15, 91, 0.4);
-            border: 1px solid rgba(255,255,255,0.2);
-            transition: 0.3s; display: flex; align-items: center; gap: 8px;
-        }
-        .cta-btn:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(255, 15, 91, 0.8); }
-
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-
-        /* VIDEO PLAYER */
-        .video-frame {
-            position: relative; border-radius: 12px; overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-            border: 1px solid var(--glass-border);
-            background: #000;
-        }
-        
-        .video-overlay {
-            position: absolute; top: 20px; left: 20px; z-index: 10;
-            background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
-            padding: 5px 12px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);
-            display: flex; align-items: center; gap: 8px; cursor: pointer;
-        }
-        .dot { width: 8px; height: 8px; background: #ff0000; border-radius: 50%; box-shadow: 0 0 10px #ff0000; animation: blink 1.5s infinite; }
-        .live-text { font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; }
-
-        video { width: 100%; display: block; max-height: 70vh; }
-
-        /* GALLERY GRID */
-        .section-title { 
-            font-family: 'Cinzel', serif; margin-top: 40px; margin-bottom: 20px; 
-            font-size: 1.5rem; border-bottom: 1px solid #333; padding-bottom: 10px;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        
-        .grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 15px;
-        }
-        
-        .card {
-            position: relative; aspect-ratio: 2/3; background: #111;
-            border-radius: 8px; overflow: hidden; cursor: pointer;
-            transition: 0.3s; border: 1px solid #222;
-        }
-        .card:hover { transform: translateY(-5px); border-color: var(--primary); }
-        .card img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.3s; }
-        .card:hover img { opacity: 1; transform: scale(1.05); }
-        
-        .lock-icon {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            font-size: 2rem; color: rgba(255,255,255,0.8);
-            background: rgba(0,0,0,0.5); padding: 15px; border-radius: 50%;
-            backdrop-filter: blur(5px);
+            font-size: 2.5rem; font-family: 'Cinzel', serif; color: #fff; text-shadow: 0 0 20px var(--primary);
+            cursor: pointer;
         }
 
-        /* CHAT SYSTEM */
-        .chat-float {
-            position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px;
-            background: var(--primary); border-radius: 50%; 
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 10px 30px rgba(255, 15, 91, 0.4);
-            cursor: pointer; z-index: 200; transition: 0.3s;
-            animation: pulse-border 2s infinite;
-        }
-        .chat-float:hover { transform: scale(1.1); }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; display: none; animation: fade 0.4s; }
+        .container.active { display: block; }
 
-        .chat-window {
-            display: none; position: fixed; bottom: 100px; right: 30px;
-            width: 380px; height: 650px; background: rgba(15, 15, 15, 0.95);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border); border-radius: 20px;
-            flex-direction: column; overflow: hidden; z-index: 200;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-        }
-        @media(max-width: 500px) { .chat-window { width: 90%; right: 5%; bottom: 20px; height: 80vh; } .chat-float { display: none; } }
+        @keyframes fade { from {opacity:0; transform:translateY(10px);} to {opacity:1; transform:translateY(0);} }
 
-        .chat-top {
-            padding: 15px; background: rgba(255,255,255,0.03); border-bottom: 1px solid rgba(255,255,255,0.05);
-            display: flex; align-items: center; gap: 15px; position: relative;
+        /* VIDEO & HOME */
+        .video-box {
+            position: relative; border: 1px solid var(--primary); border-radius: 10px;
+            overflow: hidden; box-shadow: 0 0 40px rgba(255,15,91,0.2); background: #000;
         }
-        .avatar { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); }
-        
-        .model-select-btn {
-            font-size: 0.7rem; background: #333; padding: 4px 8px; border-radius: 4px; 
-            cursor: pointer; margin-left: 10px; border: 1px solid #555;
+        .live-tag {
+            position: absolute; top: 15px; left: 15px; background: rgba(255,0,0,0.8);
+            color: #fff; padding: 5px 10px; font-weight: bold; border-radius: 5px;
+            display: flex; align-items: center; gap: 5px; cursor: pointer; z-index: 10;
         }
-        
-        /* MODEL SELECTOR DROPDOWN */
-        .model-menu {
-            display: none; position: absolute; top: 60px; left: 0; right: 0;
-            background: #111; border-bottom: 1px solid var(--primary);
-            z-index: 50; padding: 10px; grid-template-columns: 1fr 1fr 1fr; gap: 5px;
-        }
-        .model-choice {
-            text-align: center; cursor: pointer; padding: 5px; border-radius: 5px; border: 1px solid transparent;
-        }
-        .model-choice:hover { background: #222; border-color: #555; }
-        .model-choice img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-bottom: 5px; }
-        .model-choice span { display: block; font-size: 0.7rem; color: #fff; }
+        .blink { width: 8px; height: 8px; background: #fff; border-radius: 50%; animation: blink 1s infinite; }
 
-        .msgs { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
-        
-        .bubble {
-            max-width: 80%; padding: 12px 16px; border-radius: 18px; font-size: 0.9rem; line-height: 1.5;
-            position: relative; animation: slideUp 0.3s ease;
+        /* MARKETPLACE GRID */
+        .market-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .product-card {
+            background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
+            padding: 20px; text-align: center; transition: 0.3s;
         }
-        .bubble.bot { align-self: flex-start; background: #222; color: #ddd; border-bottom-left-radius: 4px; }
-        .bubble.user { align-self: flex-end; background: var(--primary); color: #fff; border-bottom-right-radius: 4px; }
-        
-        .input-zone {
-            padding: 15px; background: rgba(0,0,0,0.4); border-top: 1px solid rgba(255,255,255,0.05);
-            display: flex; gap: 10px; align-items: center;
+        .product-card:hover { border-color: var(--primary); transform: translateY(-5px); }
+        .price-tag { 
+            display: inline-block; background: var(--gold); color: #000; font-weight: bold; 
+            padding: 5px 15px; border-radius: 20px; margin: 10px 0;
         }
-        .txt-in {
-            flex: 1; background: rgba(255,255,255,0.05); border: none; color: #fff;
-            padding: 12px 20px; border-radius: 25px; outline: none; font-family: inherit;
+
+        /* TRIBUTE HALL */
+        .tribute-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .tribute-img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 5px; opacity: 0.5; }
+        .upload-zone {
+            border: 2px dashed #444; padding: 40px; text-align: center; margin-bottom: 30px;
+            border-radius: 10px; cursor: pointer;
         }
-        .icon-btn {
-            background: transparent; border: none; color: #666; cursor: pointer; font-size: 1.1rem;
+        .upload-zone:hover { border-color: var(--primary); background: rgba(255,15,91,0.05); }
+
+        /* CHAT UI */
+        .chat-widget {
+            position: fixed; bottom: 20px; right: 20px; width: 350px; height: 500px;
+            background: rgba(10,10,10,0.95); border: 1px solid var(--border);
+            border-radius: 15px; display: flex; flex-direction: column; z-index: 200;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5); backdrop-filter: blur(10px);
         }
-        .icon-btn.active { color: var(--accent); }
-        .send-btn {
-            background: var(--primary); border: none; width: 45px; height: 45px; border-radius: 50%;
-            color: #fff; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center;
+        .chat-head { padding: 15px; background: #1a1a1a; border-radius: 15px 15px 0 0; display:flex; justify-content:space-between; align-items:center; }
+        .chat-body { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; }
+        .msg { padding: 8px 12px; border-radius: 10px; max-width: 80%; font-size: 0.9rem; }
+        .msg.bot { background: #333; align-self: flex-start; border-left: 2px solid var(--primary); }
+        .msg.user { background: var(--primary); align-self: flex-end; }
+        .chat-in { padding: 10px; display: flex; gap: 5px; border-top: 1px solid #333; }
+        .chat-input { flex: 1; background: #222; border: none; padding: 10px; color: #fff; border-radius: 5px; outline:none; }
+
+        /* BLOG */
+        .blog-post { background: var(--panel); padding: 20px; margin-bottom: 20px; border-radius: 10px; border: 1px solid var(--border); }
+        .blog-date { color: var(--primary); font-size: 0.8rem; margin-bottom: 5px; }
+        .blog-title { font-family: 'Cinzel'; font-size: 1.2rem; margin-bottom: 10px; }
+
+        /* FORMS */
+        .custom-form input, .custom-form textarea, .custom-form select {
+            width: 100%; padding: 12px; background: #222; border: 1px solid #444;
+            color: #fff; margin-bottom: 10px; border-radius: 5px; box-sizing: border-box;
         }
+        .btn-main {
+            background: var(--primary); color: #fff; padding: 12px 20px; border: none;
+            border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%; text-transform: uppercase;
+        }
+        .btn-main:hover { background: #d00040; }
 
         /* MODALS */
-        .modal-bg {
-            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9);
-            z-index: 1000; align-items: center; justify-content: center;
-            backdrop-filter: blur(5px);
-        }
-        .modal-card {
-            background: #111; border: 1px solid var(--glass-border); padding: 40px;
-            width: 100%; max-width: 400px; text-align: center; border-radius: 20px;
-            box-shadow: 0 0 50px rgba(255, 15, 91, 0.1);
-        }
+        .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:1000; align-items:center; justify-content:center; }
+        .modal-box { background:#111; padding:30px; border:1px solid var(--primary); width:90%; max-width:400px; text-align:center; }
 
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-        @keyframes pulse-border { 0% { box-shadow: 0 0 0 0 rgba(255, 15, 91, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(255, 15, 91, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 15, 91, 0); } }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+        @media(max-width:768px) { .chat-widget { width: 90%; right: 5%; height: 60vh; bottom: 80px; } nav { justify-content: flex-start; } }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo" id="admin-trigger" onclick="handleLogoClick()">JOI<span style="color:var(--primary)">.AI</span></div>
-        <a href="#" onclick="goLive()" class="cta-btn"><i class="fas fa-video"></i> <span>WATCH LIVE</span></a>
-    </header>
+    <nav>
+        <div class="nav-inner">
+            <div class="nav-item active" onclick="showTab('home')">Home</div>
+            <div class="nav-item" onclick="showTab('market')">Store</div>
+            <div class="nav-item" onclick="showTab('customs')">Customs</div>
+            <div class="nav-item" onclick="showTab('tributes')">Tributes</div>
+            <div class="nav-item" onclick="showTab('blog')">Blog</div>
+            <div class="nav-item" onclick="toggleChat()"><i class="fas fa-comments"></i> Chat</div>
+        </div>
+    </nav>
 
-    <div class="container">
-        <div class="video-frame">
-            <div class="video-overlay" onclick="goLive()">
-                <div class="dot"></div> <span class="live-text">LIVE NOW</span>
+    <div class="logo-area" onclick="handleLogoClick()">
+        <div class="logo">JOI.AI</div>
+        <div style="color:var(--primary); letter-spacing:3px; font-size:0.8rem;">OFFICIAL PORTAL</div>
+    </div>
+
+    <!-- HOME TAB -->
+    <div id="home" class="container active">
+        <div class="video-box">
+            <div class="live-tag" onclick="goLive()">
+                <div class="blink"></div> LIVE NOW
             </div>
-            <video id="main-player" controls autoplay muted loop playsinline poster="img1.jpg">
+            <video id="main-player" controls autoplay muted loop playsinline width="100%">
                 <source src="1.mp4" type="video/mp4">
             </video>
         </div>
-
-        <div style="text-align: center; margin-top: 20px;">
-            <button class="cta-btn" style="margin: 0 auto; padding: 15px 40px; font-size: 1.1rem;" onclick="openPay()">
-                UNLOCK VIP ACCESS
-            </button>
-        </div>
-
-        <div class="section-title">
-            <span>EXCLUSIVE ARCHIVE</span>
-            <span style="font-size:0.8rem; color:#666;">128 FILES</span>
-        </div>
-
-        <div class="grid" id="gallery-grid"></div>
-    </div>
-
-    <!-- FLOATING CHAT -->
-    <div class="chat-float" onclick="toggleChat()">
-        <i class="fas fa-comment-alt" style="color:#fff; font-size: 24px;"></i>
-    </div>
-
-    <div class="chat-window" id="chat-win">
-        <div class="chat-top">
-            <img src="https://i.pravatar.cc/150?u=viper" class="avatar" id="current-avatar">
-            <div>
-                <div style="font-weight: 700;" id="current-name">Mistress Viper</div>
-                <div style="font-size: 0.75rem; color: #00f2ea;">● Online</div>
-            </div>
-            <div class="model-select-btn" onclick="toggleModelMenu()"><i class="fas fa-users"></i> Change</div>
-            <div style="flex:1"></div>
-            <i class="fas fa-times" style="cursor:pointer; color:#666;" onclick="toggleChat()"></i>
-        </div>
         
-        <!-- MODEL MENU -->
-        <div class="model-menu" id="model-menu">
-            <div class="model-choice" onclick="setModel('viper')">
-                <img src="https://i.pravatar.cc/150?u=viper"><span>Viper (Dom)</span>
+        <div style="margin-top:20px; text-align:center;">
+            <h2 style="font-family:'Cinzel'">LATEST UPDATES</h2>
+            <div class="market-grid" id="gallery-grid"></div>
+        </div>
+    </div>
+
+    <!-- MARKET TAB -->
+    <div id="market" class="container">
+        <h2 style="text-align:center; font-family:'Cinzel'; color:var(--gold);">PREMIUM CONTENT</h2>
+        <div class="market-grid">
+            <div class="product-card">
+                <i class="fas fa-video" style="font-size:3rem; color:var(--primary); margin-bottom:15px;"></i>
+                <h3>JOI INSTRUCTION 101</h3>
+                <p style="color:#aaa; font-size:0.9rem;">The basics of how to serve me. 10 min 4K video.</p>
+                <div class="price-tag">$14.99</div>
+                <button class="btn-main" onclick="openPay()">BUY NOW</button>
             </div>
-            <div class="model-choice" onclick="setModel('angel')">
-                <img src="https://i.pravatar.cc/150?u=angel"><span>Angel (GFE)</span>
+            <div class="product-card">
+                <i class="fas fa-bullseye" style="font-size:3rem; color:var(--accent); margin-bottom:15px;"></i>
+                <h3>SPH HUMILIATION</h3>
+                <p style="color:#aaa; font-size:0.9rem;">You know you deserve it. Brutal verbal. 8 min.</p>
+                <div class="price-tag">$19.99</div>
+                <button class="btn-main" onclick="openPay()">BUY NOW</button>
             </div>
-            <div class="model-choice" onclick="setModel('jade')">
-                <img src="https://i.pravatar.cc/150?u=jade"><span>Jade (Sassy)</span>
+            <div class="product-card">
+                <i class="fas fa-microphone" style="font-size:3rem; color:#ff00cc; margin-bottom:15px;"></i>
+                <h3>AUDIO PACK VOL 1</h3>
+                <p style="color:#aaa; font-size:0.9rem;">5 dirty audio files for your late nights.</p>
+                <div class="price-tag">$9.99</div>
+                <button class="btn-main" onclick="openPay()">BUY NOW</button>
             </div>
         </div>
+    </div>
 
-        <div class="msgs" id="chat-box"></div>
-        <div class="input-zone">
-            <button class="icon-btn active" id="voice-btn" onclick="toggleVoice()" title="Toggle Voice"><i class="fas fa-volume-up"></i></button>
-            <input type="text" class="txt-in" id="chat-in" placeholder="Type here..." autocomplete="off" onkeypress="if(event.key==='Enter') send()">
-            <button class="send-btn" onclick="send()"><i class="fas fa-paper-plane"></i></button>
+    <!-- CUSTOMS TAB -->
+    <div id="customs" class="container">
+        <div class="product-card" style="max-width:600px; margin:0 auto; text-align:left;">
+            <h2 style="text-align:center; color:var(--primary);">REQUEST CUSTOM VIDEO</h2>
+            <p style="text-align:center; color:#aaa; margin-bottom:20px;">I will say your name and do exactly what you want.</p>
+            
+            <div class="custom-form">
+                <label>Your Name</label>
+                <input type="text" id="cust-name" placeholder="What should I call you?">
+                
+                <label>Video Type</label>
+                <select id="cust-type">
+                    <option>JOI (Instruction)</option>
+                    <option>Femdom / Humiliation</option>
+                    <option>Sissy Training</option>
+                    <option>Romantic / GFE</option>
+                </select>
+                
+                <label>Specific Instructions (Script)</label>
+                <textarea rows="5" id="cust-script" placeholder="Describe outfit, words, and actions..."></textarea>
+                
+                <div style="background:#222; padding:10px; border:1px solid var(--gold); margin:10px 0; text-align:center;">
+                    ESTIMATED COST: <span style="color:var(--gold); font-weight:bold;">$50.00 / min</span>
+                </div>
+                
+                <button class="btn-main" onclick="submitCustom()">PROCEED TO PAYMENT</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TRIBUTES TAB -->
+    <div id="tributes" class="container">
+        <h2 style="text-align:center; font-family:'Cinzel'">THE SHRINE</h2>
+        <p style="text-align:center; color:#888; margin-bottom:30px;">Pay your respects. Upload your tribute.</p>
+        
+        <div class="upload-zone" onclick="fakeUpload()">
+            <i class="fas fa-cloud-upload-alt" style="font-size:3rem; color:#444;"></i>
+            <h3>CLICK TO UPLOAD TRIBUTE</h3>
+            <p style="font-size:0.8rem; color:#666;">JPG, PNG, MP4 accepted.</p>
+        </div>
+
+        <div class="tribute-grid" id="tribute-wall">
+            <!-- Placeholders -->
+            <img src="https://via.placeholder.com/150/111/333?text=Locked" class="tribute-img">
+            <img src="https://via.placeholder.com/150/111/333?text=Locked" class="tribute-img">
+            <img src="https://via.placeholder.com/150/111/333?text=Locked" class="tribute-img">
+        </div>
+    </div>
+
+    <!-- BLOG TAB -->
+    <div id="blog" class="container">
+        <div class="blog-post">
+            <div class="blog-date">OCTOBER 24, 2025</div>
+            <div class="blog-title">Why you need to be obedient</div>
+            <p style="color:#ccc; line-height:1.6;">Obedience is not a choice, it is a lifestyle. When you submit to me, you find true freedom...</p>
+        </div>
+        <div class="blog-post">
+            <div class="blog-date">OCTOBER 20, 2025</div>
+            <div class="blog-title">New Collection Dropping Soon</div>
+            <p style="color:#ccc; line-height:1.6;">I have been shooting some very special content with my new latex outfit. Stay tuned...</p>
+        </div>
+    </div>
+
+    <!-- CHAT WIDGET -->
+    <div class="chat-widget" id="chat-box" style="display:none;">
+        <div class="chat-head">
+            <span style="font-weight:bold; color:var(--primary);">VIPER AI</span>
+            <i class="fas fa-times" style="cursor:pointer" onclick="toggleChat()"></i>
+        </div>
+        <div class="chat-body" id="msgs"></div>
+        <div class="chat-in">
+            <button onclick="toggleVoice()" id="v-btn" style="background:none; border:none; color:#666; cursor:pointer;"><i class="fas fa-volume-up"></i></button>
+            <input type="text" class="chat-input" id="c-in" placeholder="Say something..." onkeypress="if(event.key==='Enter') send()">
+            <button onclick="send()" style="background:var(--primary); border:none; color:#fff; width:30px; border-radius:50%; cursor:pointer;"><i class="fas fa-arrow-right"></i></button>
+        </div>
+    </div>
+
+    <!-- ADMIN MODAL -->
+    <div id="admin-modal" class="modal">
+        <div class="modal-box">
+            <h3 style="color:var(--primary)">SYSTEM CONFIG</h3>
+            <p>OpenRouter API Key (Brain):</p>
+            <input type="password" id="key-brain" class="custom-form" style="width:100%">
+            <p>ElevenLabs API Key (Voice):</p>
+            <input type="password" id="key-voice" class="custom-form" style="width:100%">
+            <br><br>
+            <button class="btn-main" onclick="saveKeys()">SAVE ALL</button>
         </div>
     </div>
 
     <!-- PAYMENT MODAL -->
-    <div class="modal-bg" id="pay-modal">
-        <div class="modal-card">
-            <h2 style="font-family:'Cinzel'; color:var(--gold); margin-top:0;">VIP ACCESS</h2>
-            <p style="color:#aaa; font-size:0.9rem; margin-bottom: 30px;">
-                Secure access to the full archive and private shows.
-            </p>
-            <div style="background:#222; padding:15px; border-radius:10px; margin-bottom:15px; cursor:pointer; border:1px solid #333;" onclick="goLive()">
-                <div style="font-weight:bold; color:#fff;">📺 LIVE CAMS (Instant)</div>
-                <div style="font-size:0.8rem; color:#666;">Verified 18+ Access</div>
+    <div id="pay-modal" class="modal">
+        <div class="modal-box">
+            <h2 style="color:var(--gold)">CHECKOUT</h2>
+            <p>To complete this transaction, send payment via:</p>
+            <div style="text-align:left; background:#000; padding:15px; font-size:0.9rem; word-break:break-all;">
+                <p><strong>CASHAPP:</strong> <span id="disp-cash"></span></p>
+                <p><strong>BTC:</strong> <span id="disp-btc"></span></p>
             </div>
-            <div style="background:#222; padding:15px; border-radius:10px; margin-bottom:15px; cursor:pointer; border:1px solid #333;" onclick="toggleCrypto()">
-                <div style="font-weight:bold; color:var(--gold);">🔐 CRYPTO / CASHAPP ($20)</div>
-                <div style="font-size:0.8rem; color:#666;">Lifetime Archive Access</div>
-            </div>
-            <div id="crypto-box" style="display:none; text-align:left; background:#000; padding:15px; font-size:0.8rem; border-radius:8px; word-break:break-all;">
-                <p><strong>BTC:</strong> <span id="btc">bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh</span></p>
-                <p><strong>CashApp:</strong> $YOUR_TAG</p>
-                <p style="color:#666; font-size:0.7rem;">Email proof to vip@site.com</p>
-            </div>
-            <div style="margin-top:20px; color:#666; cursor:pointer; font-size:0.8rem;" onclick="document.getElementById('pay-modal').style.display='none'">Close Window</div>
-        </div>
-    </div>
-
-    <!-- HIDDEN API KEY MODAL -->
-    <div class="modal-bg" id="key-modal">
-        <div class="modal-card" style="border-color: var(--accent);">
-            <h3 style="color:#fff;">🔧 SYSTEM ADMIN</h3>
-            <p style="color:#aaa;">Enter OpenRouter API Key:</p>
-            <input type="password" id="api-key-input" style="width:100%; padding:10px; background:#222; border:1px solid #444; color:#fff; border-radius:5px; margin-bottom:15px;">
-            <button class="cta-btn" style="width:100%; justify-content:center;" onclick="saveKey()">SAVE KEY</button>
+            <p style="font-size:0.8rem; color:#aaa; margin-top:15px;">Then email proof to: vip@site.com</p>
+            <button style="margin-top:20px; background:transparent; border:none; color:#666; cursor:pointer" onclick="document.getElementById('pay-modal').style.display='none'">Close</button>
         </div>
     </div>
 
     <script>
-        // CONFIG
+        // ==========================================
+        // CONFIGURATION - EDIT THIS SECTION ONLY
+        // ==========================================
         const REPO_USER = "faded20666er";
         const REPO_NAME = "joi-ai-site-beta";
-        const AFFILIATE_LINK = "https://t.acrsmartcam.com/396104/3664/0?bo=Array&file_id=300184&po=6533&aff_sub5=SF_006OG000004lmDN&aff_sub4=AT_0002";
-
-        // MODEL DATA
-        const MODELS = {
-            'viper': {
-                name: "Mistress Viper",
-                avatar: "https://i.pravatar.cc/150?u=viper",
-                pitch: 0.8,
-                prompt: "You are Mistress Viper. You are dominant, confident, and seductive. You are here to build a connection with your submissive. Flirt, tease, and degrade them slightly. Do NOT constantly ask them to go to the live site. Only mention the live cam if they ask for nudity or video. Otherwise, focus on conversation."
-            },
-            'angel': {
-                name: "Angel",
-                avatar: "https://i.pravatar.cc/150?u=angel",
-                pitch: 1.2,
-                prompt: "You are Angel. You are a sweet, bubbly 19-year-old college girl. You love your fans and want to be their girlfriend. You use emojis. You are shy but naughty. Only mention your live cam if they ask to see you naked. Be chatty and cute."
-            },
-            'jade': {
-                name: "Jade",
-                avatar: "https://i.pravatar.cc/150?u=jade",
-                pitch: 1.0,
-                prompt: "You are Jade. You are an ebony queen, sassy and high energy. You call the user 'baby' or 'honey'. You are direct and fun. You like to party. Only send them to the live cam if things get really hot."
-            }
-        };
+        const CASHAPP_TAG = "$mrsmokeshaq";  // <--- PUT CASHAPP HERE
+        const BTC_WALLET  = "bc1qg5c5r8vws63w4s78yw6znp80hmshlejk6mjcx6"; // <--- PUT BTC HERE
+        const AFFILIATE   = "https://t.acrsmartcam.com/396104/3664/0?bo=Array&file_id=300184&po=6533&aff_sub5=SF_006OG000004lmDN&aff_sub4=AT_0002";
+        // ==========================================
 
         // STATE
-        let currentModel = 'viper';
+        let chatHist = [{role:"system", content:"You are Mistress Viper. Dominant, seductive. Flirt and tease. Short answers."}];
+        let voiceOn = true;
         let clickCount = 0;
-        let voiceEnabled = true;
-        let chatHist = [];
 
         // INIT
+        setTimeout(() => addMsg("I'm waiting for you...", 'bot'), 1000);
         scanRepo();
-        setModel('viper');
+        document.getElementById('disp-cash').innerText = CASHAPP_TAG;
+        document.getElementById('disp-btc').innerText = BTC_WALLET;
 
-        // FUNCTIONS
-        function goLive() { window.open(AFFILIATE_LINK, '_blank'); }
-        function openPay() { document.getElementById('pay-modal').style.display = 'flex'; }
-        function toggleCrypto() { 
-            const b = document.getElementById('crypto-box');
-            b.style.display = b.style.display === 'block' ? 'none' : 'block';
+        // TABS
+        function showTab(id) {
+            document.querySelectorAll('.container').forEach(d => d.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(d => d.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            const map = {'home':0, 'market':1, 'customs':2, 'tributes':3, 'blog':4};
+            document.querySelectorAll('.nav-item')[map[id]].classList.add('active');
         }
 
-        function toggleChat() {
-            const w = document.getElementById('chat-win');
-            const f = document.querySelector('.chat-float');
-            if(w.style.display === 'flex') {
-                w.style.display = 'none';
-                if(window.innerWidth > 500) f.style.display = 'flex';
-            } else {
-                w.style.display = 'flex';
-                f.style.display = 'none';
-            }
+        // ACTIONS
+        function goLive() { window.open(AFFILIATE, '_blank'); }
+        function openPay() { document.getElementById('pay-modal').style.display='flex'; }
+        function toggleChat() { 
+            const c = document.getElementById('chat-box');
+            c.style.display = c.style.display==='none' ? 'flex' : 'none';
         }
-
-        // MODEL SWITCHER
-        function toggleModelMenu() {
-            const m = document.getElementById('model-menu');
-            m.style.display = m.style.display === 'grid' ? 'none' : 'grid';
-        }
-
-        function setModel(id) {
-            currentModel = id;
-            const m = MODELS[id];
-            
-            // Update UI
-            document.getElementById('current-name').innerText = m.name;
-            document.getElementById('current-avatar').src = m.avatar;
-            document.getElementById('model-menu').style.display = 'none';
-            
-            // Reset Chat
-            const box = document.getElementById('chat-box');
-            box.innerHTML = '';
-            chatHist = [{ role: "system", content: m.prompt }];
-            
-            // Greeting
-            setTimeout(() => {
-                let greet = "Hello.";
-                if(id === 'viper') greet = "I'm waiting... impress me.";
-                if(id === 'angel') greet = "Hi! 💕 I'm so bored in my dorm...";
-                if(id === 'jade') greet = "Hey baby, you ready for this?";
-                addMsg(greet, 'bot');
-                speak(greet);
-            }, 500);
-        }
-
-        // TEXT TO SPEECH
         function toggleVoice() {
-            voiceEnabled = !voiceEnabled;
-            const btn = document.getElementById('voice-btn');
-            btn.className = voiceEnabled ? 'icon-btn active' : 'icon-btn';
-            btn.innerHTML = voiceEnabled ? '<i class="fas fa-volume-up"></i>' : '<i class="fas fa-volume-mute"></i>';
+            voiceOn = !voiceOn;
+            document.getElementById('v-btn').style.color = voiceOn ? 'var(--primary)' : '#666';
         }
 
-        function speak(text) {
-            if(!voiceEnabled || !window.speechSynthesis) return;
-            // Cancel previous speech
-            window.speechSynthesis.cancel();
-
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.pitch = MODELS[currentModel].pitch;
-            utterance.rate = 1.0;
-            
-            // Try to find a female voice
-            const voices = window.speechSynthesis.getVoices();
-            const female = voices.find(v => v.name.includes('Female') || v.name.includes('Zira') || v.name.includes('Samantha') || v.name.includes('Google US English'));
-            if(female) utterance.voice = female;
-
-            window.speechSynthesis.speak(utterance);
+        // CUSTOMS
+        function submitCustom() {
+            const n = document.getElementById('cust-name').value;
+            const s = document.getElementById('cust-script').value;
+            if(!n || !s) return alert("Fill out the details, slave.");
+            alert("Request Generated. Please complete payment ($50 min) in the next window to finalize.");
+            openPay();
         }
 
-        // HIDDEN ADMIN MENU
+        // TRIBUTE UPLOAD FAKE
+        function fakeUpload() {
+            const i = document.createElement('input');
+            i.type = 'file';
+            i.click();
+            i.onchange = () => {
+                alert("Upload Initiated... \n\nNOTE: To verify your tribute, you must email the screenshot of your payment along with this file to: vip@site.com");
+            };
+        }
+
+        // ADMIN KEYS
         function handleLogoClick() {
             clickCount++;
-            if(clickCount === 3) {
-                document.getElementById('key-modal').style.display = 'flex';
-                document.getElementById('api-key-input').value = localStorage.getItem('viper_key') || '';
-                clickCount = 0;
+            if(clickCount===3) {
+                document.getElementById('admin-modal').style.display='flex';
+                document.getElementById('key-brain').value = localStorage.getItem('viper_brain')||'';
+                document.getElementById('key-voice').value = localStorage.getItem('viper_voice')||'';
+                clickCount=0;
             }
-            setTimeout(() => clickCount = 0, 1000);
+            setTimeout(()=>clickCount=0, 1000);
+        }
+        function saveKeys() {
+            localStorage.setItem('viper_brain', document.getElementById('key-brain').value);
+            localStorage.setItem('viper_voice', document.getElementById('key-voice').value);
+            document.getElementById('admin-modal').style.display='none';
+            alert("System Updated.");
         }
 
-        function saveKey() {
-            const k = document.getElementById('api-key-input').value.trim();
-            if(k) {
-                localStorage.setItem('viper_key', k);
-                alert("Key Saved! Chat should work now.");
-                document.getElementById('key-modal').style.display = 'none';
-            }
-        }
-
-        // CHAT LOGIC
+        // CHAT & VOICE
         async function send() {
-            const i = document.getElementById('chat-in');
-            const txt = i.value.trim();
+            const inp = document.getElementById('c-in');
+            const txt = inp.value.trim();
             if(!txt) return;
-
             addMsg(txt, 'user');
-            i.value = '';
+            inp.value = '';
 
-            const key = localStorage.getItem('viper_key');
-            if(!key) {
-                setTimeout(() => addMsg("⚠️ SYSTEM ERROR: Admin Key Missing. Triple-click the logo to fix.", 'bot'), 500);
-                return;
-            }
+            const key = localStorage.getItem('viper_brain');
+            if(!key) return setTimeout(()=>addMsg("Error: Brain disconnected (Check Admin)",'bot'), 500);
 
-            // Real API Call
-            chatHist.push({ role: "user", content: txt });
+            chatHist.push({role:"user", content:txt});
+
             try {
                 const r = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-                    method: "POST",
-                    headers: {
-                        "Authorization": `Bearer ${key}`,
-                        "Content-Type": "application/json",
-                        "HTTP-Referer": window.location.href,
-                    },
-                    body: JSON.stringify({
-                        "model": "gryphe/mythomax-l2-13b",
-                        "messages": chatHist,
-                        "temperature": 0.9,
-                        "max_tokens": 150
-                    })
+                    method:"POST", headers:{"Authorization":`Bearer ${key}`, "Content-Type":"application/json", "HTTP-Referer":window.location.href},
+                    body:JSON.stringify({model:"gryphe/mythomax-l2-13b", messages:chatHist})
                 });
                 const d = await r.json();
-                if(d.error) throw d.error;
                 const reply = d.choices[0].message.content;
-                chatHist.push({ role: "assistant", content: reply });
-                
+                chatHist.push({role:"assistant", content:reply});
                 addMsg(reply, 'bot');
-                speak(reply);
-
-            } catch(e) {
-                console.error(e);
-                addMsg("Connection failed.", 'bot');
-            }
+                if(voiceOn) speak(reply);
+            } catch(e) { addMsg("Connection error.", 'bot'); }
         }
 
-        function addMsg(txt, who) {
+        function addMsg(txt, role) {
             const d = document.createElement('div');
-            d.className = `bubble ${who}`;
+            d.className = `msg ${role}`;
             d.innerText = txt;
-            const b = document.getElementById('chat-box');
-            b.appendChild(d);
-            b.scrollTop = b.scrollHeight;
+            document.getElementById('msgs').appendChild(d);
+            document.getElementById('msgs').scrollTop = 99999;
         }
 
-        // GALLERY SCANNER
+        async function speak(txt) {
+            const vKey = localStorage.getItem('viper_voice');
+            if(!vKey) {
+                const u = new SpeechSynthesisUtterance(txt);
+                u.pitch = 0.8;
+                window.speechSynthesis.speak(u);
+                return;
+            }
+            try {
+                const r = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/21m00Tcm4TlvDq8ikWAM`, {
+                    method: "POST",
+                    headers: { "xi-api-key": vKey, "Content-Type": "application/json" },
+                    body: JSON.stringify({ text: txt, model_id: "eleven_monolingual_v1" })
+                });
+                const blob = await r.blob();
+                const aud = new Audio(URL.createObjectURL(blob));
+                aud.play();
+            } catch(e) { console.log("Voice Error", e); }
+        }
+
+        // REPO SCAN
         async function scanRepo() {
             const g = document.getElementById('gallery-grid');
             try {
                 const r = await fetch(`https://api.github.com/repos/${REPO_USER}/${REPO_NAME}/contents/`);
                 const f = await r.json();
-                g.innerHTML = '';
+                let count = 0;
                 f.forEach(file => {
+                    if(count >= 6) return; // Limit homepage items
                     const n = file.name.toLowerCase();
-                    if((n.endsWith('.jpg')||n.endsWith('.webp')||n.endsWith('.mp4')) && !n.includes('audio')) {
-                        const c = document.createElement('div');
-                        c.className = 'card';
-                        
+                    if((n.endsWith('.jpg')||n.endsWith('.mp4')) && !n.includes('audio')) {
+                        const d = document.createElement('div');
+                        d.className = 'product-card';
+                        d.style.padding = '0'; d.style.overflow='hidden';
                         if(n.endsWith('.mp4')) {
-                            c.innerHTML = `<video src="${file.download_url}" muted loop onmouseover="this.play()" onmouseout="this.pause()"></video>`;
-                            c.onclick = () => { document.getElementById('main-player').src = file.download_url; document.getElementById('main-player').play(); window.scrollTo(0,0); };
+                            d.innerHTML = `<video src="${file.download_url}" style="width:100%" muted loop onmouseover="this.play()" onmouseout="this.pause()"></video>`;
                         } else {
-                            c.innerHTML = `<img src="${file.download_url}"><div class="lock-icon"><i class="fas fa-lock"></i></div>`;
-                            c.onclick = openPay;
+                            d.innerHTML = `<img src="${file.download_url}" style="width:100%">`;
                         }
-                        g.appendChild(c);
+                        g.appendChild(d);
+                        count++;
                     }
                 });
-            } catch(e) { console.log(e); }
+            } catch(e){}
         }
     </script>
 </body>
