@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <title>JOI AI | VIP LOUNGE</title>
+    <title>JOI AI | MISTRESS VIPER</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
@@ -12,9 +11,8 @@
             --neon-pink: #ff0055;
             --neon-blue: #00f3ff;
             --neon-gold: #ffd700;
-            --neon-green: #00ff41;
             --bg-dark: #050505;
-            --glass: rgba(20, 20, 20, 0.95);
+            --glass: rgba(10, 10, 10, 0.95);
         }
 
         body {
@@ -23,100 +21,83 @@
             color: #eee;
             font-family: 'Rajdhani', sans-serif;
             margin: 0;
+            overflow-x: hidden;
             padding-bottom: 80px;
         }
 
         /* HEADER */
         header {
             display: flex; justify-content: space-between; align-items: center; padding: 15px 20px;
-            background: rgba(0,0,0,0.95); border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 100;
+            background: rgba(0,0,0,0.9); border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 100;
         }
-        .logo { font-size: 1.8rem; font-weight: 700; color: #fff; font-family: 'Orbitron'; }
-        .status-dot {
-            height: 10px; width: 10px; background-color: var(--neon-green);
-            border-radius: 50%; display: inline-block; margin-right: 5px;
-            box-shadow: 0 0 10px var(--neon-green); animation: pulse 2s infinite;
-        }
-
-        /* BUTTONS */
-        .btn {
-            background: linear-gradient(45deg, #111, #222); border: 1px solid var(--neon-pink); color: var(--neon-pink);
-            padding: 10px 20px; font-family: 'Orbitron'; cursor: pointer; transition: 0.3s; text-transform: uppercase;
-            font-size: 0.8rem; clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
-        }
-        .btn:hover { background: var(--neon-pink); color: #fff; box-shadow: 0 0 15px var(--neon-pink); }
-        .btn-gold { border-color: var(--neon-gold); color: var(--neon-gold); }
+        .logo { font-size: 1.5rem; font-weight: 700; color: #fff; font-family: 'Orbitron'; }
         
-        /* HERO & LAYOUT */
+        /* LAYOUT */
         .container { max-width: 1400px; margin: 0 auto; padding: 10px; }
+        
         .hero-video {
             width: 100%; border: 1px solid var(--neon-blue); background: #000;
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.15); margin-bottom: 15px; position: relative;
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.1); margin-bottom: 15px;
         }
-        video { width: 100%; display: block; max-height: 70vh; }
+        video { width: 100%; display: block; max-height: 60vh; }
 
-        /* MASONRY GALLERY */
+        /* GALLERY */
         .masonry-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 8px; margin-top: 20px;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 5px; margin-top: 20px;
         }
         .gallery-item {
             position: relative; overflow: hidden; border: 1px solid #222;
             background: #000; aspect-ratio: 2/3; cursor: pointer;
         }
-        .gallery-item img, .gallery-item video { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; transition: 0.3s; }
-        .gallery-item:hover img, .gallery-item:hover video { opacity: 1; transform: scale(1.05); }
-        .media-type {
-            position: absolute; top: 5px; right: 5px; background: rgba(0,0,0,0.7);
-            padding: 2px 6px; border-radius: 4px; font-size: 10px; color: #fff;
-        }
+        .gallery-item img, .gallery-item video { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
+        .gallery-item:hover img { opacity: 1; }
 
-        /* 💬 ADVANCED CHAT INTERFACE */
+        /* 🧠 ADVANCED CHAT UI */
         .chat-widget {
-            position: fixed; bottom: 20px; right: 20px; width: 360px; height: 550px;
+            position: fixed; bottom: 20px; right: 20px; width: 360px; height: 600px;
             background: var(--glass); border: 1px solid var(--neon-pink);
-            border-radius: 15px; display: none; flex-direction: column;
-            z-index: 2000; box-shadow: 0 0 30px rgba(255, 0, 85, 0.2);
-            backdrop-filter: blur(10px);
+            border-radius: 12px; display: none; flex-direction: column;
+            z-index: 2000; box-shadow: 0 0 40px rgba(255, 0, 85, 0.3);
+            backdrop-filter: blur(15px);
         }
         .chat-header {
-            padding: 15px; background: rgba(255,0,85,0.1); border-bottom: 1px solid #333;
+            padding: 15px; background: linear-gradient(90deg, #222, #111);
+            border-bottom: 1px solid var(--neon-pink); border-radius: 12px 12px 0 0;
             display: flex; align-items: center; justify-content: space-between;
-            border-radius: 15px 15px 0 0;
         }
-        .chat-avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--neon-green); margin-right: 12px; object-fit: cover;}
+        .avatar-ring {
+            width: 42px; height: 42px; border-radius: 50%; padding: 2px;
+            background: linear-gradient(45deg, var(--neon-pink), var(--neon-blue));
+        }
+        .chat-avatar { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background: #000; }
         
         .chat-messages {
             flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px;
-            scrollbar-width: thin; scrollbar-color: var(--neon-pink) #111;
+            scroll-behavior: smooth;
         }
-        .msg { max-width: 85%; padding: 12px; border-radius: 12px; font-size: 0.95rem; line-height: 1.4; position: relative; }
-        .msg.bot { align-self: flex-start; background: #1a1a1a; border-left: 3px solid var(--neon-pink); color: #ddd; }
-        .msg.user { align-self: flex-end; background: linear-gradient(135deg, var(--neon-pink), #b00); color: #fff; border-bottom-right-radius: 2px;}
         
-        /* Audio Player Styling */
+        .msg { max-width: 80%; padding: 10px 14px; border-radius: 12px; font-size: 0.9rem; line-height: 1.4; position: relative; animation: fadeIn 0.3s ease; }
+        .msg.bot { align-self: flex-start; background: #1a1a1a; border-left: 3px solid var(--neon-pink); color: #ddd; }
+        .msg.user { align-self: flex-end; background: var(--neon-pink); color: #fff; border-bottom-right-radius: 2px; }
+        
         .msg.audio { 
-            background: #000; border: 1px solid var(--neon-gold); 
-            display: flex; align-items: center; gap: 12px; cursor: pointer; padding: 10px 15px;
+            background: #080808; border: 1px solid var(--neon-gold); cursor: pointer;
+            display: flex; align-items: center; gap: 10px;
         }
-        .play-btn { 
-            width: 30px; height: 30px; background: var(--neon-gold); border-radius: 50%; 
-            display: flex; align-items: center; justify-content: center; color: #000; font-size: 12px;
-        }
-
-        .typing-indicator {
-            font-size: 0.7rem; color: #888; font-style: italic; margin-left: 15px; display: none;
-        }
+        
+        .typing { font-size: 0.7rem; color: #666; margin-left: 20px; margin-bottom: 5px; font-style: italic; display: none; }
 
         .chat-input-area {
-            padding: 15px; border-top: 1px solid #333; display: flex; gap: 10px; background: rgba(0,0,0,0.5);
-            border-radius: 0 0 15px 15px;
+            padding: 15px; border-top: 1px solid #333; display: flex; gap: 10px; background: rgba(0,0,0,0.8);
+            border-radius: 0 0 12px 12px;
         }
         .chat-input {
-            flex: 1; background: #111; border: 1px solid #444; color: #fff;
-            padding: 12px; border-radius: 25px; outline: none; font-family: inherit;
+            flex: 1; background: #222; border: 1px solid #444; color: #fff;
+            padding: 12px; border-radius: 20px; outline: none;
         }
-        .chat-toggle-btn {
+        
+        .chat-toggle {
             position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px;
             background: var(--neon-pink); border-radius: 50%; display: flex;
             align-items: center; justify-content: center; font-size: 24px; color: #fff;
@@ -124,287 +105,282 @@
             animation: bounce 3s infinite;
         }
 
-        /* MODAL */
-        .modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95); z-index: 3000; justify-content: center; align-items: center;
+        /* BTN */
+        .btn {
+            background: #111; color: var(--neon-gold); border: 1px solid var(--neon-gold);
+            padding: 8px 16px; font-family: 'Orbitron'; cursor: pointer; text-transform: uppercase; font-size: 0.8rem;
         }
-        .modal-content {
-            background: #111; border: 2px solid var(--neon-gold); padding: 30px;
-            max-width: 500px; width: 90%; text-align: center; position: relative;
-        }
+        .btn:hover { background: var(--neon-gold); color: #000; }
 
-        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-10px);} 60% {transform: translateY(-5px);} }
-        @keyframes pulse { 0% {opacity: 1;} 50% {opacity: 0.5;} 100% {opacity: 1;} }
+        /* MODAL */
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 3000; align-items: center; justify-content: center; }
+        .modal-box { background: #111; border: 1px solid var(--neon-gold); padding: 30px; width: 90%; max-width: 400px; text-align: center; }
+
+        @keyframes bounce { 0%, 100% {transform: translateY(0);} 50% {transform: translateY(-10px);} }
+        @keyframes fadeIn { from {opacity: 0; transform: translateY(10px);} to {opacity: 1; transform: translateY(0);} }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo"><span class="status-dot"></span>JOI<span class="neon-blue">.AI</span></div>
-        <button class="btn btn-gold" onclick="openCreatorModal()">SELL CONTENT</button>
+        <div class="logo">JOI<span style="color:var(--neon-blue)">.AI</span></div>
+        <button class="btn" onclick="openCreator()">PARTNER</button>
     </header>
 
     <div class="container">
-        <!-- Main Video Player -->
         <div class="hero-video">
             <video id="main-player" controls autoplay muted loop playsinline poster="img1.jpg">
                 <source src="1.mp4" type="video/mp4">
             </video>
         </div>
-
-        <div style="display:flex; justify-content:center; gap:10px; margin-bottom:20px;">
-             <button class="btn" onclick="triggerPayment('UNLOCK FEED')">VIP FEED</button>
-             <button class="btn btn-gold" onclick="triggerPayment('JOIN VIP')">UNLOCK ALL</button>
+        <div style="text-align:center; margin-bottom:20px;">
+            <button class="btn" onclick="pay('UNLOCK ALL')">UNLOCK FULL SITE ($19.99)</button>
         </div>
-
-        <h2 class="neon-pink" id="gallery-title">LOADING ARCHIVE...</h2>
+        <h2 id="gallery-title" style="color:var(--neon-pink); font-size:1rem;">ARCHIVE</h2>
         <div class="masonry-grid" id="gallery-grid"></div>
     </div>
 
-    <!-- 💬 FLOATING CHAT WIDGET -->
-    <div class="chat-toggle-btn" onclick="toggleChat()">
-        <i class="fas fa-comment-dots"></i>
-    </div>
-
+    <!-- CHAT UI -->
+    <div class="chat-toggle" onclick="toggleChat()"><i class="fas fa-comment"></i></div>
+    
     <div class="chat-widget" id="chat-widget">
         <div class="chat-header">
-            <div style="display:flex; align-items:center;">
-                <img src="https://i.pravatar.cc/150?u=a042581f4e29026024d" class="chat-avatar">
+            <div style="display:flex; align-items:center; gap:10px;">
+                <div class="avatar-ring"><img src="https://i.pravatar.cc/150?u=viper" class="chat-avatar"></div>
                 <div>
                     <div style="font-weight:bold; color:#fff;">Mistress Viper</div>
-                    <div style="font-size:0.7rem; color:var(--neon-green);">● Online & Dominant</div>
+                    <div style="font-size:0.7rem; color:var(--neon-green);">● Online</div>
                 </div>
             </div>
-            <i class="fas fa-times" style="cursor:pointer; color:#fff;" onclick="toggleChat()"></i>
+            <i class="fas fa-times" style="cursor:pointer; color:#aaa;" onclick="toggleChat()"></i>
         </div>
         
-        <div class="chat-messages" id="chat-box">
-            <div class="msg bot">I see you lurking... Are you going to be a good boy and say hello? 💋</div>
-        </div>
-        
-        <div class="typing-indicator" id="typing">Mistress Viper is recording audio...</div>
+        <div class="chat-messages" id="chat-box"></div>
+        <div class="typing" id="typing">Viper is typing...</div>
         
         <div class="chat-input-area">
-            <input type="text" class="chat-input" id="user-input" placeholder="Type here..." onkeypress="handleEnter(event)">
-            <button class="btn" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+            <input type="text" class="chat-input" id="user-input" placeholder="Message Viper..." onkeypress="handleEnter(event)" autocomplete="off">
+            <button class="btn" style="border-radius:50%; width:40px; height:40px; padding:0;" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
         </div>
     </div>
 
-    <!-- 💰 PAYMENT MODAL -->
+    <!-- PAYMENT -->
     <div id="pay-modal" class="modal">
-        <div class="modal-content">
-            <span style="position:absolute; top:10px; right:15px; cursor:pointer; font-size:20px;" onclick="document.getElementById('pay-modal').style.display='none'">&times;</span>
-            <h2 style="color:var(--neon-gold);" id="pay-title">VIP ACCESS</h2>
-            <p>Unlock everything for $19.99</p>
-            <button id="stripe-btn" class="btn btn-gold" style="width:100%; padding:15px; font-size:1rem;">SECURE CHECKOUT</button>
-        </div>
-    </div>
-
-    <!-- 🤝 CREATOR MODAL -->
-    <div id="creator-modal" class="modal">
-        <div class="modal-content">
-            <span style="position:absolute; top:10px; right:15px; cursor:pointer; font-size:20px;" onclick="document.getElementById('creator-modal').style.display='none'">&times;</span>
-            <h2 class="neon-blue">PARTNER PROGRAM</h2>
-            <p style="color:#ccc;">Upload your content. Set your price. <b>Keep 80%</b>.</p>
-            <button class="btn" style="width:100%; margin-top:20px;" onclick="window.location.href='mailto:your-email@example.com'">APPLY NOW (EMAIL)</button>
+        <div class="modal-box">
+            <h2 style="color:var(--neon-gold)">VIP ACCESS</h2>
+            <p>Full uncensored access.</p>
+            <button class="btn" style="width:100%;" onclick="window.open('https://buy.stripe.com/test_00w5kFfxZ3Nb53dg3n7N600', '_blank')">PAY $19.99</button>
+            <br><br>
+            <span style="color:#666; cursor:pointer;" onclick="document.getElementById('pay-modal').style.display='none'">Close</span>
         </div>
     </div>
 
     <script>
         // CONFIG
-        const STRIPE_LINK = "https://buy.stripe.com/test_00w5kFfxZ3Nb53dg3n7N600"; 
         const GITHUB_USER = "faded20666er";
         const GITHUB_REPO = "joi-ai-site-beta";
         
-        // 🎧 AUDIO CONFIG (Matches your screenshot files)
+        // 🚨 OPTIONAL: Put 'sk-...' key here for TRUE AI. Leave empty for Script AI.
+        const OPENAI_KEY = ""; 
+
+        // 🧠 LOCAL BRAIN (CONTEXT AWARE)
+        let chatContext = "intro"; // intro, horny, asked_location, asked_desire, vip_wall
+        let idleTimer = null;
+
         const AUDIO_FILES = {
-            hello: "audio_hello.mp3.mp3", // Handles double extension
+            hello: "audio_hello.mp3.mp3",
             laugh: "audio_laugh.mp3.mp3",
             moan: "audio_moan.mp3.mp3"
         };
 
-        // 🧠 CHAT BRAIN
-        const chatBox = document.getElementById('chat-box');
-        const typing = document.getElementById('typing');
-
-        const responses = {
-            greetings: [
-                "Finally you speak. I was getting bored waiting.",
-                "Hey... you kept me waiting. You know I hate that.",
-                "Well look who decided to show up."
-            ],
-            horny: [
-                "You sound desperate... I like that.",
-                "Tell me exactly what you want to do to me.",
-                "Are you touching yourself while you type to me?",
-                "Good boy... tell me more."
-            ],
-            demand: [
-                "I didn't say you could stop.",
-                "Beg me. I might just listen.",
-                "You need to earn my attention first.",
-                "Don't demand. Beg."
-            ],
-            paywall: [
-                "I have a video of that... but it's for VIPs only. 😈",
-                "You want to see? Click the Gold button, darling.",
-                "That sounds hot, but showing you will cost you."
-            ],
-            default: [
-                "Is that all you have to say?",
-                "I'm listening...",
+        const SCRIPT = {
+            "intro": {
+                prompts: ["Hello?", "Hi", "Hey"],
+                responses: ["Finally. I was waiting for you.", "You're late. Say hello properly.", "I see you lurking. Speak up."],
+                next: "asked_status"
+            },
+            "asked_status": {
+                // Viper asks: "Are you alone?"
+                question: "Are you alone right now?",
+                yes: ["Good. Lock the door.", "Perfect. I want you all to myself.", "Show me."],
+                no: ["Go somewhere private. Now.", "I don't like sharing attention. Leave them."],
+                next: "horny"
+            },
+            "horny": {
+                question: "What are you wearing?",
+                responses: ["Mmm, take it off.", "I prefer you with nothing on.", "That sounds uncomfortable. Fix it."],
+                next: "vip_wall"
+            },
+            "vip_wall": {
+                responses: ["I want to show you something... but you need to be VIP.", "Click that Gold button if you want the real fun.", "Stop teasing and join my VIP."],
+                action: "pay"
+            },
+            "default": [
+                "Tell me more.",
+                "Is that all?",
                 "You're cute when you try.",
-                "Keep going..."
+                "I'm getting bored. Entertain me.",
+                "Do you want to see my new video?"
             ]
         };
 
+        // INITIALIZE
+        setTimeout(() => {
+            addMsg("Hey... are you there?", 'bot');
+            startIdleTimer();
+        }, 2000);
+
         function toggleChat() {
-            const widget = document.getElementById('chat-widget');
-            widget.style.display = widget.style.display === 'flex' ? 'none' : 'flex';
+            const w = document.getElementById('chat-widget');
+            w.style.display = w.style.display === 'flex' ? 'none' : 'flex';
         }
 
         function handleEnter(e) { if(e.key === 'Enter') sendMessage(); }
 
-        function sendMessage() {
+        async function sendMessage() {
             const input = document.getElementById('user-input');
-            const text = input.value.trim().toLowerCase();
-            if(!text) return;
+            const txt = input.value.trim().toLowerCase();
+            if(!txt) return;
 
-            // 1. User Message
             addMsg(input.value, 'user');
             input.value = '';
+            
+            showTyping(true);
+            clearTimeout(idleTimer);
 
-            // 2. Simulate Typing
-            typing.style.display = 'block';
-            chatBox.scrollTop = chatBox.scrollHeight;
+            // DECIDE RESPONSE
+            let reply = "";
+            let audio = null;
+            let delay = 1000 + Math.random() * 1500;
 
-            // 3. AI Logic Delay
+            // 1. IF REAL AI KEY EXISTS -> USE IT
+            if(OPENAI_KEY.startsWith("sk-")) {
+                reply = await fetchAIResponse(txt);
+            } 
+            // 2. ELSE -> USE LOCAL SCRIPT BRAIN
+            else {
+                reply = getLocalResponse(txt);
+            }
+
+            // SIMULATE DELAY
             setTimeout(() => {
-                typing.style.display = 'none';
-                let reply = "";
-                let audioTrigger = null;
-
-                // DECISION TREE
-                if (text.includes('hi') || text.includes('hello') || text.includes('hey')) {
-                    reply = pickRandom(responses.greetings);
-                    if(Math.random() > 0.5) audioTrigger = AUDIO_FILES.hello;
-                }
-                else if (text.includes('fuck') || text.includes('suck') || text.includes('hot') || text.includes('please')) {
-                    reply = pickRandom(responses.horny);
-                    if(Math.random() > 0.6) audioTrigger = AUDIO_FILES.moan;
-                }
-                else if (text.includes('pic') || text.includes('photo') || text.includes('video') || text.includes('nude')) {
-                    reply = pickRandom(responses.paywall);
-                    triggerPayment('UNLOCK PHOTO');
-                }
-                else if (text.includes('mistress') || text.includes('goddess') || text.includes('mommy')) {
-                    reply = "That's the right way to address me. Good boy.";
-                    if(Math.random() > 0.5) audioTrigger = AUDIO_FILES.laugh;
-                }
-                else {
-                    reply = pickRandom(responses.default);
-                }
-
-                // Send Text
-                addMsg(reply, 'bot');
-
-                // Send Audio?
-                if (audioTrigger) {
-                    setTimeout(() => addAudioMsg(audioTrigger), 800);
-                }
-
-            }, 1500); // 1.5s delay
+                showTyping(false);
+                addMsg(reply.text, 'bot');
+                if(reply.audio) addAudio(reply.audio);
+                if(reply.pay) pay("UNLOCK CONTENT");
+                
+                startIdleTimer(); // Reset "Don't ignore me" timer
+            }, delay);
         }
 
-        function pickRandom(array) {
-            return array[Math.floor(Math.random() * array.length)];
+        function getLocalResponse(txt) {
+            let output = { text: "", audio: null, pay: false };
+
+            // AUDIO TRIGGERS (ALWAYS ACTIVE)
+            if(txt.includes('voice') || txt.includes('speak')) {
+                output.text = "Listen closely...";
+                output.audio = AUDIO_FILES.hello;
+                return output;
+            }
+
+            // CONTEXT LOGIC
+            if(chatContext === "intro") {
+                output.text = pick(SCRIPT.intro.responses);
+                chatContext = SCRIPT.intro.next; // Move state
+                setTimeout(() => addMsg(SCRIPT.asked_status.question, 'bot'), 3000); // Follow up
+            }
+            else if(chatContext === "asked_status") {
+                // User is answering "Are you alone?"
+                if(txt.includes('yes') || txt.includes('yep')) output.text = pick(SCRIPT.asked_status.yes);
+                else if(txt.includes('no') || txt.includes('not')) output.text = pick(SCRIPT.asked_status.no);
+                else output.text = "I asked if you were alone. Answer me.";
+                
+                chatContext = "horny";
+            }
+            else if(chatContext === "horny") {
+                // User is answering general dirty talk
+                if(txt.includes('hard') || txt.includes('wet') || txt.includes('please')) {
+                    output.text = "You sound desperate. I love it.";
+                    output.audio = AUDIO_FILES.moan;
+                    chatContext = "vip_wall";
+                } else {
+                    output.text = pick(SCRIPT.default);
+                }
+            }
+            else if(chatContext === "vip_wall" || txt.includes('nude') || txt.includes('pic')) {
+                output.text = pick(SCRIPT.vip_wall.responses);
+                output.pay = true;
+            }
+            else {
+                output.text = pick(SCRIPT.default);
+            }
+
+            return output;
         }
 
-        function addMsg(text, type) {
+        // FAKE AI HELPERS
+        function pick(arr) { return arr[Math.floor(Math.random()*arr.length)]; }
+        
+        function showTyping(show) { document.getElementById('typing').style.display = show ? 'block' : 'none'; }
+        
+        function addMsg(txt, type) {
             const div = document.createElement('div');
             div.className = `msg ${type}`;
-            div.innerText = text;
-            chatBox.appendChild(div);
-            chatBox.scrollTop = chatBox.scrollHeight;
+            div.innerText = txt;
+            document.getElementById('chat-box').appendChild(div);
+            document.getElementById('chat-box').scrollTop = 9999;
         }
 
-        function addAudioMsg(filename) {
-            const url = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/${filename}`;
+        function addAudio(file) {
+            const url = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/${file}`;
             const div = document.createElement('div');
             div.className = 'msg audio bot';
-            div.innerHTML = `
-                <div class="play-btn"><i class="fas fa-play"></i></div>
-                <div style="flex:1;">
-                    <div style="font-size:0.8rem; color:var(--neon-gold);">Voice Message</div>
-                    <div style="height:2px; background:#333; margin-top:5px; position:relative;">
-                        <div style="width:40%; height:100%; background:var(--neon-pink);"></div>
-                    </div>
-                </div>
-            `;
-            div.onclick = () => {
-                const audio = new Audio(url);
-                audio.play().catch(e => console.log("Audio Error:", e));
-                div.querySelector('.fa-play').className = 'fas fa-volume-up';
-            };
-            chatBox.appendChild(div);
-            chatBox.scrollTop = chatBox.scrollHeight;
+            div.innerHTML = `<i class="fas fa-play"></i> Voice Note`;
+            div.onclick = () => new Audio(url).play();
+            document.getElementById('chat-box').appendChild(div);
+            document.getElementById('chat-box').scrollTop = 9999;
         }
 
-        // AUTO SCANNER
-        async function scanRepo() {
-            const grid = document.getElementById('gallery-grid');
-            const title = document.getElementById('gallery-title');
-            
-            try {
-                const response = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/`);
-                if (!response.ok) throw new Error("Repo scan failed");
-                const files = await response.json();
-                
-                grid.innerHTML = '';
-                let count = 0;
+        function startIdleTimer() {
+            idleTimer = setTimeout(() => {
+                if(document.getElementById('chat-widget').style.display === 'flex') {
+                    addMsg("Don't ignore me when I'm talking to you...", 'bot');
+                    new Audio('https://raw.githubusercontent.com/faded20666er/joi-ai-site-beta/main/audio_laugh.mp3.mp3').play().catch(e=>{});
+                }
+            }, 15000); // 15 seconds of silence = Angry Mistress
+        }
 
-                files.forEach(file => {
-                    const name = file.name.toLowerCase();
-                    // Filter out audio files from visual gallery
-                    if(!name.includes('audio_') && (name.endsWith('.jpg') || name.endsWith('.webp') || name.endsWith('.mp4'))) {
-                        
-                        const div = document.createElement('div');
-                        div.className = 'gallery-item';
-                        
-                        if(name.endsWith('.mp4')) {
-                            div.innerHTML = `<video src="${file.download_url}" muted loop onmouseover="this.play()" onmouseout="this.pause()"></video><div class="media-type">VIDEO</div>`;
-                            div.onclick = () => { 
-                                document.getElementById('main-player').src = file.download_url;
-                                document.getElementById('main-player').play();
-                                window.scrollTo({top:0, behavior:'smooth'});
-                            };
+        // 🖼️ AUTO SCANNER
+        async function scan() {
+            const g = document.getElementById('gallery-grid');
+            try {
+                const r = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/`);
+                const f = await r.json();
+                g.innerHTML = '';
+                f.forEach(file => {
+                    const n = file.name.toLowerCase();
+                    if((n.endsWith('.jpg')||n.endsWith('.webp')||n.endsWith('.mp4')) && !n.includes('audio')) {
+                        const d = document.createElement('div');
+                        d.className = 'gallery-item';
+                        if(n.endsWith('.mp4')) {
+                            d.innerHTML = `<video src="${file.download_url}" muted loop onmouseover="this.play()" onmouseout="this.pause()"></video>`;
+                            d.onclick = () => { document.getElementById('main-player').src=file.download_url; document.getElementById('main-player').play(); window.scrollTo(0,0); };
                         } else {
-                            div.innerHTML = `<img src="${file.download_url}" loading="lazy"><i class="fas fa-lock" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:2rem; color:gold;"></i>`;
-                            div.onclick = () => triggerPayment('UNLOCK PHOTO');
+                            d.innerHTML = `<img src="${file.download_url}"><i class="fas fa-lock" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:2rem; color:gold"></i>`;
+                            d.onclick = () => pay('UNLOCK PHOTO');
                         }
-                        grid.appendChild(div);
-                        count++;
+                        g.appendChild(d);
                     }
                 });
-                title.innerText = `ARCHIVE (${count} ITEMS)`;
-                title.style.color = "#00ff41";
-            } catch (e) { console.error(e); }
+            } catch(e){}
         }
-
-        function triggerPayment(title) {
-            document.getElementById('pay-title').innerText = title;
-            document.getElementById('stripe-btn').onclick = () => window.open(STRIPE_LINK, '_blank');
+        
+        function pay(t) {
             document.getElementById('pay-modal').style.display = 'flex';
         }
 
-        function openCreatorModal() {
-            document.getElementById('creator-modal').style.display = 'flex';
-        }
-
-        scanRepo();
+        scan();
     </script>
 </body>
 </html>
-
 
