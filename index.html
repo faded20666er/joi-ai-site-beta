@@ -1,10 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <title>JOI AI | VIP ACCESS</title>
+    <title>JOI AI | VIP LOUNGE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
@@ -12,7 +13,6 @@
             --neon-pink: #ff0055;
             --neon-blue: #00f3ff;
             --neon-gold: #ffd700;
-            --neon-green: #00ff41;
             --bg-dark: #050505;
         }
 
@@ -22,79 +22,44 @@
             color: #eee;
             font-family: 'Rajdhani', sans-serif;
             margin: 0;
-            padding-bottom: 80px; /* Space for bottom bar */
+            padding-bottom: 60px;
         }
 
-        /* HEADER */
         header {
             display: flex; justify-content: space-between; align-items: center; padding: 15px 20px;
-            background: linear-gradient(180deg, rgba(0,0,0,0.95), rgba(0,0,0,0.8));
-            border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 100;
+            background: rgba(0,0,0,0.95); border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 100;
         }
-        .logo { font-size: 1.8rem; font-weight: 700; color: #fff; font-family: 'Orbitron'; text-shadow: 0 0 10px var(--neon-blue); }
-        
-        /* MONETIZATION BUTTONS */
+        .logo { font-size: 1.8rem; font-weight: 700; color: #fff; font-family: 'Orbitron'; }
+
         .btn {
-            background: #111; border: 1px solid #444; color: #fff;
-            padding: 10px 15px; font-family: 'Orbitron'; cursor: pointer; transition: 0.3s; 
-            text-transform: uppercase; font-size: 0.75rem; font-weight: bold;
-            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+            background: linear-gradient(45deg, #111, #222); border: 1px solid var(--neon-pink); color: var(--neon-pink);
+            padding: 10px 20px; font-family: 'Orbitron'; cursor: pointer; transition: 0.3s; text-transform: uppercase;
+            font-size: 0.8rem; clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
         }
-        .btn:hover { transform: scale(1.05); }
+        .btn:hover { background: var(--neon-pink); color: #fff; box-shadow: 0 0 15px var(--neon-pink); }
+        .btn.gold { border-color: var(--neon-gold); color: var(--neon-gold); background: linear-gradient(45deg, #222, #330); }
+        .btn.gold:hover { background: var(--neon-gold); color: #000; box-shadow: 0 0 20px var(--neon-gold); }
 
-        .btn-gold { border-color: var(--neon-gold); color: var(--neon-gold); }
-        .btn-gold:hover { background: var(--neon-gold); color: #000; box-shadow: 0 0 20px var(--neon-gold); }
-
-        .btn-green { border-color: var(--neon-green); color: var(--neon-green); }
-        .btn-green:hover { background: var(--neon-green); color: #000; box-shadow: 0 0 20px var(--neon-green); }
-
-        /* HERO VIDEO */
         .container { max-width: 1400px; margin: 0 auto; padding: 10px; }
-        .hero-wrap {
-            position: relative; border: 1px solid var(--neon-blue); background: #000;
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.1); margin-bottom: 20px;
+        .hero-video {
+            width: 100%; border: 1px solid var(--neon-blue); background: #000;
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.15); margin-bottom: 15px; position: relative;
         }
-        video { width: 100%; display: block; max-height: 65vh; object-fit: cover; }
-        
-        .live-badge {
-            position: absolute; top: 15px; left: 15px; 
-            background: #ff0000; color: #fff; padding: 3px 8px; 
-            font-size: 12px; font-weight: bold; border-radius: 3px;
-            animation: pulse 1.5s infinite;
-        }
+        video { width: 100%; display: block; max-height: 70vh; }
 
-        /* QUICK ACTION BAR */
-        .money-bar {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 30px;
-        }
-        .money-btn {
-            padding: 15px; text-align: center; background: #1a1a1a; border: 1px solid #333;
-            cursor: pointer; transition: 0.3s;
-        }
-        .money-btn:hover { border-color: var(--neon-pink); background: #222; }
-        .money-btn i { font-size: 1.5rem; margin-bottom: 5px; display: block; }
+        .action-bar { display: flex; gap: 10px; margin-bottom: 30px; justify-content: center; }
 
-        /* GALLERY */
-        .filter-bar {
-            display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 15px;
-        }
-        
         .masonry-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 6px;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 8px; margin-top: 20px;
         }
         .gallery-item {
             position: relative; overflow: hidden; border: 1px solid #222;
             background: #000; aspect-ratio: 2/3; cursor: pointer;
         }
-        .gallery-item img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; transition: 0.3s; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; opacity: 0.5; transition: 0.3s; }
         .gallery-item:hover img { opacity: 1; transform: scale(1.05); }
         
-        .lock-icon {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            font-size: 2rem; color: rgba(255,255,255,0.8); pointer-events: none;
-        }
-
         /* MODAL */
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -102,412 +67,86 @@
         }
         .modal-content {
             background: #111; border: 2px solid var(--neon-gold); padding: 30px;
-            max-width: 400px; width: 85%; text-align: center; position: relative;
-            box-shadow: 0 0 50px rgba(255, 215, 0, 0.2);
+            max-width: 400px; width: 90%; text-align: center; position: relative;
         }
-
-        @keyframes pulse { 0% {opacity:1;} 50% {opacity:0.5;} 100% {opacity:1;} }
     </style>
 </head>
 <body>
 
     <header>
         <div class="logo">JOI<span class="neon-blue">.AI</span></div>
-        <button class="btn btn-gold" onclick="openPayment('VIP ACCESS')">JOIN VIP</button>
+        <button class="btn gold" onclick="triggerPayment('VIP JOIN')">VIP ACCESS</button>
     </header>
 
     <div class="container">
-        <!-- VIDEO HERO -->
-        <div class="hero-wrap">
-            <div class="live-badge">● LIVE FEED</div>
+        <div class="hero-video">
             <video id="main-player" controls autoplay muted loop playsinline>
                 <source src="https://raw.githubusercontent.com/faded20666er/joi-ai-site-beta/main/1.mp4" type="video/mp4">
             </video>
         </div>
 
-        <!-- MONEY BUTTONS -->
-        <div class="money-bar">
-            <!-- This goes to CrackRevenue (Or placeholder) -->
-            <div class="money-btn" onclick="openPrivateCam()">
-                <i class="fas fa-video" style="color:var(--neon-green)"></i>
-                <span style="color:var(--neon-green)">PRIVATE CAM</span>
-            </div>
-            <!-- This goes to Stripe -->
-            <div class="money-btn" onclick="openPayment('UNLOCK GALLERY')">
-                <i class="fas fa-unlock" style="color:var(--neon-gold)"></i>
-                <span style="color:var(--neon-gold)">UNLOCK ALL</span>
-            </div>
+        <div class="action-bar">
+            <button class="btn gold" onclick="triggerPayment('TIP MODEL')">SEND TIP $5</button>
+            <button class="btn" onclick="triggerPayment('UNLOCK VIDEO')">UNLOCK VIDEO</button>
         </div>
 
-        <h3 class="neon-pink" style="margin-left:5px;">LOCKED CONTENT</h3>
-        
-        <!-- FILTERS -->
-        <div class="filter-bar">
-            <button class="btn" onclick="filter('all')">ALL</button>
-            <button class="btn" onclick="filter('arealkyyy')">NEW</button>
-            <button class="btn" onclick="filter('ebony')">EBONY</button>
-            <button class="btn" onclick="filter('doris')">DORIS</button>
-        </div>
-
-        <!-- GALLERY -->
-        <div class="masonry-grid" id="gallery-grid">
-            <!-- Images Inject Here -->
-        </div>
+        <h2 class="neon-pink">LOCKED ARCHIVE</h2>
+        <div class="masonry-grid" id="gallery-grid"></div>
     </div>
 
-    <!-- PAYMENT POPUP -->
+    <!-- PAYMENT MODAL -->
     <div id="pay-modal" class="modal">
         <div class="modal-content">
-            <span style="position:absolute; top:10px; right:15px; cursor:pointer; font-size:20px;" onclick="closeModal()">&times;</span>
-            <h2 style="color:var(--neon-gold); margin-top:0;">VIP ACCESS</h2>
-            <p style="color:#aaa;">Unlock full nude gallery, custom requests, and chat.</p>
-            <h3 style="color:#fff; font-size: 2rem; margin: 10px 0;">$19.99</h3>
-            
-            <button id="stripe-btn" class="btn btn-gold" style="width:100%; padding:15px; font-size:1.1rem; margin-top:10px;">
-                ENTER SECURE CHECKOUT
-            </button>
-            <br><br>
-            <div style="font-size:0.8rem; color:#555;">
-                <i class="fas fa-lock"></i> SSL Encrypted & Discreet
-            </div>
+            <span style="position:absolute; top:10px; right:15px; cursor:pointer; font-size:20px;" onclick="document.getElementById('pay-modal').style.display='none'">&times;</span>
+            <h2 class="neon-gold" id="pay-title">UNLOCK CONTENT</h2>
+            <p>Secure checkout via Stripe.</p>
+            <button id="stripe-btn" class="btn gold" style="width:100%; padding:15px; margin-top:10px;">PROCEED TO PAYMENT</button>
         </div>
     </div>
 
     <script>
         // ========================================================
-        // 💰 MONEY CONFIGURATION
+        // 🔴 PASTE YOUR LINK BELOW 
         // ========================================================
         
-        // 1. STRIPE LINK (For VIP Access/Direct Sales)
-        // Paste your https://buy.stripe.com/... link here:
-        const STRIPE_LINK = "<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <title>JOI AI | VIP ACCESS</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --neon-pink: #ff0055;
-            --neon-blue: #00f3ff;
-            --neon-gold: #ffd700;
-            --neon-green: #00ff41;
-            --bg-dark: #050505;
-        }
-
-        body {
-            background-color: var(--bg-dark);
-            background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
-            color: #eee;
-            font-family: 'Rajdhani', sans-serif;
-            margin: 0;
-            padding-bottom: 80px; /* Space for bottom bar */
-        }
-
-        /* HEADER */
-        header {
-            display: flex; justify-content: space-between; align-items: center; padding: 15px 20px;
-            background: linear-gradient(180deg, rgba(0,0,0,0.95), rgba(0,0,0,0.8));
-            border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 100;
-        }
-        .logo { font-size: 1.8rem; font-weight: 700; color: #fff; font-family: 'Orbitron'; text-shadow: 0 0 10px var(--neon-blue); }
+        const STRIPE_LINK = https://buy.stripe.com/test_00w5kFfxZ3Nb53dg3n7N600
         
-        /* MONETIZATION BUTTONS */
-        .btn {
-            background: #111; border: 1px solid #444; color: #fff;
-            padding: 10px 15px; font-family: 'Orbitron'; cursor: pointer; transition: 0.3s; 
-            text-transform: uppercase; font-size: 0.75rem; font-weight: bold;
-            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
-        }
-        .btn:hover { transform: scale(1.05); }
-
-        .btn-gold { border-color: var(--neon-gold); color: var(--neon-gold); }
-        .btn-gold:hover { background: var(--neon-gold); color: #000; box-shadow: 0 0 20px var(--neon-gold); }
-
-        .btn-green { border-color: var(--neon-green); color: var(--neon-green); }
-        .btn-green:hover { background: var(--neon-green); color: #000; box-shadow: 0 0 20px var(--neon-green); }
-
-        /* HERO VIDEO */
-        .container { max-width: 1400px; margin: 0 auto; padding: 10px; }
-        .hero-wrap {
-            position: relative; border: 1px solid var(--neon-blue); background: #000;
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.1); margin-bottom: 20px;
-        }
-        video { width: 100%; display: block; max-height: 65vh; object-fit: cover; }
-        
-        .live-badge {
-            position: absolute; top: 15px; left: 15px; 
-            background: #ff0000; color: #fff; padding: 3px 8px; 
-            font-size: 12px; font-weight: bold; border-radius: 3px;
-            animation: pulse 1.5s infinite;
-        }
-
-        /* QUICK ACTION BAR */
-        .money-bar {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 30px;
-        }
-        .money-btn {
-            padding: 15px; text-align: center; background: #1a1a1a; border: 1px solid #333;
-            cursor: pointer; transition: 0.3s;
-        }
-        .money-btn:hover { border-color: var(--neon-pink); background: #222; }
-        .money-btn i { font-size: 1.5rem; margin-bottom: 5px; display: block; }
-
-        /* GALLERY */
-        .filter-bar {
-            display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 15px;
-        }
-        
-        .masonry-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 6px;
-        }
-        .gallery-item {
-            position: relative; overflow: hidden; border: 1px solid #222;
-            background: #000; aspect-ratio: 2/3; cursor: pointer;
-        }
-        .gallery-item img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; transition: 0.3s; }
-        .gallery-item:hover img { opacity: 1; transform: scale(1.05); }
-        
-        .lock-icon {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            font-size: 2rem; color: rgba(255,255,255,0.8); pointer-events: none;
-        }
-
-        /* MODAL */
-        .modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95); z-index: 2000; justify-content: center; align-items: center;
-        }
-        .modal-content {
-            background: #111; border: 2px solid var(--neon-gold); padding: 30px;
-            max-width: 400px; width: 85%; text-align: center; position: relative;
-            box-shadow: 0 0 50px rgba(255, 215, 0, 0.2);
-        }
-
-        @keyframes pulse { 0% {opacity:1;} 50% {opacity:0.5;} 100% {opacity:1;} }
-    </style>
-</head>
-<body>
-
-    <header>
-        <div class="logo">JOI<span class="neon-blue">.AI</span></div>
-        <button class="btn btn-gold" onclick="openPayment('VIP ACCESS')">JOIN VIP</button>
-    </header>
-
-    <div class="container">
-        <!-- VIDEO HERO -->
-        <div class="hero-wrap">
-            <div class="live-badge">● LIVE FEED</div>
-            <video id="main-player" controls autoplay muted loop playsinline>
-                <source src="https://raw.githubusercontent.com/faded20666er/joi-ai-site-beta/main/1.mp4" type="video/mp4">
-            </video>
-        </div>
-
-        <!-- MONEY BUTTONS -->
-        <div class="money-bar">
-            <!-- This goes to CrackRevenue (Or placeholder) -->
-            <div class="money-btn" onclick="openPrivateCam()">
-                <i class="fas fa-video" style="color:var(--neon-green)"></i>
-                <span style="color:var(--neon-green)">PRIVATE CAM</span>
-            </div>
-            <!-- This goes to Stripe -->
-            <div class="money-btn" onclick="openPayment('UNLOCK GALLERY')">
-                <i class="fas fa-unlock" style="color:var(--neon-gold)"></i>
-                <span style="color:var(--neon-gold)">UNLOCK ALL</span>
-            </div>
-        </div>
-
-        <h3 class="neon-pink" style="margin-left:5px;">LOCKED CONTENT</h3>
-        
-        <!-- FILTERS -->
-        <div class="filter-bar">
-            <button class="btn" onclick="filter('all')">ALL</button>
-            <button class="btn" onclick="filter('arealkyyy')">NEW</button>
-            <button class="btn" onclick="filter('ebony')">EBONY</button>
-            <button class="btn" onclick="filter('doris')">DORIS</button>
-        </div>
-
-        <!-- GALLERY -->
-        <div class="masonry-grid" id="gallery-grid">
-            <!-- Images Inject Here -->
-        </div>
-    </div>
-
-    <!-- PAYMENT POPUP -->
-    <div id="pay-modal" class="modal">
-        <div class="modal-content">
-            <span style="position:absolute; top:10px; right:15px; cursor:pointer; font-size:20px;" onclick="closeModal()">&times;</span>
-            <h2 style="color:var(--neon-gold); margin-top:0;">VIP ACCESS</h2>
-            <p style="color:#aaa;">Unlock full nude gallery, custom requests, and chat.</p>
-            <h3 style="color:#fff; font-size: 2rem; margin: 10px 0;">$19.99</h3>
-            
-            <button id="stripe-btn" class="btn btn-gold" style="width:100%; padding:15px; font-size:1.1rem; margin-top:10px;">
-                ENTER SECURE CHECKOUT
-            </button>
-            <br><br>
-            <div style="font-size:0.8rem; color:#555;">
-                <i class="fas fa-lock"></i> SSL Encrypted & Discreet
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // ========================================================
-        // 💰 MONEY CONFIGURATION
-        // ========================================================
-        
-        // 1. STRIPE LINK (For VIP Access/Direct Sales)
-        // Paste your https://buy.stripe.com/... link here:
-        const STRIPE_LINK = "https://buy.stripe.com/test_eVaeWx6M9"; 
-
-        // 2. CRACKREVENUE LINK (For Private Cam/Affiliate)
-        // Once approved, paste your "Smartlink" here. 
-        // For now, it redirects to Google, change this later!
-        const CRACK_REVENUE_LINK = "https://www.google.com"; 
-
+        // ⚠️ Link MUST start with "https://buy.stripe.com/..."
         // ========================================================
 
-        function openPayment(reason) {
-            const modal = document.getElementById('pay-modal');
-            const btn = document.getElementById('stripe-btn');
-            btn.innerHTML = "PAY $19.99 - " + reason;
-            btn.onclick = () => window.open(STRIPE_LINK, '_blank');
-            modal.style.display = 'flex';
+        function triggerPayment(title) {
+            // Safety Check
+            if (STRIPE_LINK.includes("dashboard.stripe.com")) {
+                alert("ERROR: You pasted the Admin Dashboard link! \n\nPlease go to Stripe -> Payment Links -> Copy the 'buy.stripe.com' link.");
+                return;
+            }
+
+            document.getElementById('pay-title').innerText = title;
+            document.getElementById('pay-modal').style.display = 'flex';
+            document.getElementById('stripe-btn').onclick = function() {
+                window.open(STRIPE_LINK, '_blank');
+            };
         }
 
-        function openPrivateCam() {
-            // This sends them to CrackRevenue
-            window.open(CRACK_REVENUE_LINK, '_blank');
-        }
-
-        function closeModal() {
-            document.getElementById('pay-modal').style.display = 'none';
-        }
-
-        // --- FILE SCANNER SYSTEM ---
+        // --- CONTENT LOADER ---
         const REPO = "https://raw.githubusercontent.com/faded20666er/joi-ai-site-beta/main/";
         const grid = document.getElementById('gallery-grid');
 
-        function addImg(folder, filename, category) {
+        function addImg(folder, filename) {
             const url = REPO + folder + filename;
             const div = document.createElement('div');
-            div.className = `gallery-item ${category}`;
-            div.innerHTML = `
-                <img src="${url}" loading="lazy">
-                <i class="fas fa-lock lock-icon"></i>
-            `;
-            div.onclick = () => openPayment('UNLOCK PHOTO');
+            div.className = 'gallery-item';
+            div.innerHTML = `<img src="${url}" loading="lazy"><i class="fas fa-lock" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:2rem;color:gold;"></i>`;
+            div.onclick = () => triggerPayment('UNLOCK PHOTO');
             grid.appendChild(div);
         }
 
-        function loadContent() {
-            // 1. AREALKYYY (1-40)
-            for(let i=1; i<=40; i++) {
-                addImg('arealkyyy/', `${i}.webp`, 'arealkyyy');
-                if(i===17 || i===23) addImg('arealkyyy/', `${i}.jpg`, 'arealkyyy');
-            }
-            // 2. DORIS
-            for(let i=1; i<=7; i++) addImg('arealkyyy/', `doris${i}.webp`, 'doris');
-            // 3. EBONY
-            for(let i=1; i<=10; i++) {
-                addImg('', `ebony${i}.jpg.png`, 'ebony');
-                addImg('', `ebony${i}.jpg.webp`, 'ebony');
-            }
-            addImg('', 'bony4.jpg.png', 'ebony');
-            // 4. OLD
-            for(let i=1; i<=10; i++) {
-                addImg('', `img${i}.jpg`, 'classic');
-                addImg('', `img${i}.jpeg`, 'classic');
-            }
-        }
-
-        window.filter = function(cat) {
-            document.querySelectorAll('.gallery-item').forEach(el => {
-                el.style.display = (cat === 'all' || el.classList.contains(cat)) ? 'block' : 'none';
-            });
-        };
-
-        // Initialize
-        setTimeout(loadContent, 200);
-
-    </script>
-</body>
-</html>
-"; 
-
-        // 2. CRACKREVENUE LINK (For Private Cam/Affiliate)
-        // Once approved, paste your "Smartlink" here. 
-        // For now, it redirects to Google, change this later!
-        const CRACK_REVENUE_LINK = "https://www.google.com"; 
-
-        // ========================================================
-
-        function openPayment(reason) {
-            const modal = document.getElementById('pay-modal');
-            const btn = document.getElementById('stripe-btn');
-            btn.innerHTML = "PAY $19.99 - " + reason;
-            btn.onclick = () => window.open(STRIPE_LINK, '_blank');
-            modal.style.display = 'flex';
-        }
-
-        function openPrivateCam() {
-            // This sends them to CrackRevenue
-            window.open(CRACK_REVENUE_LINK, '_blank');
-        }
-
-        function closeModal() {
-            document.getElementById('pay-modal').style.display = 'none';
-        }
-
-        // --- FILE SCANNER SYSTEM ---
-        const REPO = "https://raw.githubusercontent.com/faded20666er/joi-ai-site-beta/main/";
-        const grid = document.getElementById('gallery-grid');
-
-        function addImg(folder, filename, category) {
-            const url = REPO + folder + filename;
-            const div = document.createElement('div');
-            div.className = `gallery-item ${category}`;
-            div.innerHTML = `
-                <img src="${url}" loading="lazy">
-                <i class="fas fa-lock lock-icon"></i>
-            `;
-            div.onclick = () => openPayment('UNLOCK PHOTO');
-            grid.appendChild(div);
-        }
-
-        function loadContent() {
-            // 1. AREALKYYY (1-40)
-            for(let i=1; i<=40; i++) {
-                addImg('arealkyyy/', `${i}.webp`, 'arealkyyy');
-                if(i===17 || i===23) addImg('arealkyyy/', `${i}.jpg`, 'arealkyyy');
-            }
-            // 2. DORIS
-            for(let i=1; i<=7; i++) addImg('arealkyyy/', `doris${i}.webp`, 'doris');
-            // 3. EBONY
-            for(let i=1; i<=10; i++) {
-                addImg('', `ebony${i}.jpg.png`, 'ebony');
-                addImg('', `ebony${i}.jpg.webp`, 'ebony');
-            }
-            addImg('', 'bony4.jpg.png', 'ebony');
-            // 4. OLD
-            for(let i=1; i<=10; i++) {
-                addImg('', `img${i}.jpg`, 'classic');
-                addImg('', `img${i}.jpeg`, 'classic');
-            }
-        }
-
-        window.filter = function(cat) {
-            document.querySelectorAll('.gallery-item').forEach(el => {
-                el.style.display = (cat === 'all' || el.classList.contains(cat)) ? 'block' : 'none';
-            });
-        };
-
-        // Initialize
-        setTimeout(loadContent, 200);
+        // Standard Files
+        setTimeout(() => {
+            for(let i=1; i<=40; i++) addImg('arealkyyy/', `${i}.webp`);
+            for(let i=1; i<=7; i++) addImg('arealkyyy/', `doris${i}.webp`);
+            for(let i=1; i<=10; i++) addImg('', `ebony${i}.jpg.png`);
+        }, 100);
 
     </script>
 </body>
