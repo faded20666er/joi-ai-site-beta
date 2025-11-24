@@ -32,6 +32,14 @@
         }
         .logo { font-size: 1.5rem; font-weight: 700; color: #fff; font-family: 'Orbitron'; }
         
+        /* PULSING MONEY BUTTON */
+        .cam-btn {
+            background: linear-gradient(45deg, #ff00cc, #333399);
+            color: #fff; padding: 8px 15px; border-radius: 20px; 
+            text-decoration: none; font-weight: bold; border: 1px solid #fff;
+            animation: pulse 2s infinite; display: flex; align-items: center; gap: 5px;
+        }
+
         .container { max-width: 1400px; margin: 0 auto; padding: 10px; }
         
         .hero-video {
@@ -60,10 +68,7 @@
             z-index: 2000; box-shadow: 0 0 40px rgba(255, 0, 85, 0.3);
             backdrop-filter: blur(15px);
         }
-        /* Mobile adjustment */
-        @media(max-width: 768px) {
-            .chat-widget { width: 90%; right: 5%; height: 65vh; }
-        }
+        @media(max-width: 768px) { .chat-widget { width: 90%; right: 5%; height: 65vh; } }
 
         .chat-header {
             padding: 15px; background: linear-gradient(90deg, #222, #111);
@@ -97,18 +102,32 @@
             padding: 12px; border-radius: 20px; outline: none;
         }
         
-        /* BTN */
+        /* BTN & MODALS */
         .btn {
             background: #111; color: var(--neon-gold); border: 1px solid var(--neon-gold);
             padding: 8px 16px; font-family: 'Orbitron'; cursor: pointer; text-transform: uppercase; font-size: 0.8rem;
         }
         .btn:hover { background: var(--neon-gold); color: #000; }
 
-        /* MODAL */
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 3000; align-items: center; justify-content: center; }
         .modal-box { background: #111; border: 1px solid var(--neon-gold); padding: 30px; width: 90%; max-width: 400px; text-align: center; }
 
+        .pay-option {
+            background: #222; border: 1px solid #444; padding: 15px; margin-bottom: 10px;
+            cursor: pointer; text-align: left; transition: 0.3s;
+        }
+        .pay-option:hover { border-color: var(--neon-pink); background: #1a1a1a; }
+        .pay-title { color: #fff; font-weight: bold; margin-bottom: 5px; }
+        .pay-desc { color: #888; font-size: 0.8rem; }
+
+        .min-chat {
+            display:none; position:fixed; bottom:20px; right:20px; width:60px; height:60px; 
+            background:var(--neon-pink); border-radius:50%; align-items:center; justify-content:center; 
+            z-index:2000; cursor:pointer; box-shadow:0 0 20px var(--neon-pink); animation:bounce 3s infinite;
+        }
+
         @keyframes bounce { 0%, 100% {transform: translateY(0);} 50% {transform: translateY(-10px);} }
+        @keyframes pulse { 0% {box-shadow:0 0 0 0 rgba(255,0,204,0.7);} 70% {box-shadow:0 0 0 10px rgba(255,0,204,0);} 100% {box-shadow:0 0 0 0 rgba(255,0,204,0);} }
         @keyframes fadeIn { from {opacity: 0; transform: translateY(10px);} to {opacity: 1; transform: translateY(0);} }
     </style>
 </head>
@@ -116,7 +135,7 @@
 
     <header>
         <div class="logo">JOI<span style="color:var(--neon-blue)">.AI</span></div>
-        <button class="btn" onclick="openCreator()">PARTNER</button>
+        <a href="#" onclick="openAffiliate()" class="cam-btn"><i class="fas fa-video"></i> WATCH ME LIVE</a>
     </header>
 
     <div class="container">
@@ -126,13 +145,13 @@
             </video>
         </div>
         <div style="text-align:center; margin-bottom:20px;">
-            <button class="btn" onclick="pay('UNLOCK ALL')">UNLOCK FULL SITE ($19.99)</button>
+            <button class="btn" onclick="openPaymentModal()">UNLOCK FULL SITE</button>
         </div>
         <h2 id="gallery-title" style="color:var(--neon-pink); font-size:1rem;">ARCHIVE</h2>
         <div class="masonry-grid" id="gallery-grid"></div>
     </div>
 
-    <!-- CHAT UI (ALWAYS VISIBLE NOW FOR ENGAGEMENT) -->
+    <!-- CHAT -->
     <div class="chat-widget" id="chat-widget" style="display:flex;">
         <div class="chat-header">
             <div style="display:flex; align-items:center; gap:10px;">
@@ -142,7 +161,6 @@
                     <div style="font-size:0.7rem; color:var(--neon-green);">● Online</div>
                 </div>
             </div>
-            <!-- Minimize Button -->
             <i class="fas fa-minus" style="cursor:pointer; color:#aaa;" onclick="minimizeChat()"></i>
         </div>
         
@@ -155,57 +173,64 @@
         </div>
     </div>
 
-    <!-- MINIMIZED CHAT BUBBLE -->
-    <div id="chat-bubble" onclick="maximizeChat()" 
-         style="display:none; position:fixed; bottom:20px; right:20px; width:60px; height:60px; background:var(--neon-pink); border-radius:50%; align-items:center; justify-content:center; z-index:2000; cursor:pointer; box-shadow:0 0 20px var(--neon-pink); animation:bounce 3s infinite;">
-        <i class="fas fa-comment" style="color:#fff; font-size:24px;"></i>
-    </div>
+    <div class="min-chat" id="chat-bubble" onclick="maximizeChat()"><i class="fas fa-comment" style="color:#fff; font-size:24px;"></i></div>
 
-    <!-- PAY MODAL -->
+    <!-- PAYMENT SELECTION MODAL -->
     <div id="pay-modal" class="modal">
         <div class="modal-box">
-            <h2 style="color:var(--neon-gold)">VIP ACCESS</h2>
-            <p>Full uncensored access.</p>
-            <button class="btn" style="width:100%;" onclick="window.open('https://buy.stripe.com/test_00w5kFfxZ3Nb53dg3n7N600', '_blank')">PAY $19.99</button>
-            <br><br>
+            <h2 style="color:var(--neon-gold)">SELECT ACCESS</h2>
+            
+            <!-- OPTION 1: AFFILIATE (Easiest) -->
+            <div class="pay-option" onclick="openAffiliate()">
+                <div class="pay-title"><i class="fas fa-video" style="color:var(--neon-pink)"></i> LIVE CAMS (RECOMMENDED)</div>
+                <div class="pay-desc">Watch live shows now. Instant access.</div>
+            </div>
+
+            <!-- OPTION 2: CRYPTO/MANUAL -->
+            <div class="pay-option" onclick="showCryptoDetails()">
+                <div class="pay-title"><i class="fas fa-bitcoin" style="color:gold"></i> LIFETIME VIP ($20)</div>
+                <div class="pay-desc">Pay via Bitcoin or CashApp.</div>
+            </div>
+
+            <div id="crypto-details" style="display:none; text-align:left; margin-top:10px; background:#000; padding:10px; border:1px solid #333; font-size:0.8rem; word-break: break-all;">
+                <p style="color:var(--neon-blue)">SEND $20 TO:</p>
+                <!-- REPLACE THESE WITH YOUR DETAILS -->
+                <p><strong>BTC:</strong> <span id="btc-addy">bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh</span> <i class="fas fa-copy" style="cursor:pointer" onclick="copyText('btc-addy')"></i></p>
+                <p><strong>CASHAPP:</strong> $mrsmokeshaq</p>
+                <hr style="border-color:#333">
+                <p style="color:#888;">After payment, email screenshot to: <br> <span style="color:#fff">vip@yoursite.com</span></p>
+            </div>
+
+            <br>
             <span style="color:#666; cursor:pointer;" onclick="document.getElementById('pay-modal').style.display='none'">Close</span>
         </div>
     </div>
 
     <script>
         // ==========================================
-        // 🔒 SECURITY ZONE (SPLIT YOUR KEY)
+        // 💰 MONEY ZONE
         // ==========================================
         
-        // Paste the FIRST half of your key here (sk-or-v1-ffdc5d01916a4d92ca4d16c6a21a8f)
-        const SECRET_PART_1 = ""; 
+        // 1. OPENROUTER API KEY (Split)
+        const SECRET_PART_1 = "sk-or-v1-"; // sk-or-v1-ffdc5d01916a4d92ca4d16c6a21a8f
+        const SECRET_PART_2 = ""; // eeef8070d721e8c25ff1238f2ebca88136
         
-        // Paste the SECOND half of your key here (eeef8070d721e8c25ff1238f2ebca88136)
-        const SECRET_PART_2 = "";
+        // 2. CRACKREVENUE SMARTLINK (Get from Dashboard)
+        const AFFILIATE_URL = "https://google.com"; // CHANGE THIS!
         
-        // This combines them automatically so the robot doesn't see it
+        // ==========================================
+        
         const FULL_KEY = SECRET_PART_1 + SECRET_PART_2;
-        
-        // ==========================================
-
         const GITHUB_USER = "faded20666er";
         const GITHUB_REPO = "joi-ai-site-beta";
         
-        const AUDIO_FILES = {
-            hello: "audio_hello.mp3.mp3",
-            laugh: "audio_laugh.mp3.mp3",
-            moan: "audio_moan.mp3.mp3"
-        };
-
-        // SYSTEM PROMPT (The "Personality")
+        // SYSTEM PROMPT
         let chatHistory = [
-            { role: "system", content: "You are Mistress Viper. You are a dominant, seductive, and strict AI Mistress. You want the user to be obedient. You tease them about paying for VIP content. You are flirty but demanding. Keep responses short (under 2 sentences) and conversational." }
+            { role: "system", content: "You are Mistress Viper. You are a dominant, seductive AI. If the user asks for nude photos, sex, or custom videos, tell them they must click the 'WATCH ME LIVE' button at the top to see you on cam." }
         ];
 
         // INIT
-        setTimeout(() => { 
-            addMsg("I see you looking... say hello.", 'bot'); 
-        }, 1500);
+        setTimeout(() => { addMsg("I'm waiting... are you going to talk to me?", 'bot'); }, 1500);
 
         function minimizeChat() {
             document.getElementById('chat-widget').style.display = 'none';
@@ -216,6 +241,19 @@
             document.getElementById('chat-bubble').style.display = 'none';
         }
 
+        function openAffiliate() { window.open(AFFILIATE_URL, '_blank'); }
+        function openPaymentModal() { document.getElementById('pay-modal').style.display = 'flex'; }
+        
+        function showCryptoDetails() {
+            document.getElementById('crypto-details').style.display = 'block';
+        }
+
+        function copyText(id) {
+            const t = document.getElementById(id).innerText;
+            navigator.clipboard.writeText(t);
+            alert("Address Copied!");
+        }
+        
         function handleEnter(e) { if(e.key === 'Enter') sendMessage(); }
 
         async function sendMessage() {
@@ -227,19 +265,15 @@
             input.value = '';
             showTyping(true);
 
-            // USE REAL AI IF KEY IS PRESENT
             if (FULL_KEY.length > 20) {
                 await callRealAI(txt);
             } else {
-                // FALLBACK TO SCRIPT IF NO KEY
                 callLocalBrain(txt);
             }
         }
 
         async function callRealAI(userText) {
             chatHistory.push({ role: "user", content: userText });
-
-            // Keep history short to save money (last 6 messages)
             if(chatHistory.length > 7) chatHistory = [chatHistory[0], ...chatHistory.slice(-6)];
 
             try {
@@ -252,14 +286,12 @@
                         "X-Title": "JOI Site"
                     },
                     body: JSON.stringify({
-                        "model": "gryphe/mythomax-l2-13b", // Good balance of Cost vs Quality
+                        "model": "gryphe/mythomax-l2-13b", 
                         "messages": chatHistory,
-                        "temperature": 0.8,
+                        "temperature": 0.85,
                         "max_tokens": 120
                     })
                 });
-
-                if(!response.ok) throw new Error("API Error");
 
                 const data = await response.json();
                 const reply = data.choices[0].message.content;
@@ -268,23 +300,20 @@
                 showTyping(false);
                 addMsg(reply, 'bot');
                 
-                if(Math.random() > 0.85) addAudio(AUDIO_FILES.moan);
+                if(Math.random() > 0.85) addAudio();
 
             } catch (error) {
-                console.error("AI Error:", error);
                 callLocalBrain(userText);
             }
         }
 
-        // BACKUP SCRIPT
         function callLocalBrain(txt) {
             setTimeout(() => {
                 showTyping(false);
-                addMsg("I want to answer you properly... but the Master needs to fix my API Key.", 'bot');
+                addMsg("I want to reply... but the Master needs to fix the API Key.", 'bot');
             }, 1000);
         }
 
-        // UI HELPERS
         function showTyping(show) { document.getElementById('typing').style.display = show ? 'block' : 'none'; }
         
         function addMsg(txt, type) {
@@ -296,8 +325,8 @@
             box.scrollTop = box.scrollHeight;
         }
 
-        function addAudio(file) {
-            const url = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/${file}`;
+        function addAudio() {
+            const url = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/audio_moan.mp3.mp3`;
             const div = document.createElement('div');
             div.className = 'msg audio bot';
             div.innerHTML = `<i class="fas fa-play"></i> Voice Note`;
@@ -305,9 +334,6 @@
             document.getElementById('chat-box').appendChild(div);
             document.getElementById('chat-box').scrollTop = 9999;
         }
-
-        function pay(t) { document.getElementById('pay-modal').style.display = 'flex'; }
-        function openCreator() { window.location.href = "mailto:you@example.com"; }
 
         // AUTO SCAN
         async function scan() {
@@ -326,7 +352,7 @@
                             d.onclick = () => { document.getElementById('main-player').src=file.download_url; document.getElementById('main-player').play(); window.scrollTo(0,0); };
                         } else {
                             d.innerHTML = `<img src="${file.download_url}"><i class="fas fa-lock" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:2rem; color:gold"></i>`;
-                            d.onclick = () => pay('UNLOCK PHOTO');
+                            d.onclick = () => openPaymentModal();
                         }
                         g.appendChild(d);
                     }
@@ -337,4 +363,3 @@
     </script>
 </body>
 </html>
-
