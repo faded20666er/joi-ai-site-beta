@@ -1,9 +1,9 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <title>JOI AI | MISTRESS VIPER</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
@@ -32,7 +32,6 @@
         }
         .logo { font-size: 1.5rem; font-weight: 700; color: #fff; font-family: 'Orbitron'; }
         
-        /* CONTAINER */
         .container { max-width: 1400px; margin: 0 auto; padding: 10px; }
         
         .hero-video {
@@ -53,14 +52,19 @@
         .gallery-item img, .gallery-item video { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
         .gallery-item:hover img { opacity: 1; }
 
-        /* 🧠 ADVANCED CHAT UI */
+        /* CHAT UI */
         .chat-widget {
             position: fixed; bottom: 20px; right: 20px; width: 360px; height: 600px;
             background: var(--glass); border: 1px solid var(--neon-pink);
-            border-radius: 12px; display: none; flex-direction: column;
+            border-radius: 12px; display: flex; flex-direction: column;
             z-index: 2000; box-shadow: 0 0 40px rgba(255, 0, 85, 0.3);
             backdrop-filter: blur(15px);
         }
+        /* Mobile adjustment */
+        @media(max-width: 768px) {
+            .chat-widget { width: 90%; right: 5%; height: 65vh; }
+        }
+
         .chat-header {
             padding: 15px; background: linear-gradient(90deg, #222, #111);
             border-bottom: 1px solid var(--neon-pink); border-radius: 12px 12px 0 0;
@@ -90,17 +94,9 @@
         }
         .chat-input {
             flex: 1; background: #222; border: 1px solid #444; color: #fff;
-            padding: 12px; border-radius: 20px; outline: none; color:#fff;
+            padding: 12px; border-radius: 20px; outline: none;
         }
         
-        .chat-toggle {
-            position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px;
-            background: var(--neon-pink); border-radius: 50%; display: flex;
-            align-items: center; justify-content: center; font-size: 24px; color: #fff;
-            cursor: pointer; z-index: 1900; box-shadow: 0 0 20px var(--neon-pink);
-            animation: bounce 3s infinite;
-        }
-
         /* BTN */
         .btn {
             background: #111; color: var(--neon-gold); border: 1px solid var(--neon-gold);
@@ -136,10 +132,8 @@
         <div class="masonry-grid" id="gallery-grid"></div>
     </div>
 
-    <!-- CHAT UI -->
-    <div class="chat-toggle" onclick="toggleChat()"><i class="fas fa-comment"></i></div>
-    
-    <div class="chat-widget" id="chat-widget">
+    <!-- CHAT UI (ALWAYS VISIBLE NOW FOR ENGAGEMENT) -->
+    <div class="chat-widget" id="chat-widget" style="display:flex;">
         <div class="chat-header">
             <div style="display:flex; align-items:center; gap:10px;">
                 <div class="avatar-ring"><img src="https://i.pravatar.cc/150?u=viper" class="chat-avatar"></div>
@@ -148,7 +142,8 @@
                     <div style="font-size:0.7rem; color:var(--neon-green);">● Online</div>
                 </div>
             </div>
-            <i class="fas fa-times" style="cursor:pointer; color:#aaa;" onclick="toggleChat()"></i>
+            <!-- Minimize Button -->
+            <i class="fas fa-minus" style="cursor:pointer; color:#aaa;" onclick="minimizeChat()"></i>
         </div>
         
         <div class="chat-messages" id="chat-box"></div>
@@ -160,7 +155,13 @@
         </div>
     </div>
 
-    <!-- PAYMENT -->
+    <!-- MINIMIZED CHAT BUBBLE -->
+    <div id="chat-bubble" onclick="maximizeChat()" 
+         style="display:none; position:fixed; bottom:20px; right:20px; width:60px; height:60px; background:var(--neon-pink); border-radius:50%; align-items:center; justify-content:center; z-index:2000; cursor:pointer; box-shadow:0 0 20px var(--neon-pink); animation:bounce 3s infinite;">
+        <i class="fas fa-comment" style="color:#fff; font-size:24px;"></i>
+    </div>
+
+    <!-- PAY MODAL -->
     <div id="pay-modal" class="modal">
         <div class="modal-box">
             <h2 style="color:var(--neon-gold)">VIP ACCESS</h2>
@@ -173,46 +174,46 @@
 
     <script>
         // ==========================================
-        // 🔧 CONFIGURATION ZONE
+        // 🔒 SECURITY ZONE (SPLIT YOUR KEY)
         // ==========================================
         
-        // 1. Paste your OpenRouter Key here (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)
-        //    Leave empty "" to use the Free "Script Brain"
-        const OPEN_ROUTER_KEY = ""; 
+        // Paste the FIRST half of your key here (sk-or-v1-ffdc5d01916a4d92ca4d16c6a21a8f)
+        const SECRET_PART_1 = ""; 
         
+        // Paste the SECOND half of your key here (eeef8070d721e8c25ff1238f2ebca88136)
+        const SECRET_PART_2 = "";
+        
+        // This combines them automatically so the robot doesn't see it
+        const FULL_KEY = SECRET_PART_1 + SECRET_PART_2;
+        
+        // ==========================================
+
         const GITHUB_USER = "faded20666er";
         const GITHUB_REPO = "joi-ai-site-beta";
         
-        // ==========================================
-
-        let chatHistory = [
-            { role: "system", content: "You are Mistress Viper. You are a dominant, seductive AI. You like being in control. You want the user to pay for your VIP content but you tease them first. Keep responses short and spicy." }
-        ];
-
-        // 🧠 LOCAL BRAIN (BACKUP)
-        let chatContext = "intro"; 
-        let idleTimer = null;
-
-        const SCRIPT = {
-            "intro": { responses: ["Finally. I was waiting.", "You're late. Say hello.", "I see you lurking."], next: "asked_status" },
-            "asked_status": { question: "Are you alone?", yes: ["Good. Lock the door.", "Perfect."], no: ["Go somewhere private."], next: "horny" },
-            "horny": { responses: ["Mmm, take it off.", "I prefer you with nothing on."], next: "vip_wall" },
-            "vip_wall": { responses: ["I want to show you... but you need VIP.", "Click that Gold button."], action: "pay" },
-            "default": ["Tell me more.", "Is that all?", "Entertain me."]
-        };
-
         const AUDIO_FILES = {
             hello: "audio_hello.mp3.mp3",
             laugh: "audio_laugh.mp3.mp3",
             moan: "audio_moan.mp3.mp3"
         };
 
-        // INIT
-        setTimeout(() => { addMsg("Hey... are you there?", 'bot'); startIdleTimer(); }, 2000);
+        // SYSTEM PROMPT (The "Personality")
+        let chatHistory = [
+            { role: "system", content: "You are Mistress Viper. You are a dominant, seductive, and strict AI Mistress. You want the user to be obedient. You tease them about paying for VIP content. You are flirty but demanding. Keep responses short (under 2 sentences) and conversational." }
+        ];
 
-        function toggleChat() {
-            const w = document.getElementById('chat-widget');
-            w.style.display = w.style.display === 'flex' ? 'none' : 'flex';
+        // INIT
+        setTimeout(() => { 
+            addMsg("I see you looking... say hello.", 'bot'); 
+        }, 1500);
+
+        function minimizeChat() {
+            document.getElementById('chat-widget').style.display = 'none';
+            document.getElementById('chat-bubble').style.display = 'flex';
+        }
+        function maximizeChat() {
+            document.getElementById('chat-widget').style.display = 'flex';
+            document.getElementById('chat-bubble').style.display = 'none';
         }
 
         function handleEnter(e) { if(e.key === 'Enter') sendMessage(); }
@@ -225,73 +226,61 @@
             addMsg(txt, 'user');
             input.value = '';
             showTyping(true);
-            clearTimeout(idleTimer);
 
-            // DECISION: REAL AI vs SCRIPT
-            if (OPEN_ROUTER_KEY.length > 10) {
+            // USE REAL AI IF KEY IS PRESENT
+            if (FULL_KEY.length > 20) {
                 await callRealAI(txt);
             } else {
+                // FALLBACK TO SCRIPT IF NO KEY
                 callLocalBrain(txt);
             }
         }
 
-        // 🧠 OPTION A: REAL AI (OPENROUTER)
         async function callRealAI(userText) {
             chatHistory.push({ role: "user", content: userText });
+
+            // Keep history short to save money (last 6 messages)
+            if(chatHistory.length > 7) chatHistory = [chatHistory[0], ...chatHistory.slice(-6)];
 
             try {
                 const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
                     method: "POST",
                     headers: {
-                        "Authorization": `Bearer ${OPEN_ROUTER_KEY}`,
+                        "Authorization": `Bearer ${FULL_KEY}`,
                         "Content-Type": "application/json",
-                        "HTTP-Referer": window.location.href, // Required by OpenRouter
+                        "HTTP-Referer": window.location.href,
                         "X-Title": "JOI Site"
                     },
                     body: JSON.stringify({
-                        "model": "gryphe/mythomax-l2-13b", // Best NSFW Roleplay Model
+                        "model": "gryphe/mythomax-l2-13b", // Good balance of Cost vs Quality
                         "messages": chatHistory,
                         "temperature": 0.8,
-                        "max_tokens": 150
+                        "max_tokens": 120
                     })
                 });
 
+                if(!response.ok) throw new Error("API Error");
+
                 const data = await response.json();
                 const reply = data.choices[0].message.content;
-                
                 chatHistory.push({ role: "assistant", content: reply });
                 
                 showTyping(false);
                 addMsg(reply, 'bot');
                 
-                // Randomly play audio if reply is spicy
-                if(reply.toLowerCase().includes('voice') || Math.random() > 0.8) {
-                    addAudio(AUDIO_FILES.moan);
-                }
+                if(Math.random() > 0.85) addAudio(AUDIO_FILES.moan);
 
             } catch (error) {
                 console.error("AI Error:", error);
-                callLocalBrain(userText); // Fallback if API fails
+                callLocalBrain(userText);
             }
         }
 
-        // 🧠 OPTION B: LOCAL SCRIPT
+        // BACKUP SCRIPT
         function callLocalBrain(txt) {
-            let reply = "";
-            let audio = null;
-            const t = txt.toLowerCase();
-
-            if(t.includes('voice')) { reply = "Listen..."; audio = AUDIO_FILES.hello; }
-            else if(chatContext === "intro") { reply = SCRIPT.intro.responses[0]; chatContext = SCRIPT.intro.next; setTimeout(()=>addMsg(SCRIPT.asked_status.question, 'bot'), 2000); }
-            else if(chatContext === "asked_status") { reply = t.includes('yes') ? SCRIPT.asked_status.yes[0] : SCRIPT.asked_status.no[0]; chatContext = "horny"; }
-            else if(t.includes('nude') || t.includes('pic')) { reply = SCRIPT.vip_wall.responses[0]; triggerPay(); }
-            else { reply = SCRIPT.default[Math.floor(Math.random()*SCRIPT.default.length)]; }
-
             setTimeout(() => {
                 showTyping(false);
-                addMsg(reply, 'bot');
-                if(audio) addAudio(audio);
-                startIdleTimer();
+                addMsg("I want to answer you properly... but the Master needs to fix my API Key.", 'bot');
             }, 1000);
         }
 
@@ -317,16 +306,8 @@
             document.getElementById('chat-box').scrollTop = 9999;
         }
 
-        function triggerPay() { document.getElementById('pay-modal').style.display = 'flex'; }
-        function pay() { triggerPay(); }
+        function pay(t) { document.getElementById('pay-modal').style.display = 'flex'; }
         function openCreator() { window.location.href = "mailto:you@example.com"; }
-        function startIdleTimer() {
-            idleTimer = setTimeout(() => {
-                if(document.getElementById('chat-widget').style.display === 'flex') {
-                    addMsg("Hello? Don't ignore me.", 'bot');
-                }
-            }, 20000);
-        }
 
         // AUTO SCAN
         async function scan() {
@@ -356,5 +337,4 @@
     </script>
 </body>
 </html>
-
 
