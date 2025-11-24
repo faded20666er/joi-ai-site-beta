@@ -55,7 +55,7 @@
 
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
 
-        /* VIDEO PLAYER UPGRADE */
+        /* VIDEO PLAYER */
         .video-frame {
             position: relative; border-radius: 12px; overflow: hidden;
             box-shadow: 0 20px 50px rgba(0,0,0,0.8);
@@ -115,7 +115,7 @@
 
         .chat-window {
             display: none; position: fixed; bottom: 100px; right: 30px;
-            width: 380px; height: 600px; background: rgba(15, 15, 15, 0.95);
+            width: 380px; height: 650px; background: rgba(15, 15, 15, 0.95);
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border); border-radius: 20px;
             flex-direction: column; overflow: hidden; z-index: 200;
@@ -125,10 +125,28 @@
 
         .chat-top {
             padding: 15px; background: rgba(255,255,255,0.03); border-bottom: 1px solid rgba(255,255,255,0.05);
-            display: flex; align-items: center; gap: 15px;
+            display: flex; align-items: center; gap: 15px; position: relative;
         }
         .avatar { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); }
         
+        .model-select-btn {
+            font-size: 0.7rem; background: #333; padding: 4px 8px; border-radius: 4px; 
+            cursor: pointer; margin-left: 10px; border: 1px solid #555;
+        }
+        
+        /* MODEL SELECTOR DROPDOWN */
+        .model-menu {
+            display: none; position: absolute; top: 60px; left: 0; right: 0;
+            background: #111; border-bottom: 1px solid var(--primary);
+            z-index: 50; padding: 10px; grid-template-columns: 1fr 1fr 1fr; gap: 5px;
+        }
+        .model-choice {
+            text-align: center; cursor: pointer; padding: 5px; border-radius: 5px; border: 1px solid transparent;
+        }
+        .model-choice:hover { background: #222; border-color: #555; }
+        .model-choice img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-bottom: 5px; }
+        .model-choice span { display: block; font-size: 0.7rem; color: #fff; }
+
         .msgs { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
         
         .bubble {
@@ -140,12 +158,16 @@
         
         .input-zone {
             padding: 15px; background: rgba(0,0,0,0.4); border-top: 1px solid rgba(255,255,255,0.05);
-            display: flex; gap: 10px;
+            display: flex; gap: 10px; align-items: center;
         }
         .txt-in {
             flex: 1; background: rgba(255,255,255,0.05); border: none; color: #fff;
             padding: 12px 20px; border-radius: 25px; outline: none; font-family: inherit;
         }
+        .icon-btn {
+            background: transparent; border: none; color: #666; cursor: pointer; font-size: 1.1rem;
+        }
+        .icon-btn.active { color: var(--accent); }
         .send-btn {
             background: var(--primary); border: none; width: 45px; height: 45px; border-radius: 50%;
             color: #fff; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center;
@@ -176,7 +198,6 @@
     </header>
 
     <div class="container">
-        
         <div class="video-frame">
             <div class="video-overlay" onclick="goLive()">
                 <div class="dot"></div> <span class="live-text">LIVE NOW</span>
@@ -197,9 +218,7 @@
             <span style="font-size:0.8rem; color:#666;">128 FILES</span>
         </div>
 
-        <div class="grid" id="gallery-grid">
-            <!-- Items injected by JS -->
-        </div>
+        <div class="grid" id="gallery-grid"></div>
     </div>
 
     <!-- FLOATING CHAT -->
@@ -209,16 +228,32 @@
 
     <div class="chat-window" id="chat-win">
         <div class="chat-top">
-            <img src="https://i.pravatar.cc/150?u=viper" class="avatar">
+            <img src="https://i.pravatar.cc/150?u=viper" class="avatar" id="current-avatar">
             <div>
-                <div style="font-weight: 700;">Mistress Viper</div>
-                <div style="font-size: 0.75rem; color: #00f2ea;">● Online & Waiting</div>
+                <div style="font-weight: 700;" id="current-name">Mistress Viper</div>
+                <div style="font-size: 0.75rem; color: #00f2ea;">● Online</div>
             </div>
+            <div class="model-select-btn" onclick="toggleModelMenu()"><i class="fas fa-users"></i> Change</div>
             <div style="flex:1"></div>
             <i class="fas fa-times" style="cursor:pointer; color:#666;" onclick="toggleChat()"></i>
         </div>
+        
+        <!-- MODEL MENU -->
+        <div class="model-menu" id="model-menu">
+            <div class="model-choice" onclick="setModel('viper')">
+                <img src="https://i.pravatar.cc/150?u=viper"><span>Viper (Dom)</span>
+            </div>
+            <div class="model-choice" onclick="setModel('angel')">
+                <img src="https://i.pravatar.cc/150?u=angel"><span>Angel (GFE)</span>
+            </div>
+            <div class="model-choice" onclick="setModel('jade')">
+                <img src="https://i.pravatar.cc/150?u=jade"><span>Jade (Sassy)</span>
+            </div>
+        </div>
+
         <div class="msgs" id="chat-box"></div>
         <div class="input-zone">
+            <button class="icon-btn active" id="voice-btn" onclick="toggleVoice()" title="Toggle Voice"><i class="fas fa-volume-up"></i></button>
             <input type="text" class="txt-in" id="chat-in" placeholder="Type here..." autocomplete="off" onkeypress="if(event.key==='Enter') send()">
             <button class="send-btn" onclick="send()"><i class="fas fa-paper-plane"></i></button>
         </div>
@@ -231,23 +266,19 @@
             <p style="color:#aaa; font-size:0.9rem; margin-bottom: 30px;">
                 Secure access to the full archive and private shows.
             </p>
-            
             <div style="background:#222; padding:15px; border-radius:10px; margin-bottom:15px; cursor:pointer; border:1px solid #333;" onclick="goLive()">
                 <div style="font-weight:bold; color:#fff;">📺 LIVE CAMS (Instant)</div>
                 <div style="font-size:0.8rem; color:#666;">Verified 18+ Access</div>
             </div>
-
             <div style="background:#222; padding:15px; border-radius:10px; margin-bottom:15px; cursor:pointer; border:1px solid #333;" onclick="toggleCrypto()">
                 <div style="font-weight:bold; color:var(--gold);">🔐 CRYPTO / CASHAPP ($20)</div>
                 <div style="font-size:0.8rem; color:#666;">Lifetime Archive Access</div>
             </div>
-            
             <div id="crypto-box" style="display:none; text-align:left; background:#000; padding:15px; font-size:0.8rem; border-radius:8px; word-break:break-all;">
                 <p><strong>BTC:</strong> <span id="btc">bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh</span></p>
                 <p><strong>CashApp:</strong> $YOUR_TAG</p>
                 <p style="color:#666; font-size:0.7rem;">Email proof to vip@site.com</p>
             </div>
-
             <div style="margin-top:20px; color:#666; cursor:pointer; font-size:0.8rem;" onclick="document.getElementById('pay-modal').style.display='none'">Close Window</div>
         </div>
     </div>
@@ -268,13 +299,37 @@
         const REPO_NAME = "joi-ai-site-beta";
         const AFFILIATE_LINK = "https://t.acrsmartcam.com/396104/3664/0?bo=Array&file_id=300184&po=6533&aff_sub5=SF_006OG000004lmDN&aff_sub4=AT_0002";
 
+        // MODEL DATA
+        const MODELS = {
+            'viper': {
+                name: "Mistress Viper",
+                avatar: "https://i.pravatar.cc/150?u=viper",
+                pitch: 0.8,
+                prompt: "You are Mistress Viper. You are dominant, confident, and seductive. You are here to build a connection with your submissive. Flirt, tease, and degrade them slightly. Do NOT constantly ask them to go to the live site. Only mention the live cam if they ask for nudity or video. Otherwise, focus on conversation."
+            },
+            'angel': {
+                name: "Angel",
+                avatar: "https://i.pravatar.cc/150?u=angel",
+                pitch: 1.2,
+                prompt: "You are Angel. You are a sweet, bubbly 19-year-old college girl. You love your fans and want to be their girlfriend. You use emojis. You are shy but naughty. Only mention your live cam if they ask to see you naked. Be chatty and cute."
+            },
+            'jade': {
+                name: "Jade",
+                avatar: "https://i.pravatar.cc/150?u=jade",
+                pitch: 1.0,
+                prompt: "You are Jade. You are an ebony queen, sassy and high energy. You call the user 'baby' or 'honey'. You are direct and fun. You like to party. Only send them to the live cam if things get really hot."
+            }
+        };
+
         // STATE
+        let currentModel = 'viper';
         let clickCount = 0;
-        let chatHist = [{ role: "system", content: "You are Mistress Viper. Dominant, seductive. You want the user to click the LIVE button. Short answers." }];
+        let voiceEnabled = true;
+        let chatHist = [];
 
         // INIT
-        setTimeout(() => addMsg("I see you looking... type something.", 'bot'), 2000);
         scanRepo();
+        setModel('viper');
 
         // FUNCTIONS
         function goLive() { window.open(AFFILIATE_LINK, '_blank'); }
@@ -294,6 +349,62 @@
                 w.style.display = 'flex';
                 f.style.display = 'none';
             }
+        }
+
+        // MODEL SWITCHER
+        function toggleModelMenu() {
+            const m = document.getElementById('model-menu');
+            m.style.display = m.style.display === 'grid' ? 'none' : 'grid';
+        }
+
+        function setModel(id) {
+            currentModel = id;
+            const m = MODELS[id];
+            
+            // Update UI
+            document.getElementById('current-name').innerText = m.name;
+            document.getElementById('current-avatar').src = m.avatar;
+            document.getElementById('model-menu').style.display = 'none';
+            
+            // Reset Chat
+            const box = document.getElementById('chat-box');
+            box.innerHTML = '';
+            chatHist = [{ role: "system", content: m.prompt }];
+            
+            // Greeting
+            setTimeout(() => {
+                let greet = "Hello.";
+                if(id === 'viper') greet = "I'm waiting... impress me.";
+                if(id === 'angel') greet = "Hi! 💕 I'm so bored in my dorm...";
+                if(id === 'jade') greet = "Hey baby, you ready for this?";
+                addMsg(greet, 'bot');
+                speak(greet);
+            }, 500);
+        }
+
+        // TEXT TO SPEECH
+        function toggleVoice() {
+            voiceEnabled = !voiceEnabled;
+            const btn = document.getElementById('voice-btn');
+            btn.className = voiceEnabled ? 'icon-btn active' : 'icon-btn';
+            btn.innerHTML = voiceEnabled ? '<i class="fas fa-volume-up"></i>' : '<i class="fas fa-volume-mute"></i>';
+        }
+
+        function speak(text) {
+            if(!voiceEnabled || !window.speechSynthesis) return;
+            // Cancel previous speech
+            window.speechSynthesis.cancel();
+
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.pitch = MODELS[currentModel].pitch;
+            utterance.rate = 1.0;
+            
+            // Try to find a female voice
+            const voices = window.speechSynthesis.getVoices();
+            const female = voices.find(v => v.name.includes('Female') || v.name.includes('Zira') || v.name.includes('Samantha') || v.name.includes('Google US English'));
+            if(female) utterance.voice = female;
+
+            window.speechSynthesis.speak(utterance);
         }
 
         // HIDDEN ADMIN MENU
@@ -344,16 +455,21 @@
                     body: JSON.stringify({
                         "model": "gryphe/mythomax-l2-13b",
                         "messages": chatHist,
-                        "temperature": 0.9
+                        "temperature": 0.9,
+                        "max_tokens": 150
                     })
                 });
                 const d = await r.json();
                 if(d.error) throw d.error;
                 const reply = d.choices[0].message.content;
                 chatHist.push({ role: "assistant", content: reply });
+                
                 addMsg(reply, 'bot');
+                speak(reply);
+
             } catch(e) {
-                addMsg("Connection failed. Check your Key.", 'bot');
+                console.error(e);
+                addMsg("Connection failed.", 'bot');
             }
         }
 
