@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +14,7 @@
             --neon-gold: #ffd700;
             --neon-green: #00ff41;
             --bg-dark: #050505;
+            --glass: rgba(20, 20, 20, 0.9);
         }
 
         body {
@@ -24,7 +23,7 @@
             color: #eee;
             font-family: 'Rajdhani', sans-serif;
             margin: 0;
-            padding-bottom: 60px;
+            padding-bottom: 80px; /* Space for bottom chat bar */
         }
 
         /* HEADER */
@@ -33,7 +32,6 @@
             background: rgba(0,0,0,0.95); border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 100;
         }
         .logo { font-size: 1.8rem; font-weight: 700; color: #fff; font-family: 'Orbitron'; }
-        
         .status-dot {
             height: 10px; width: 10px; background-color: var(--neon-green);
             border-radius: 50%; display: inline-block; margin-right: 5px;
@@ -47,22 +45,17 @@
             font-size: 0.8rem; clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
         }
         .btn:hover { background: var(--neon-pink); color: #fff; box-shadow: 0 0 15px var(--neon-pink); }
-        
         .btn-gold { border-color: var(--neon-gold); color: var(--neon-gold); }
-        .btn-gold:hover { background: var(--neon-gold); color: #000; box-shadow: 0 0 20px var(--neon-gold); }
-
-        /* LAYOUT */
-        .container { max-width: 1400px; margin: 0 auto; padding: 10px; }
         
+        /* HERO & LAYOUT */
+        .container { max-width: 1400px; margin: 0 auto; padding: 10px; }
         .hero-video {
             width: 100%; border: 1px solid var(--neon-blue); background: #000;
             box-shadow: 0 0 20px rgba(0, 243, 255, 0.15); margin-bottom: 15px; position: relative;
         }
         video { width: 100%; display: block; max-height: 70vh; }
 
-        .action-bar { display: flex; gap: 10px; margin-bottom: 30px; justify-content: center; flex-wrap: wrap;}
-
-        /* GALLERY */
+        /* MASONRY GALLERY */
         .masonry-grid {
             display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             gap: 8px; margin-top: 20px;
@@ -73,22 +66,59 @@
         }
         .gallery-item img, .gallery-item video { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; transition: 0.3s; }
         .gallery-item:hover img, .gallery-item:hover video { opacity: 1; transform: scale(1.05); }
-        
         .media-type {
             position: absolute; top: 5px; right: 5px; background: rgba(0,0,0,0.7);
             padding: 2px 6px; border-radius: 4px; font-size: 10px; color: #fff;
         }
 
-        /* MODAL */
+        /* 💬 ADDICTIVE CHAT INTERFACE */
+        .chat-widget {
+            position: fixed; bottom: 20px; right: 20px; width: 350px; height: 500px;
+            background: var(--glass); border: 1px solid var(--neon-pink);
+            border-radius: 15px; display: none; flex-direction: column;
+            z-index: 2000; box-shadow: 0 0 30px rgba(255, 0, 85, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        .chat-header {
+            padding: 15px; background: rgba(255,0,85,0.1); border-bottom: 1px solid #333;
+            display: flex; align-items: center; justify-content: space-between;
+            border-radius: 15px 15px 0 0;
+        }
+        .chat-avatar { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--neon-green); margin-right: 10px; object-fit: cover;}
+        .chat-messages {
+            flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px;
+        }
+        .msg { max-width: 80%; padding: 10px; border-radius: 10px; font-size: 0.9rem; line-height: 1.4; }
+        .msg.bot { align-self: flex-start; background: #222; border-left: 2px solid var(--neon-pink); }
+        .msg.user { align-self: flex-end; background: var(--neon-pink); color: #fff; }
+        .msg.audio { background: #1a1a1a; border: 1px solid var(--neon-blue); display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        
+        .chat-input-area {
+            padding: 15px; border-top: 1px solid #333; display: flex; gap: 10px;
+        }
+        .chat-input {
+            flex: 1; background: #000; border: 1px solid #444; color: #fff;
+            padding: 10px; border-radius: 20px; outline: none;
+        }
+        .chat-toggle-btn {
+            position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px;
+            background: var(--neon-pink); border-radius: 50%; display: flex;
+            align-items: center; justify-content: center; font-size: 24px; color: #fff;
+            cursor: pointer; z-index: 1900; box-shadow: 0 0 20px var(--neon-pink);
+            animation: bounce 3s infinite;
+        }
+
+        /* CREATOR MODAL */
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95); z-index: 2000; justify-content: center; align-items: center;
+            background: rgba(0,0,0,0.95); z-index: 3000; justify-content: center; align-items: center;
         }
         .modal-content {
             background: #111; border: 2px solid var(--neon-gold); padding: 30px;
-            max-width: 400px; width: 90%; text-align: center; position: relative;
+            max-width: 500px; width: 90%; text-align: center; position: relative;
         }
 
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-10px);} 60% {transform: translateY(-5px);} }
         @keyframes pulse { 0% {opacity: 1;} 50% {opacity: 0.5;} 100% {opacity: 1;} }
     </style>
 </head>
@@ -96,171 +126,210 @@
 
     <header>
         <div class="logo"><span class="status-dot"></span>JOI<span class="neon-blue">.AI</span></div>
-        <button class="btn btn-gold" onclick="triggerPayment('VIP JOIN')">VIP ACCESS</button>
+        <button class="btn btn-gold" onclick="openCreatorModal()">SELL YOUR CONTENT</button>
     </header>
 
     <div class="container">
+        <!-- Main Video Player -->
         <div class="hero-video">
-            <!-- Default video, will play first found mp4 automatically if this fails -->
             <video id="main-player" controls autoplay muted loop playsinline poster="img1.jpg">
                 <source src="1.mp4" type="video/mp4">
             </video>
         </div>
 
-        <div class="action-bar">
-            <button class="btn btn-gold" onclick="triggerPayment('TIP MODEL')">SEND TIP $5</button>
-            <button class="btn" onclick="triggerPayment('UNLOCK CHAT')">UNLOCK CHAT</button>
-            <button class="btn" onclick="window.open('https://www.google.com', '_blank')">PRIVATE CAM</button>
+        <div style="display:flex; justify-content:center; gap:10px; margin-bottom:20px;">
+             <button class="btn" onclick="triggerPayment('UNLOCK FEED')">VIP FEED</button>
+             <button class="btn btn-gold" onclick="triggerPayment('JOIN VIP')">UNLOCK ALL</button>
         </div>
 
-        <h2 class="neon-pink" id="gallery-title">SCANNING REPO...</h2>
+        <h2 class="neon-pink" id="gallery-title">LOADING MEDIA...</h2>
         <div class="masonry-grid" id="gallery-grid"></div>
     </div>
 
-    <!-- PAYMENT MODAL -->
+    <!-- 💬 FLOATING CHAT WIDGET -->
+    <div class="chat-toggle-btn" onclick="toggleChat()">
+        <i class="fas fa-comment-dots"></i>
+    </div>
+
+    <div class="chat-widget" id="chat-widget">
+        <div class="chat-header">
+            <div style="display:flex; align-items:center;">
+                <img src="https://i.pravatar.cc/150?u=a042581f4e29026024d" class="chat-avatar">
+                <div>
+                    <div style="font-weight:bold;">Mistress Viper</div>
+                    <div style="font-size:0.7rem; color:var(--neon-green);">● Online & Voice Active</div>
+                </div>
+            </div>
+            <i class="fas fa-times" style="cursor:pointer;" onclick="toggleChat()"></i>
+        </div>
+        <div class="chat-messages" id="chat-box">
+            <div class="msg bot">Hey... I saw you looking. Want to hear my voice? 💋</div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" class="chat-input" id="user-input" placeholder="Type here..." onkeypress="handleEnter(event)">
+            <button class="btn" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <!-- 💰 PAYMENT MODAL -->
     <div id="pay-modal" class="modal">
         <div class="modal-content">
             <span style="position:absolute; top:10px; right:15px; cursor:pointer; font-size:20px;" onclick="document.getElementById('pay-modal').style.display='none'">&times;</span>
-            <h2 style="color:var(--neon-gold); margin-top:0;" id="pay-title">VIP ACCESS</h2>
-            <p style="color:#aaa; margin-bottom:20px;">Unlock unrestricted access to all videos and photos.</p>
+            <h2 style="color:var(--neon-gold);" id="pay-title">VIP ACCESS</h2>
+            <p>Unlock everything for $19.99</p>
+            <button id="stripe-btn" class="btn btn-gold" style="width:100%; padding:15px; font-size:1rem;">SECURE CHECKOUT</button>
+        </div>
+    </div>
+
+    <!-- 🤝 CREATOR APPLICATION MODAL -->
+    <div id="creator-modal" class="modal">
+        <div class="modal-content">
+            <span style="position:absolute; top:10px; right:15px; cursor:pointer; font-size:20px;" onclick="document.getElementById('creator-modal').style.display='none'">&times;</span>
+            <h2 class="neon-blue">PARTNER PROGRAM</h2>
+            <p style="color:#ccc;">Upload your content. Set your price. <b>Keep 80%</b>.</p>
             
-            <button id="stripe-btn" class="btn btn-gold" style="width:100%; padding:15px; font-size:1rem;">
-                SECURE CHECKOUT $19.99
-            </button>
-            
-            <div style="margin-top:15px; font-size:0.8rem; color:#555;">
-                <i class="fas fa-lock"></i> Encrypted & Anonymous
+            <div style="text-align:left; background:#222; padding:15px; margin:20px 0; border-radius:5px;">
+                <p>1. Send your photos/videos via Dropbox/Drive.</p>
+                <p>2. We create your custom VIP collection.</p>
+                <p>3. You get paid weekly via Crypto or CashApp.</p>
             </div>
+            
+            <button class="btn" style="width:100%;" onclick="window.location.href='mailto:your-email@example.com?subject=Creator Application'">APPLY NOW (EMAIL)</button>
         </div>
     </div>
 
     <script>
-        // ========================================================
-        // ⚙️ CONFIGURATION
-        // ========================================================
-        
-        // YOUR NEW PAYMENT LINK
+        // CONFIG
         const STRIPE_LINK = "https://buy.stripe.com/test_00w5kFfxZ3Nb53dg3n7N600"; 
-        
-        // YOUR REPO DETAILS (For Auto-Scanner)
         const GITHUB_USER = "faded20666er";
         const GITHUB_REPO = "joi-ai-site-beta";
+        
+        // CHAT LOGIC (SIMULATED AI)
+        const chatBox = document.getElementById('chat-box');
+        
+        // Audio Dictionary: If these files exist in repo, they will play
+        const audioResponses = {
+            "hello": "audio_hello.mp3",
+            "voice": "audio_hello.mp3",
+            "moan": "audio_moan.mp3",
+            "laugh": "audio_laugh.mp3"
+        };
 
-        // ========================================================
+        function toggleChat() {
+            const widget = document.getElementById('chat-widget');
+            widget.style.display = widget.style.display === 'flex' ? 'none' : 'flex';
+        }
 
-        const grid = document.getElementById('gallery-grid');
-        const title = document.getElementById('gallery-title');
-        const mainPlayer = document.getElementById('main-player');
+        function handleEnter(e) { if(e.key === 'Enter') sendMessage(); }
 
-        // 1. PAYMENT SYSTEM
-        function triggerPayment(reason) {
-            document.getElementById('pay-title').innerText = reason;
-            const btn = document.getElementById('stripe-btn');
-            btn.onclick = () => window.open(STRIPE_LINK, '_blank');
+        function sendMessage() {
+            const input = document.getElementById('user-input');
+            const text = input.value.trim().toLowerCase();
+            if(!text) return;
+
+            // User Msg
+            addMsg(input.value, 'user');
+            input.value = '';
+
+            // AI Logic
+            setTimeout(() => {
+                let response = "I love when you talk like that...";
+                let audioFile = null;
+
+                if(text.includes('voice') || text.includes('speak') || text.includes('hear')) {
+                    response = "Listen closely...";
+                    audioFile = "audio_hello.mp3"; 
+                } else if(text.includes('pic') || text.includes('photo') || text.includes('nude')) {
+                    response = "I have something for you... but it's VIP only.";
+                    triggerPayment('UNLOCK PHOTO');
+                    return;
+                } else if(text.includes('meet') || text.includes('real')) {
+                    response = "I'm as real as you want me to be. 😘";
+                }
+
+                addMsg(response, 'bot');
+
+                // If audio triggered
+                if(audioFile) {
+                    addAudioMsg(audioFile);
+                }
+
+            }, 1000 + Math.random() * 1000); // Random delay
+        }
+
+        function addMsg(text, type) {
+            const div = document.createElement('div');
+            div.className = `msg ${type}`;
+            div.innerText = text;
+            chatBox.appendChild(div);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function addAudioMsg(filename) {
+            const url = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/${filename}`;
+            const div = document.createElement('div');
+            div.className = 'msg audio bot';
+            div.innerHTML = `<i class="fas fa-play"></i> Voice Message <span style="font-size:0.7em; margin-left:auto;">0:08</span>`;
+            div.onclick = () => {
+                const audio = new Audio(url);
+                audio.play().catch(e => alert("Audio file not found yet! Upload " + filename));
+            };
+            chatBox.appendChild(div);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        // AUTO SCANNER (PRESERVED)
+        async function scanRepo() {
+            const grid = document.getElementById('gallery-grid');
+            const title = document.getElementById('gallery-title');
+            
+            try {
+                const response = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/`);
+                if (!response.ok) throw new Error("Repo scan failed");
+                const files = await response.json();
+                
+                grid.innerHTML = '';
+                let count = 0;
+
+                files.forEach(file => {
+                    const name = file.name.toLowerCase();
+                    if(name.endsWith('.jpg') || name.endsWith('.webp') || name.endsWith('.mp4')) {
+                        const isVideo = name.endsWith('.mp4');
+                        const div = document.createElement('div');
+                        div.className = 'gallery-item';
+                        
+                        if(isVideo) {
+                            div.innerHTML = `<video src="${file.download_url}" muted loop onmouseover="this.play()" onmouseout="this.pause()"></video><div class="media-type">VIDEO</div>`;
+                            div.onclick = () => { 
+                                document.getElementById('main-player').src = file.download_url;
+                                document.getElementById('main-player').play();
+                                window.scrollTo(0,0);
+                            };
+                        } else {
+                            div.innerHTML = `<img src="${file.download_url}" loading="lazy"><i class="fas fa-lock" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:2rem; color:gold;"></i>`;
+                            div.onclick = () => triggerPayment('UNLOCK PHOTO');
+                        }
+                        grid.appendChild(div);
+                        count++;
+                    }
+                });
+                title.innerText = `ARCHIVE (${count} ITEMS)`;
+                title.style.color = "#00ff41";
+            } catch (e) { console.error(e); }
+        }
+
+        function triggerPayment(title) {
+            document.getElementById('pay-title').innerText = title;
+            document.getElementById('stripe-btn').onclick = () => window.open(STRIPE_LINK, '_blank');
             document.getElementById('pay-modal').style.display = 'flex';
         }
 
-        // 2. AUTO-SCANNER (The Magic)
-        async function scanRepo() {
-            try {
-                // Fetch file list from GitHub API
-                const response = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/`);
-                if (!response.ok) throw new Error("Repo scan failed");
-                
-                const files = await response.json();
-                let count = 0;
-                
-                // Clear grid
-                grid.innerHTML = '';
-
-                // Filter and sort files
-                const mediaFiles = files.filter(file => {
-                    const name = file.name.toLowerCase();
-                    return name.endsWith('.jpg') || name.endsWith('.png') || name.endsWith('.webp') || name.endsWith('.mp4') || name.endsWith('.jpeg');
-                });
-
-                // Process each file
-                mediaFiles.forEach(file => {
-                    const isVideo = file.name.toLowerCase().endsWith('.mp4');
-                    const div = document.createElement('div');
-                    div.className = 'gallery-item';
-                    
-                    // Determine content
-                    let content = '';
-                    if(isVideo) {
-                        content = `<video src="${file.download_url}" muted loop onmouseover="this.play()" onmouseout="this.pause()"></video>
-                                   <div class="media-type">VIDEO</div>`;
-                    } else {
-                        content = `<img src="${file.download_url}" loading="lazy">`;
-                    }
-
-                    div.innerHTML = `
-                        ${content}
-                        <i class="fas fa-lock" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:2rem; color:rgba(255,215,0,0.8);"></i>
-                    `;
-                    
-                    div.onclick = () => {
-                        if(isVideo) {
-                            // Preview video in main player before asking for pay
-                            mainPlayer.src = file.download_url;
-                            mainPlayer.play();
-                            window.scrollTo({top:0, behavior:'smooth'});
-                        } else {
-                            triggerPayment('UNLOCK PHOTO');
-                        }
-                    };
-                    
-                    grid.appendChild(div);
-                    count++;
-                });
-
-                title.innerHTML = `ARCHIVE (${count} FILES)`;
-                title.style.color = "#00ff41"; // Green for success
-
-                // Also scan 'arealkyyy' folder if it exists
-                scanFolder('arealkyyy');
-
-            } catch (e) {
-                console.error(e);
-                title.innerHTML = "ARCHIVE LOCKED";
-                // Fallback if API fails (rate limit, etc)
-                addFallbackContent();
-            }
+        function openCreatorModal() {
+            document.getElementById('creator-modal').style.display = 'flex';
         }
 
-        async function scanFolder(path) {
-            try {
-                const response = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${path}`);
-                if (!response.ok) return;
-                const files = await response.json();
-                
-                files.forEach(file => {
-                    const name = file.name.toLowerCase();
-                    if(name.endsWith('.webp') || name.endsWith('.jpg')) {
-                        const div = document.createElement('div');
-                        div.className = 'gallery-item';
-                        div.innerHTML = `<img src="${file.download_url}" loading="lazy"><div class="media-type">VIP</div>`;
-                        div.onclick = () => triggerPayment('VIP FOLDER');
-                        grid.appendChild(div);
-                    }
-                });
-            } catch(e) { console.log("Folder scan skipped"); }
-        }
-
-        function addFallbackContent() {
-            // If API fails, load basic 1-40 numbers as backup
-            for(let i=1; i<=40; i++) {
-                const div = document.createElement('div');
-                div.className = 'gallery-item';
-                div.innerHTML = `<img src="https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/arealkyyy/${i}.webp" onerror="this.style.display='none'">`;
-                div.onclick = () => triggerPayment('UNLOCK');
-                grid.appendChild(div);
-            }
-        }
-
-        // Start the scan
         scanRepo();
-
     </script>
 </body>
 </html>
+
