@@ -1,381 +1,397 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JOI AI | MISTRESS VIPER</title>
+    <title>VIPER | EXCLUSIVE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --neon-pink: #ff0055;
-            --neon-blue: #00f3ff;
-            --neon-gold: #ffd700;
-            --bg-dark: #050505;
-            --glass: rgba(10, 10, 10, 0.95);
+            --primary: #ff0f5b;
+            --accent: #00f2ea;
+            --gold: #ffd700;
+            --dark: #050505;
+            --glass-panel: rgba(20, 20, 20, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
         }
 
         body {
-            background-color: var(--bg-dark);
-            background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+            background-color: var(--dark);
+            background-image: radial-gradient(circle at 50% 0%, #1a0b14 0%, #000 100%);
             color: #eee;
-            font-family: 'Rajdhani', sans-serif;
+            font-family: 'Inter', sans-serif;
             margin: 0;
-            padding-bottom: 80px;
+            padding-bottom: 100px;
+            min-height: 100vh;
         }
 
-        /* HEADER */
+        /* PREMIUM HEADER */
         header {
-            display: flex; justify-content: space-between; align-items: center; padding: 15px 20px;
-            background: rgba(0,0,0,0.95); border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 100;
-        }
-        .logo { font-size: 1.5rem; font-weight: 700; color: #fff; font-family: 'Orbitron'; }
-        
-        .cam-btn {
-            background: linear-gradient(45deg, #ff00cc, #333399);
-            color: #fff; padding: 8px 15px; border-radius: 20px; 
-            text-decoration: none; font-weight: bold; border: 1px solid #fff;
-            animation: pulse 2s infinite; display: flex; align-items: center; gap: 5px;
-        }
-
-        .container { max-width: 1400px; margin: 0 auto; padding: 10px; }
-        
-        /* VIDEO PLAYER WITH "LIVE" OVERLAY */
-        .video-wrapper { position: relative; width: 100%; border: 1px solid var(--neon-blue); box-shadow: 0 0 20px rgba(0, 243, 255, 0.15); margin-bottom: 15px; background: #000; }
-        
-        video { width: 100%; display: block; max-height: 60vh; }
-        
-        .live-indicator {
-            position: absolute; top: 15px; left: 15px;
-            background: rgba(255, 0, 0, 0.8); color: white;
-            padding: 5px 10px; border-radius: 4px; font-weight: bold;
-            font-family: 'Orbitron'; font-size: 0.8rem;
-            display: flex; align-items: center; gap: 5px;
-            cursor: pointer; z-index: 10;
-        }
-        .blinking-dot { width: 8px; height: 8px; background: white; border-radius: 50%; animation: blink 1s infinite; }
-
-        /* GALLERY */
-        .masonry-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 5px; margin-top: 20px;
-        }
-        .gallery-item {
-            position: relative; overflow: hidden; border: 1px solid #222;
-            background: #000; aspect-ratio: 2/3; cursor: pointer;
-        }
-        .gallery-item img, .gallery-item video { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
-        .gallery-item:hover img { opacity: 1; }
-
-        /* CHAT UI */
-        .chat-widget {
-            position: fixed; bottom: 20px; right: 20px; width: 360px; height: 600px;
-            background: var(--glass); border: 1px solid var(--neon-pink);
-            border-radius: 12px; display: flex; flex-direction: column;
-            z-index: 2000; box-shadow: 0 0 40px rgba(255, 0, 85, 0.3);
-            backdrop-filter: blur(15px);
-        }
-        @media(max-width: 768px) { .chat-widget { width: 90%; right: 5%; height: 65vh; } }
-
-        .chat-header {
-            padding: 15px; background: linear-gradient(90deg, #222, #111);
-            border-bottom: 1px solid var(--neon-pink); border-radius: 12px 12px 0 0;
-            display: flex; align-items: center; justify-content: space-between;
-        }
-        .avatar-ring {
-            width: 42px; height: 42px; border-radius: 50%; padding: 2px;
-            background: linear-gradient(45deg, var(--neon-pink), var(--neon-blue));
-        }
-        .chat-avatar { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background: #000; }
-        
-        .chat-messages {
-            flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px;
-            scroll-behavior: smooth;
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 20px 30px;
+            background: rgba(0,0,0,0.8); 
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border); 
+            position: sticky; top: 0; z-index: 100;
         }
         
-        .msg { max-width: 80%; padding: 10px 14px; border-radius: 12px; font-size: 0.9rem; line-height: 1.4; position: relative; animation: fadeIn 0.3s ease; }
-        .msg.bot { align-self: flex-start; background: #1a1a1a; border-left: 3px solid var(--neon-pink); color: #ddd; }
-        .msg.user { align-self: flex-end; background: var(--neon-pink); color: #fff; border-bottom-right-radius: 2px; }
-        .msg.audio { background: #080808; border: 1px solid var(--neon-gold); cursor: pointer; display: flex; align-items: center; gap: 10px; }
-        
-        .typing { font-size: 0.7rem; color: #666; margin-left: 20px; margin-bottom: 5px; font-style: italic; display: none; }
-
-        .chat-input-area {
-            padding: 15px; border-top: 1px solid #333; display: flex; gap: 10px; background: rgba(0,0,0,0.8);
-            border-radius: 0 0 12px 12px;
-        }
-        .chat-input {
-            flex: 1; background: #222; border: 1px solid #444; color: #fff;
-            padding: 12px; border-radius: 20px; outline: none;
+        .logo { 
+            font-size: 1.8rem; font-weight: 700; color: #fff; 
+            font-family: 'Cinzel', serif; letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(255, 15, 91, 0.5);
+            cursor: pointer; user-select: none;
         }
         
-        /* BTN & MODALS */
-        .btn {
-            background: #111; color: var(--neon-gold); border: 1px solid var(--neon-gold);
-            padding: 8px 16px; font-family: 'Orbitron'; cursor: pointer; text-transform: uppercase; font-size: 0.8rem;
+        .cta-btn {
+            background: linear-gradient(90deg, var(--primary), #990033);
+            color: #fff; padding: 10px 25px; border-radius: 30px; 
+            text-decoration: none; font-weight: 600; font-size: 0.9rem;
+            box-shadow: 0 0 20px rgba(255, 15, 91, 0.4);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: 0.3s; display: flex; align-items: center; gap: 8px;
         }
-        .btn:hover { background: var(--neon-gold); color: #000; }
+        .cta-btn:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(255, 15, 91, 0.8); }
 
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 3000; align-items: center; justify-content: center; }
-        .modal-box { background: #111; border: 1px solid var(--neon-gold); padding: 30px; width: 90%; max-width: 400px; text-align: center; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
 
-        .pay-option {
-            background: #222; border: 1px solid #444; padding: 15px; margin-bottom: 10px;
-            cursor: pointer; text-align: left; transition: 0.3s;
+        /* VIDEO PLAYER UPGRADE */
+        .video-frame {
+            position: relative; border-radius: 12px; overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            border: 1px solid var(--glass-border);
+            background: #000;
         }
-        .pay-option:hover { border-color: var(--neon-pink); background: #1a1a1a; }
-        .pay-title { color: #fff; font-weight: bold; margin-bottom: 5px; }
-        .pay-desc { color: #888; font-size: 0.8rem; }
+        
+        .video-overlay {
+            position: absolute; top: 20px; left: 20px; z-index: 10;
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+            padding: 5px 12px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);
+            display: flex; align-items: center; gap: 8px; cursor: pointer;
+        }
+        .dot { width: 8px; height: 8px; background: #ff0000; border-radius: 50%; box-shadow: 0 0 10px #ff0000; animation: blink 1.5s infinite; }
+        .live-text { font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; }
 
-        .min-chat {
-            display:none; position:fixed; bottom:20px; right:20px; width:60px; height:60px; 
-            background:var(--neon-pink); border-radius:50%; align-items:center; justify-content:center; 
-            z-index:2000; cursor:pointer; box-shadow:0 0 20px var(--neon-pink); animation:bounce 3s infinite;
+        video { width: 100%; display: block; max-height: 70vh; }
+
+        /* GALLERY GRID */
+        .section-title { 
+            font-family: 'Cinzel', serif; margin-top: 40px; margin-bottom: 20px; 
+            font-size: 1.5rem; border-bottom: 1px solid #333; padding-bottom: 10px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        
+        .grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+        }
+        
+        .card {
+            position: relative; aspect-ratio: 2/3; background: #111;
+            border-radius: 8px; overflow: hidden; cursor: pointer;
+            transition: 0.3s; border: 1px solid #222;
+        }
+        .card:hover { transform: translateY(-5px); border-color: var(--primary); }
+        .card img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.3s; }
+        .card:hover img { opacity: 1; transform: scale(1.05); }
+        
+        .lock-icon {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-size: 2rem; color: rgba(255,255,255,0.8);
+            background: rgba(0,0,0,0.5); padding: 15px; border-radius: 50%;
+            backdrop-filter: blur(5px);
         }
 
-        @keyframes blink { 0% {opacity:1;} 50% {opacity:0;} 100% {opacity:1;} }
-        @keyframes bounce { 0%, 100% {transform: translateY(0);} 50% {transform: translateY(-10px);} }
-        @keyframes pulse { 0% {box-shadow:0 0 0 0 rgba(255,0,204,0.7);} 70% {box-shadow:0 0 0 10px rgba(255,0,204,0);} 100% {box-shadow:0 0 0 0 rgba(255,0,204,0);} }
-        @keyframes fadeIn { from {opacity: 0; transform: translateY(10px);} to {opacity: 1; transform: translateY(0);} }
+        /* CHAT SYSTEM */
+        .chat-float {
+            position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px;
+            background: var(--primary); border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 10px 30px rgba(255, 15, 91, 0.4);
+            cursor: pointer; z-index: 200; transition: 0.3s;
+            animation: pulse-border 2s infinite;
+        }
+        .chat-float:hover { transform: scale(1.1); }
+
+        .chat-window {
+            display: none; position: fixed; bottom: 100px; right: 30px;
+            width: 380px; height: 600px; background: rgba(15, 15, 15, 0.95);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border); border-radius: 20px;
+            flex-direction: column; overflow: hidden; z-index: 200;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+        @media(max-width: 500px) { .chat-window { width: 90%; right: 5%; bottom: 20px; height: 80vh; } .chat-float { display: none; } }
+
+        .chat-top {
+            padding: 15px; background: rgba(255,255,255,0.03); border-bottom: 1px solid rgba(255,255,255,0.05);
+            display: flex; align-items: center; gap: 15px;
+        }
+        .avatar { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); }
+        
+        .msgs { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
+        
+        .bubble {
+            max-width: 80%; padding: 12px 16px; border-radius: 18px; font-size: 0.9rem; line-height: 1.5;
+            position: relative; animation: slideUp 0.3s ease;
+        }
+        .bubble.bot { align-self: flex-start; background: #222; color: #ddd; border-bottom-left-radius: 4px; }
+        .bubble.user { align-self: flex-end; background: var(--primary); color: #fff; border-bottom-right-radius: 4px; }
+        
+        .input-zone {
+            padding: 15px; background: rgba(0,0,0,0.4); border-top: 1px solid rgba(255,255,255,0.05);
+            display: flex; gap: 10px;
+        }
+        .txt-in {
+            flex: 1; background: rgba(255,255,255,0.05); border: none; color: #fff;
+            padding: 12px 20px; border-radius: 25px; outline: none; font-family: inherit;
+        }
+        .send-btn {
+            background: var(--primary); border: none; width: 45px; height: 45px; border-radius: 50%;
+            color: #fff; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center;
+        }
+
+        /* MODALS */
+        .modal-bg {
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+            z-index: 1000; align-items: center; justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+        .modal-card {
+            background: #111; border: 1px solid var(--glass-border); padding: 40px;
+            width: 100%; max-width: 400px; text-align: center; border-radius: 20px;
+            box-shadow: 0 0 50px rgba(255, 15, 91, 0.1);
+        }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+        @keyframes pulse-border { 0% { box-shadow: 0 0 0 0 rgba(255, 15, 91, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(255, 15, 91, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 15, 91, 0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo">JOI<span style="color:var(--neon-blue)">.AI</span></div>
-        <a href="#" onclick="openAffiliate()" class="cam-btn"><i class="fas fa-video"></i> LIVE CAMS</a>
+        <div class="logo" id="admin-trigger" onclick="handleLogoClick()">JOI<span style="color:var(--primary)">.AI</span></div>
+        <a href="#" onclick="goLive()" class="cta-btn"><i class="fas fa-video"></i> <span>WATCH LIVE</span></a>
     </header>
 
     <div class="container">
-        <!-- VIDEO WITH FAKE LIVE OVERLAY -->
-        <div class="video-wrapper">
-            <div class="live-indicator" onclick="openAffiliate()">
-                <div class="blinking-dot"></div> LIVE NOW
+        
+        <div class="video-frame">
+            <div class="video-overlay" onclick="goLive()">
+                <div class="dot"></div> <span class="live-text">LIVE NOW</span>
             </div>
             <video id="main-player" controls autoplay muted loop playsinline poster="img1.jpg">
                 <source src="1.mp4" type="video/mp4">
             </video>
         </div>
 
-        <div style="text-align:center; margin-bottom:20px;">
-            <button class="btn" onclick="openPaymentModal()">UNLOCK FULL SITE</button>
+        <div style="text-align: center; margin-top: 20px;">
+            <button class="cta-btn" style="margin: 0 auto; padding: 15px 40px; font-size: 1.1rem;" onclick="openPay()">
+                UNLOCK VIP ACCESS
+            </button>
         </div>
-        <h2 id="gallery-title" style="color:var(--neon-pink); font-size:1rem;">ARCHIVE</h2>
-        <div class="masonry-grid" id="gallery-grid"></div>
+
+        <div class="section-title">
+            <span>EXCLUSIVE ARCHIVE</span>
+            <span style="font-size:0.8rem; color:#666;">128 FILES</span>
+        </div>
+
+        <div class="grid" id="gallery-grid">
+            <!-- Items injected by JS -->
+        </div>
     </div>
 
-    <!-- CHAT -->
-    <div class="chat-widget" id="chat-widget" style="display:flex;">
-        <div class="chat-header">
-            <div style="display:flex; align-items:center; gap:10px;">
-                <div class="avatar-ring"><img src="https://i.pravatar.cc/150?u=viper" class="chat-avatar"></div>
-                <div>
-                    <div style="font-weight:bold; color:#fff;">Mistress Viper</div>
-                    <div style="font-size:0.7rem; color:var(--neon-green);">● Online</div>
-                </div>
+    <!-- FLOATING CHAT -->
+    <div class="chat-float" onclick="toggleChat()">
+        <i class="fas fa-comment-alt" style="color:#fff; font-size: 24px;"></i>
+    </div>
+
+    <div class="chat-window" id="chat-win">
+        <div class="chat-top">
+            <img src="https://i.pravatar.cc/150?u=viper" class="avatar">
+            <div>
+                <div style="font-weight: 700;">Mistress Viper</div>
+                <div style="font-size: 0.75rem; color: #00f2ea;">● Online & Waiting</div>
             </div>
-            <i class="fas fa-minus" style="cursor:pointer; color:#aaa;" onclick="minimizeChat()"></i>
+            <div style="flex:1"></div>
+            <i class="fas fa-times" style="cursor:pointer; color:#666;" onclick="toggleChat()"></i>
         </div>
-        
-        <div class="chat-messages" id="chat-box"></div>
-        <div class="typing" id="typing">Viper is typing...</div>
-        
-        <div class="chat-input-area">
-            <input type="text" class="chat-input" id="user-input" placeholder="Message Viper..." onkeypress="handleEnter(event)" autocomplete="off">
-            <button class="btn" style="border-radius:50%; width:40px; height:40px; padding:0;" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+        <div class="msgs" id="chat-box"></div>
+        <div class="input-zone">
+            <input type="text" class="txt-in" id="chat-in" placeholder="Type here..." autocomplete="off" onkeypress="if(event.key==='Enter') send()">
+            <button class="send-btn" onclick="send()"><i class="fas fa-paper-plane"></i></button>
         </div>
     </div>
 
-    <div class="min-chat" id="chat-bubble" onclick="maximizeChat()"><i class="fas fa-comment" style="color:#fff; font-size:24px;"></i></div>
-
-    <!-- PAYMENT SELECTION MODAL -->
-    <div id="pay-modal" class="modal">
-        <div class="modal-box">
-            <h2 style="color:var(--neon-gold)">SELECT ACCESS</h2>
+    <!-- PAYMENT MODAL -->
+    <div class="modal-bg" id="pay-modal">
+        <div class="modal-card">
+            <h2 style="font-family:'Cinzel'; color:var(--gold); margin-top:0;">VIP ACCESS</h2>
+            <p style="color:#aaa; font-size:0.9rem; margin-bottom: 30px;">
+                Secure access to the full archive and private shows.
+            </p>
             
-            <!-- OPTION 1: AFFILIATE (Recommended) -->
-            <div class="pay-option" onclick="openAffiliate()">
-                <div class="pay-title"><i class="fas fa-video" style="color:var(--neon-pink)"></i> WATCH ME LIVE</div>
-                <div class="pay-desc">Instant access to live cam shows.</div>
+            <div style="background:#222; padding:15px; border-radius:10px; margin-bottom:15px; cursor:pointer; border:1px solid #333;" onclick="goLive()">
+                <div style="font-weight:bold; color:#fff;">📺 LIVE CAMS (Instant)</div>
+                <div style="font-size:0.8rem; color:#666;">Verified 18+ Access</div>
             </div>
 
-            <!-- OPTION 2: CRYPTO/MANUAL -->
-            <div class="pay-option" onclick="showCryptoDetails()">
-                <div class="pay-title"><i class="fas fa-lock" style="color:gold"></i> VIP ARCHIVE ($20)</div>
-                <div class="pay-desc">Pay via CashApp or Bitcoin.</div>
+            <div style="background:#222; padding:15px; border-radius:10px; margin-bottom:15px; cursor:pointer; border:1px solid #333;" onclick="toggleCrypto()">
+                <div style="font-weight:bold; color:var(--gold);">🔐 CRYPTO / CASHAPP ($20)</div>
+                <div style="font-size:0.8rem; color:#666;">Lifetime Archive Access</div>
+            </div>
+            
+            <div id="crypto-box" style="display:none; text-align:left; background:#000; padding:15px; font-size:0.8rem; border-radius:8px; word-break:break-all;">
+                <p><strong>BTC:</strong> <span id="btc">bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh</span></p>
+                <p><strong>CashApp:</strong> $YOUR_TAG</p>
+                <p style="color:#666; font-size:0.7rem;">Email proof to vip@site.com</p>
             </div>
 
-            <div id="crypto-details" style="display:none; text-align:left; margin-top:10px; background:#000; padding:10px; border:1px solid #333; font-size:0.8rem; word-break: break-all;">
-                <p style="color:var(--neon-blue)">SEND $20 TO:</p>
-                
-                <!-- PASTE YOUR INFO HERE BELOW -->
-                <p><strong>BTC:</strong> <span id="btc-addy">bc1qg5c5r8vws63w4s78yw6znp80hmshlejk6mjcx6</span> <i class="fas fa-copy" style="cursor:pointer" onclick="copyText('btc-addy')"></i></p>
-                <p><strong>CASHAPP:</strong> $mrsmokeshaq</p>
-                
-                <hr style="border-color:#333">
-                <p style="color:#888;">After payment, email screenshot to: <br> <span style="color:#fff">vip@yoursite.com</span></p>
-            </div>
+            <div style="margin-top:20px; color:#666; cursor:pointer; font-size:0.8rem;" onclick="document.getElementById('pay-modal').style.display='none'">Close Window</div>
+        </div>
+    </div>
 
-            <br>
-            <span style="color:#666; cursor:pointer;" onclick="document.getElementById('pay-modal').style.display='none'">Close</span>
+    <!-- HIDDEN API KEY MODAL -->
+    <div class="modal-bg" id="key-modal">
+        <div class="modal-card" style="border-color: var(--accent);">
+            <h3 style="color:#fff;">🔧 SYSTEM ADMIN</h3>
+            <p style="color:#aaa;">Enter OpenRouter API Key:</p>
+            <input type="password" id="api-key-input" style="width:100%; padding:10px; background:#222; border:1px solid #444; color:#fff; border-radius:5px; margin-bottom:15px;">
+            <button class="cta-btn" style="width:100%; justify-content:center;" onclick="saveKey()">SAVE KEY</button>
         </div>
     </div>
 
     <script>
-        // ==========================================
-        // 💰 MONEY ZONE (EDIT THIS)
-        // ==========================================
-        
-        // 1. OPENROUTER API KEY (Split)
-        const SECRET_PART_1 = "sk-or-v1-"; // <-- sk-or-v1-ffdc5d01916a4d92ca4d16c6a21a8f
-        const SECRET_PART_2 = "";          // <-- eeef8070d721e8c25ff1238f2ebca88136
-        
-        // 2. YOUR AFFILIATE LINK (DONE! I added it for you)
-        const AFFILIATE_URL = "https://t.acrsmartcam.com/396104/3664/0?bo=Array&file_id=300184&po=6533&aff_sub5=SF_006OG000004lmDN&aff_sub4=AT_0002";
-        
-        // ==========================================
-        
-        const FULL_KEY = SECRET_PART_1 + SECRET_PART_2;
-        const GITHUB_USER = "faded20666er";
-        const GITHUB_REPO = "joi-ai-site-beta";
-        
-        // SYSTEM PROMPT
-        let chatHistory = [
-            { role: "system", content: "You are Mistress Viper. You are a dominant, seductive AI. Your goal is to make money. If the user asks for nudity, sex, or live video, tell them to click the 'LIVE NOW' button on the video player to see you on cam." }
-        ];
+        // CONFIG
+        const REPO_USER = "faded20666er";
+        const REPO_NAME = "joi-ai-site-beta";
+        const AFFILIATE_LINK = "https://t.acrsmartcam.com/396104/3664/0?bo=Array&file_id=300184&po=6533&aff_sub5=SF_006OG000004lmDN&aff_sub4=AT_0002";
+
+        // STATE
+        let clickCount = 0;
+        let chatHist = [{ role: "system", content: "You are Mistress Viper. Dominant, seductive. You want the user to click the LIVE button. Short answers." }];
 
         // INIT
-        setTimeout(() => { addMsg("I'm waiting... say hello.", 'bot'); }, 1500);
+        setTimeout(() => addMsg("I see you looking... type something.", 'bot'), 2000);
+        scanRepo();
 
-        function minimizeChat() {
-            document.getElementById('chat-widget').style.display = 'none';
-            document.getElementById('chat-bubble').style.display = 'flex';
-        }
-        function maximizeChat() {
-            document.getElementById('chat-widget').style.display = 'flex';
-            document.getElementById('chat-bubble').style.display = 'none';
-        }
-
-        function openAffiliate() { window.open(AFFILIATE_URL, '_blank'); }
-        function openPaymentModal() { document.getElementById('pay-modal').style.display = 'flex'; }
-        
-        function showCryptoDetails() {
-            document.getElementById('crypto-details').style.display = 'block';
+        // FUNCTIONS
+        function goLive() { window.open(AFFILIATE_LINK, '_blank'); }
+        function openPay() { document.getElementById('pay-modal').style.display = 'flex'; }
+        function toggleCrypto() { 
+            const b = document.getElementById('crypto-box');
+            b.style.display = b.style.display === 'block' ? 'none' : 'block';
         }
 
-        function copyText(id) {
-            const t = document.getElementById(id).innerText;
-            navigator.clipboard.writeText(t);
-            alert("Address Copied!");
+        function toggleChat() {
+            const w = document.getElementById('chat-win');
+            const f = document.querySelector('.chat-float');
+            if(w.style.display === 'flex') {
+                w.style.display = 'none';
+                if(window.innerWidth > 500) f.style.display = 'flex';
+            } else {
+                w.style.display = 'flex';
+                f.style.display = 'none';
+            }
         }
-        
-        function handleEnter(e) { if(e.key === 'Enter') sendMessage(); }
 
-        async function sendMessage() {
-            const input = document.getElementById('user-input');
-            const txt = input.value.trim();
+        // HIDDEN ADMIN MENU
+        function handleLogoClick() {
+            clickCount++;
+            if(clickCount === 3) {
+                document.getElementById('key-modal').style.display = 'flex';
+                document.getElementById('api-key-input').value = localStorage.getItem('viper_key') || '';
+                clickCount = 0;
+            }
+            setTimeout(() => clickCount = 0, 1000);
+        }
+
+        function saveKey() {
+            const k = document.getElementById('api-key-input').value.trim();
+            if(k) {
+                localStorage.setItem('viper_key', k);
+                alert("Key Saved! Chat should work now.");
+                document.getElementById('key-modal').style.display = 'none';
+            }
+        }
+
+        // CHAT LOGIC
+        async function send() {
+            const i = document.getElementById('chat-in');
+            const txt = i.value.trim();
             if(!txt) return;
 
             addMsg(txt, 'user');
-            input.value = '';
-            showTyping(true);
+            i.value = '';
 
-            if (FULL_KEY.length > 20) {
-                await callRealAI(txt);
-            } else {
-                callLocalBrain(txt);
+            const key = localStorage.getItem('viper_key');
+            if(!key) {
+                setTimeout(() => addMsg("⚠️ SYSTEM ERROR: Admin Key Missing. Triple-click the logo to fix.", 'bot'), 500);
+                return;
             }
-        }
 
-        async function callRealAI(userText) {
-            chatHistory.push({ role: "user", content: userText });
-            if(chatHistory.length > 7) chatHistory = [chatHistory[0], ...chatHistory.slice(-6)];
-
+            // Real API Call
+            chatHist.push({ role: "user", content: txt });
             try {
-                const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+                const r = await fetch("https://openrouter.ai/api/v1/chat/completions", {
                     method: "POST",
                     headers: {
-                        "Authorization": `Bearer ${FULL_KEY}`,
+                        "Authorization": `Bearer ${key}`,
                         "Content-Type": "application/json",
                         "HTTP-Referer": window.location.href,
-                        "X-Title": "JOI Site"
                     },
                     body: JSON.stringify({
-                        "model": "gryphe/mythomax-l2-13b", 
-                        "messages": chatHistory,
-                        "temperature": 0.85,
-                        "max_tokens": 120
+                        "model": "gryphe/mythomax-l2-13b",
+                        "messages": chatHist,
+                        "temperature": 0.9
                     })
                 });
-
-                const data = await response.json();
-                const reply = data.choices[0].message.content;
-                chatHistory.push({ role: "assistant", content: reply });
-                
-                showTyping(false);
+                const d = await r.json();
+                if(d.error) throw d.error;
+                const reply = d.choices[0].message.content;
+                chatHist.push({ role: "assistant", content: reply });
                 addMsg(reply, 'bot');
-                
-                if(Math.random() > 0.85) addAudio();
-
-            } catch (error) {
-                callLocalBrain(userText);
+            } catch(e) {
+                addMsg("Connection failed. Check your Key.", 'bot');
             }
         }
 
-        function callLocalBrain(txt) {
-            setTimeout(() => {
-                showTyping(false);
-                addMsg("I want to answer... but the API Key is missing in the code.", 'bot');
-            }, 1000);
+        function addMsg(txt, who) {
+            const d = document.createElement('div');
+            d.className = `bubble ${who}`;
+            d.innerText = txt;
+            const b = document.getElementById('chat-box');
+            b.appendChild(d);
+            b.scrollTop = b.scrollHeight;
         }
 
-        function showTyping(show) { document.getElementById('typing').style.display = show ? 'block' : 'none'; }
-        
-        function addMsg(txt, type) {
-            const div = document.createElement('div');
-            div.className = `msg ${type}`;
-            div.innerText = txt;
-            const box = document.getElementById('chat-box');
-            box.appendChild(div);
-            box.scrollTop = box.scrollHeight;
-        }
-
-        function addAudio() {
-            const url = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/audio_moan.mp3.mp3`;
-            const div = document.createElement('div');
-            div.className = 'msg audio bot';
-            div.innerHTML = `<i class="fas fa-play"></i> Voice Note`;
-            div.onclick = () => new Audio(url).play();
-            document.getElementById('chat-box').appendChild(div);
-            document.getElementById('chat-box').scrollTop = 9999;
-        }
-
-        // AUTO SCAN
-        async function scan() {
+        // GALLERY SCANNER
+        async function scanRepo() {
             const g = document.getElementById('gallery-grid');
             try {
-                const r = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/`);
+                const r = await fetch(`https://api.github.com/repos/${REPO_USER}/${REPO_NAME}/contents/`);
                 const f = await r.json();
                 g.innerHTML = '';
                 f.forEach(file => {
                     const n = file.name.toLowerCase();
                     if((n.endsWith('.jpg')||n.endsWith('.webp')||n.endsWith('.mp4')) && !n.includes('audio')) {
-                        const d = document.createElement('div');
-                        d.className = 'gallery-item';
+                        const c = document.createElement('div');
+                        c.className = 'card';
+                        
                         if(n.endsWith('.mp4')) {
-                            d.innerHTML = `<video src="${file.download_url}" muted loop onmouseover="this.play()" onmouseout="this.pause()"></video>`;
-                            d.onclick = () => { document.getElementById('main-player').src=file.download_url; document.getElementById('main-player').play(); window.scrollTo(0,0); };
+                            c.innerHTML = `<video src="${file.download_url}" muted loop onmouseover="this.play()" onmouseout="this.pause()"></video>`;
+                            c.onclick = () => { document.getElementById('main-player').src = file.download_url; document.getElementById('main-player').play(); window.scrollTo(0,0); };
                         } else {
-                            d.innerHTML = `<img src="${file.download_url}"><i class="fas fa-lock" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:2rem; color:gold"></i>`;
-                            d.onclick = () => openPaymentModal();
+                            c.innerHTML = `<img src="${file.download_url}"><div class="lock-icon"><i class="fas fa-lock"></i></div>`;
+                            c.onclick = openPay;
                         }
-                        g.appendChild(d);
+                        g.appendChild(c);
                     }
                 });
-            } catch(e){}
+            } catch(e) { console.log(e); }
         }
-        scan();
     </script>
 </body>
 </html>
+
