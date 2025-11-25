@@ -1,11 +1,13 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIPER | V46.0</title>
+    <title>VIPER | V47.0</title>
     
-    <!-- ERROR HANDLER (Runs first to catch issues) -->
+    <!-- ERROR HANDLER -->
     <script>
         window.onerror = function(msg, url, line) {
             var errDiv = document.getElementById('sys-error');
@@ -19,7 +21,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     
-    <!-- EXTERNAL STYLES (Loaded safely) -->
+    <!-- EXTERNAL STYLES -->
     <link rel="stylesheet" href="https://pitch-slider.aebn.net/aebn-components.css">
     <link rel="stylesheet" href="https://top-stars.aebn.net/aebn-top-stars.css">
     <link rel="stylesheet" href="https://www.aebn.com/assets/css/q-tool.css">
@@ -49,7 +51,6 @@
             padding: 10px; display: none; position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
         }
 
-        /* NAVIGATION */
         nav {
             position: fixed; top: 0; left: 0; right: 0;
             background: rgba(0,0,0,0.9); backdrop-filter: blur(10px);
@@ -78,19 +79,16 @@
             margin-left: 10px; box-shadow: 0 0 5px #000;
         }
 
-        /* TABS */
         .container { max-width: 1000px; margin: 0 auto; padding: 20px; display: none; animation: fade 0.4s; }
         .container.active { display: block; }
         @keyframes fade { from {opacity:0; transform:translateY(10px);} to {opacity:1; transform:translateY(0);} }
 
-        /* WIDGET CONTAINERS */
         .aebn-wrapper {
             background: #111; border: 1px solid #333; border-radius: 10px;
             padding: 15px; margin-bottom: 30px; display: flex; justify-content: center; overflow: hidden; min-height: 100px;
         }
         .queueTitleBar { background: var(--primary) !important; color: #fff !important; font-family: 'Cinzel', serif !important; }
 
-        /* GRIDS */
         .market-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .product-card {
             background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
@@ -102,7 +100,6 @@
             padding: 5px 15px; border-radius: 20px; margin: 10px 0;
         }
 
-        /* VIP & TRIBUTE */
         .vip-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
         .vip-item {
             position: relative; aspect-ratio: 1; overflow: hidden; cursor: pointer; border-radius: 5px;
@@ -118,7 +115,6 @@
             position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center;
         }
 
-        /* CHAT */
         .chat-widget {
             position: fixed; bottom: 20px; right: 20px; width: 350px; height: 500px;
             background: rgba(10,10,10,0.95); border: 1px solid var(--border);
@@ -133,7 +129,6 @@
         .chat-in { padding: 10px; display: flex; gap: 5px; border-top: 1px solid #333; }
         .chat-input { flex: 1; background: #222; border: none; padding: 10px; color: #fff; border-radius: 5px; outline:none; }
 
-        /* BUTTONS & FORMS */
         .btn-main {
             background: var(--primary); color: #fff; padding: 12px 20px; border: none;
             border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%; text-transform: uppercase;
@@ -154,7 +149,6 @@
 
         .custom-form input, .custom-form textarea { width: 100%; padding: 12px; background: #222; border: 1px solid #444; color: #fff; margin-bottom: 10px; border-radius: 5px; box-sizing: border-box; }
         
-        /* MODALS */
         .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:1000; align-items:center; justify-content:center; }
         .modal-box { background:#111; padding:30px; border:1px solid var(--primary); width:90%; max-width:400px; text-align:center; }
 
@@ -200,16 +194,14 @@
         </div>
     </div>
 
-    <!-- MARKET TAB (WIDGETS HERE) -->
+    <!-- MARKET TAB -->
     <div id="market" class="container">
         <h2 style="text-align:center; font-family:'Cinzel'; color:var(--gold);">PREMIUM STORE</h2>
         
-        <!-- WIDGET 1 -->
         <div class="aebn-wrapper">
             <div id="aebn-pitch" style="width: 50vw; height: 14vw;"></div>
         </div>
 
-        <!-- WIDGET 2 -->
         <h3 style="color:var(--primary); text-align:center;">NEW RELEASES</h3>
         <div class="aebn-wrapper" style="padding:0; border:none; background:transparent;">
             <div class="aebn-queue-tool movie-queue" data-params='{"type":"movie","salesToolId":80,"refid":"AEBN-119284","orientation":"straight","queueId":"newest","useTitle":"true","titleBackground":"#ff0f5b","titleFontColor":"#ffffff"}' >
@@ -217,7 +209,6 @@
                 <div class="q-itemSlider_Wrapper">
                     <div id="qMovieSlider" class="q-itemSlider dragscroll">
                         <div class="q-itemSlider_Contents">
-                            <!-- Pre-loaded images -->
                             <img src="https://www.aebn.com/assets/images/boxcover.png"><img src="https://www.aebn.com/assets/images/boxcover.png"><img src="https://www.aebn.com/assets/images/boxcover.png">
                         </div>
                     </div>
@@ -227,7 +218,6 @@
             </div>
         </div>
 
-        <!-- WIDGET 3 -->
         <h3 style="color:var(--accent); text-align:center;">TOP STARS</h3>
         <div class="aebn-wrapper">
             <div id="aebn-top-stars"></div>
@@ -320,19 +310,9 @@
         </div>
     </div>
 
-    <div style="text-align:center; padding:10px; color:#444; font-size:10px;">Running V46.0</div>
+    <div style="text-align:center; padding:10px; color:#444; font-size:10px;">Running V47.0</div>
 
-    <!-- MAIN SCRIPT (LOADED AT END) -->
     <script>
-    // --- SAFE LOADER FOR WIDGETS ---
-    function loadScript(src) {
-        return new Promise((resolve, reject) => {
-            const s = document.createElement('script');
-            s.src = src; s.onload = resolve; s.onerror = reject;
-            document.body.appendChild(s);
-        });
-    }
-
     // --- MAIN APP LOGIC ---
     const REPO_USER = "faded20666er";
     const REPO_NAME = "joi-ai-site-beta";
@@ -344,8 +324,8 @@
     let voiceOn = true;
     let clickCount = 0;
 
-    // UI FUNCTIONS
-    function showTab(id) {
+    // --- GLOBAL FUNCTIONS (WINDOW LEVEL) ---
+    window.showTab = function(id) {
         document.querySelectorAll('.container').forEach(d => d.classList.remove('active'));
         document.querySelectorAll('.nav-item').forEach(d => d.classList.remove('active'));
         const el = document.getElementById(id);
@@ -353,43 +333,42 @@
         const tabs = ['home','market','vip','customs','confess','tributes'];
         const idx = tabs.indexOf(id);
         if(idx > -1) document.querySelectorAll('.nav-item')[idx].classList.add('active');
-    }
+    };
 
-    function openPay(item) { 
+    window.openPay = function(item) { 
         document.getElementById('pay-desc').innerText = item ? "Item: " + item : "Payment";
         document.getElementById('pay-modal').style.display='flex'; 
-    }
+    };
 
-    function toggleChat() { 
+    window.toggleChat = function() { 
         const c = document.getElementById('chat-box');
         c.style.display = c.style.display==='none' ? 'flex' : 'none';
-    }
+    };
 
-    function toggleVoice() {
+    window.toggleVoice = function() {
         voiceOn = !voiceOn;
         document.getElementById('v-btn').style.color = voiceOn ? 'var(--primary)' : '#666';
-    }
+    };
 
-    function goLive() { window.open(AFFILIATE, '_blank'); }
+    window.goLive = function() { window.open(AFFILIATE, '_blank'); };
 
-    function triggerUpload(type) {
+    window.triggerUpload = function(type) {
         setTimeout(() => { 
             alert("File 'Received'. Send payment to process."); 
             openPay(`${type.toUpperCase()} Processing`); 
         }, 1000); 
-    }
+    };
 
-    function postConfession() {
+    window.postConfession = function() {
         const txt = document.getElementById('confess-txt').value;
         if(!txt) return alert("Write something.");
         const d = document.createElement('div'); d.className = 'forum-post';
         d.innerHTML = `<div class="forum-user">Anonymous User</div><div class="forum-text">${txt}</div>`;
         document.getElementById('forum-posts').prepend(d);
         document.getElementById('confess-txt').value = '';
-    }
+    };
 
-    // ADMIN
-    function handleLogoClick() {
+    window.handleLogoClick = function() {
         clickCount++;
         if(clickCount===3) {
             document.getElementById('admin-modal').style.display='flex';
@@ -398,21 +377,35 @@
             clickCount=0;
         }
         setTimeout(()=>clickCount=0, 1000);
-    }
-    function saveKeys() {
+    };
+
+    window.saveKeys = function() {
         localStorage.setItem('viper_brain', document.getElementById('key-brain').value.trim());
         localStorage.setItem('viper_voice', document.getElementById('key-voice').value.trim());
         document.getElementById('admin-modal').style.display='none';
         checkBrain();
-    }
-    function checkBrain() {
+    };
+
+    window.checkBrain = function() {
         const k = localStorage.getItem('viper_brain');
         const ind = document.getElementById('status-ind');
         if(ind) ind.style.backgroundColor = (k && k.length > 10) ? '#0f0' : '#f00';
-    }
+    };
 
-    // CHAT
-    async function send() {
+    // --- RESTORED FUNCTION ---
+    window.testVoice = async function() {
+        const vKey = document.getElementById('key-voice').value.trim();
+        if(!vKey) return alert("No Key");
+        try {
+            const r = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`, {
+                method: "POST", headers: { "xi-api-key": vKey, "Content-Type": "application/json" },
+                body: JSON.stringify({ text: "Access Denied.", model_id: "eleven_multilingual_v2" })
+            });
+            if(r.ok) new Audio(URL.createObjectURL(await r.blob())).play();
+        } catch(e) {}
+    };
+
+    window.send = async function() {
         const inp = document.getElementById('c-in'); const txt = inp.value.trim(); if(!txt) return;
         addMsg(txt, 'user'); inp.value = '';
         const key = localStorage.getItem('viper_brain'); if(!key) return addMsg("SYSTEM: BRAIN DISCONNECTED", 'sys');
@@ -422,11 +415,13 @@
             const d = await r.json(); const reply = d.choices[0].message.content;
             chatHist.push({role:"assistant", content:reply}); addMsg(reply, 'bot'); if(voiceOn) speak(reply);
         } catch(e) { addMsg("Error: " + e.message, 'sys'); }
-    }
+    };
+
     function addMsg(txt, role) { 
         const d = document.createElement('div'); d.className = `msg ${role}`; d.innerText = txt; 
         document.getElementById('msgs').appendChild(d); document.getElementById('msgs').scrollTop = 99999; 
     }
+
     async function speak(txt) {
         const vKey = localStorage.getItem('viper_voice'); if(!vKey) return;
         try {
@@ -458,6 +453,7 @@
             });
         } catch(e) {}
     }
+
     function fillVipWall() {
         const w = document.getElementById('vip-wall'); const t = document.getElementById('tribute-wall');
         for(let i=0; i<9; i++) {
@@ -466,9 +462,16 @@
         }
     }
 
+    function loadScript(src) {
+        return new Promise((resolve, reject) => {
+            const s = document.createElement('script');
+            s.src = src; s.onload = resolve; s.onerror = reject;
+            document.body.appendChild(s);
+        });
+    }
+
     // --- INITIALIZATION ---
     document.addEventListener('DOMContentLoaded', async () => {
-        // 1. Init Core
         scanRepo();
         fillVipWall();
         checkBrain();
@@ -476,7 +479,7 @@
         document.getElementById('disp-btc').innerText = BTC_WALLET;
         setTimeout(() => addMsg("I'm waiting. Pay up or get out.", 'bot'), 2000);
 
-        // 2. Load Widgets Delayed (Prevents crash)
+        // Load Widgets Delayed
         try {
             await loadScript("https://pitch-slider.aebn.net/aebn-pitch-slider.min.js");
             if(window.aebnPitchSlider) aebnPitchSlider.load("aebn-pitch", {orientation: "straight", refid: "AEBN-119284", theaterId: "13992", theaterCname: "theater.aebn.net", intervalSeconds: 3, randomOrder: true, openNewWindow: false});
@@ -492,4 +495,3 @@
     </script>
 </body>
 </html>
-
