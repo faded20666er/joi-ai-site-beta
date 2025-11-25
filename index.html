@@ -3,9 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIPER | EMPIRE</title>
+    <title>VIPER | AFFILIATE EMPIRE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- AEBN WIDGET ASSETS -->
+    <script src="https://pitch-slider.aebn.net/aebn-pitch-slider.min.js"></script>
+    <link rel="stylesheet" href="https://pitch-slider.aebn.net/aebn-components.css">
+    <script src="https://top-stars.aebn.net/aebn-top-stars.min.js"></script>
+    <link rel="stylesheet" href="https://top-stars.aebn.net/aebn-top-stars.css">
+    <link rel="stylesheet" href="https://www.aebn.com/assets/css/q-tool.css" type="text/css" media="all">
+    <script src="https://www.aebn.com/assets/js/q-tool.js"></script>
+
     <style>
         :root {
             --primary: #ff0f5b;
@@ -59,6 +68,14 @@
         .container.active { display: block; }
         @keyframes fade { from {opacity:0; transform:translateY(10px);} to {opacity:1; transform:translateY(0);} }
 
+        /* AEBN CONTAINERS */
+        .aebn-wrapper {
+            background: #111; border: 1px solid #333; border-radius: 10px;
+            padding: 15px; margin-bottom: 30px; display: flex; justify-content: center; overflow: hidden;
+        }
+        /* Override AEBN styles to fit dark mode if needed */
+        .queueTitleBar { background: var(--primary) !important; color: #fff !important; font-family: 'Cinzel', serif !important; }
+
         /* COMMON GRIDS */
         .market-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .product-card {
@@ -86,22 +103,6 @@
         .vip-overlay {
             position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center;
         }
-
-        /* FORUM / CONFESSIONAL */
-        .forum-post {
-            background: #151515; border-left: 3px solid #333; padding: 15px; margin-bottom: 15px;
-            border-radius: 0 10px 10px 0;
-        }
-        .forum-user { color: var(--gold); font-weight: bold; font-size: 0.9rem; margin-bottom: 5px; }
-        .forum-text { color: #ccc; font-size: 0.95rem; line-height: 1.4; }
-        .forum-time { font-size: 0.7rem; color: #666; margin-top: 5px; text-align: right; }
-
-        /* TRIBUTE/UPLOAD */
-        .upload-zone {
-            border: 2px dashed #444; padding: 30px; text-align: center; margin: 20px 0;
-            border-radius: 10px; cursor: pointer; transition: 0.2s; position: relative;
-        }
-        .upload-zone:hover { border-color: var(--primary); background: #1a1a1a; }
 
         /* CHAT */
         .chat-widget {
@@ -141,7 +142,16 @@
         .live-tag { position: absolute; top: 15px; left: 15px; background: rgba(255,0,0,0.8); color: #fff; padding: 5px 10px; font-weight: bold; border-radius: 5px; display: flex; align-items: center; gap: 5px; cursor: pointer; z-index: 10; }
         .blink { width: 8px; height: 8px; background: #fff; border-radius: 50%; animation: blink 1s infinite; }
 
-        @media(max-width:768px) { .chat-widget { width: 90%; right: 5%; height: 60vh; bottom: 80px; } nav { justify-content: flex-start; } }
+        /* UPLOAD ZONE */
+        .upload-zone { border: 2px dashed #444; padding: 30px; text-align: center; margin: 20px 0; border-radius: 10px; cursor: pointer; transition: 0.2s; position: relative; }
+        .upload-zone:hover { border-color: var(--primary); background: #1a1a1a; }
+        
+        /* FORUM */
+        .forum-post { background: #151515; border-left: 3px solid #333; padding: 15px; margin-bottom: 15px; border-radius: 0 10px 10px 0; }
+        .forum-user { color: var(--gold); font-weight: bold; font-size: 0.9rem; margin-bottom: 5px; }
+        .forum-text { color: #ccc; font-size: 0.95rem; line-height: 1.4; }
+
+        @media(max-width:768px) { .chat-widget { width: 90%; right: 5%; height: 60vh; bottom: 80px; } nav { justify-content: flex-start; } #aebn-pitch { width: 90vw !important; height: 25vw !important; } }
     </style>
 </head>
 <body>
@@ -149,8 +159,8 @@
     <nav>
         <div class="nav-inner">
             <div class="nav-item active" onclick="showTab('home')">Home</div>
-            <div class="nav-item" onclick="showTab('vip')"><i class="fas fa-crown"></i> VIP</div>
             <div class="nav-item" onclick="showTab('market')">Store</div>
+            <div class="nav-item" onclick="showTab('vip')"><i class="fas fa-crown"></i> VIP</div>
             <div class="nav-item" onclick="showTab('customs')">Deepfakes</div>
             <div class="nav-item" onclick="showTab('confess')">Confess</div>
             <div class="nav-item" onclick="showTab('tributes')">Altar</div>
@@ -178,84 +188,40 @@
         </div>
     </div>
 
-    <!-- VIP TAB (LOCKED) -->
-    <div id="vip" class="container">
-        <h2 style="text-align:center; font-family:'Cinzel'; color:var(--gold);"><i class="fas fa-lock"></i> VIP LOUNGE</h2>
-        <p style="text-align:center; color:#aaa; margin-bottom:20px;">Full uncensored gallery access + Private archive.</p>
-        
-        <div class="vip-grid" id="vip-wall">
-            <!-- Generated by JS -->
-        </div>
-        <div style="margin-top:30px; text-align:center;">
-            <button class="btn-gold" onclick="openPay('VIP Access')">UNLOCK ALL ($20)</button>
-        </div>
-    </div>
-
-    <!-- CUSTOMS / DEEPFAKE TAB -->
-    <div id="customs" class="container">
-        <h2 style="text-align:center; color:var(--primary);">CUSTOM STUDIO</h2>
-        
-        <!-- Deepfake Card -->
-        <div class="product-card" style="border-color:var(--accent); margin-bottom:20px;">
-            <h3 style="color:var(--accent);">DEEPFAKE GENERATION</h3>
-            <p style="color:#ccc;">Upload a face. I will put it on any body you want.</p>
-            <div class="upload-zone" onclick="triggerUpload('deepfake')">
-                <i class="fas fa-user-circle" style="font-size:3rem; color:#444;"></i>
-                <p>UPLOAD FACE PHOTO</p>
-            </div>
-            <div class="price-tag">$50.00</div>
-            <button class="btn-main" onclick="openPay('Deepfake Request')">ORDER DEEPFAKE</button>
-        </div>
-
-        <!-- Standard Custom -->
-        <div class="product-card">
-            <h3>SCRIPTED VIDEO</h3>
-            <div class="custom-form">
-                <input type="text" id="cust-name" placeholder="Your Name">
-                <textarea rows="3" id="cust-script" placeholder="What should I say/do?"></textarea>
-                <div class="price-tag">$50.00+</div>
-                <button class="btn-main" onclick="submitCustom()">SEND REQUEST</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- CONFESSIONS (FORUM) -->
-    <div id="confess" class="container">
-        <h2 style="text-align:center; font-family:'Cinzel'">THE CONFESSIONAL</h2>
-        <p style="text-align:center; font-size:0.8rem; color:#666;">Confess your sins. Submissions are anonymous.</p>
-        
-        <div class="product-card" style="text-align:left; margin-bottom:20px;">
-            <textarea id="confess-txt" rows="3" class="custom-form" style="width:100%" placeholder="I have been bad..."></textarea>
-            <button class="btn-main" onclick="postConfession()">SUBMIT CONFESSION</button>
-        </div>
-
-        <div id="forum-posts">
-            <div class="forum-post">
-                <div class="forum-user">Anonymous Slave</div>
-                <div class="forum-text">I spent my rent money on your VIP content. I don't regret it.</div>
-                <div class="forum-time">2 hours ago</div>
-            </div>
-            <div class="forum-post">
-                <div class="forum-user">Pet_299</div>
-                <div class="forum-text">The deepfake of my ex-wife is incredible. Thank you Mistress.</div>
-                <div class="forum-time">5 hours ago</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- TRIBUTES ALTAR (FROM V42) -->
-    <div id="tributes" class="container">
-        <h2 style="text-align:center; font-family:'Cinzel'">TRIBUTE ALTAR</h2>"tribute your wife/girlfriend cock tribute or cum tribute"
-        <div class="upload-zone" onclick="triggerUpload('tribute')">
-            <i class="fas fa-cloud-upload-alt" style="font-size:3rem; color:#444;"></i>
-            <h3>UPLOAD TRIBUTE</h3>
-        </div>
-        <div class="vip-grid" id="tribute-wall" style="opacity:0.6"></div>
-    </div>
-
-    <!-- STORE -->
+    <!-- MARKET TAB (AFFILIATE HUB) -->
     <div id="market" class="container">
         <h2 style="text-align:center; font-family:'Cinzel'; color:var(--gold);">PREMIUM STORE</h2>
+        
+        <!-- WIDGET 1: PITCH SLIDER -->
+        <div class="aebn-wrapper">
+            <div id="aebn-pitch" style="width: 50vw; height: 14vw;"></div>
+        </div>
+
+        <!-- WIDGET 2: MOVIE SLIDER -->
+        <h3 style="color:var(--primary); text-align:center;">NEW RELEASES</h3>
+        <div class="aebn-wrapper" style="padding:0; border:none; background:transparent;">
+            <div class="aebn-queue-tool movie-queue" data-params='{"type":"movie","salesToolId":80,"refid":"AEBN-119284","orientation":"straight","queueId":"newest","useTitle":"true","titleBackground":"#ff0f5b","titleFontColor":"#ffffff"}' >
+                <div class="queueTitleBar">Newest Movies</div>
+                <div class="q-itemSlider_Wrapper">
+                    <div id="qMovieSlider" class="q-itemSlider dragscroll">
+                        <div class="q-itemSlider_Contents">
+                            <!-- Placeholder images so it looks good before JS loads -->
+                            <img src="https://www.aebn.com/assets/images/boxcover.png"><img src="https://www.aebn.com/assets/images/boxcover.png"><img src="https://www.aebn.com/assets/images/boxcover.png">
+                        </div>
+                    </div>
+                    <button class="q-Advancer q-Advancer_Left" type="button"><svg class="q-Advancer_Icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 551 1024"><path d="M445.44 38.183L-2.53 512l447.97 473.817 85.857-81.173-409.6-433.23v81.172l409.6-433.23L445.44 38.18z" /></svg></button> 
+                    <button class="q-Advancer q-Advancer_Right" type="button"><svg class="q-Advancer_Icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 551 1024"><path d="M105.56 985.817L553.53 512 105.56 38.183l-85.857 81.173 409.6 433.23v-81.172l-409.6 433.23 85.856 81.174z" /></svg></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- WIDGET 3: TOP STARS -->
+        <h3 style="color:var(--accent); text-align:center;">TOP STARS</h3>
+        <div class="aebn-wrapper">
+            <div id="aebn-top-stars"></div>
+        </div>
+
+        <h3 style="text-align:center; color:#666; margin-top:30px;">DIRECT PAY PRODUCTS</h3>
         <div class="market-grid">
             <div class="product-card">
                 <i class="fas fa-video" style="font-size:3rem; color:var(--primary); margin-bottom:15px;"></i>
@@ -272,6 +238,52 @@
         </div>
     </div>
 
+    <!-- VIP TAB (LOCKED) -->
+    <div id="vip" class="container">
+        <h2 style="text-align:center; font-family:'Cinzel'; color:var(--gold);"><i class="fas fa-lock"></i> VIP LOUNGE</h2>
+        <div class="vip-grid" id="vip-wall"></div>
+        <div style="margin-top:30px; text-align:center;">
+            <button class="btn-gold" onclick="openPay('VIP Access')">UNLOCK ALL ($20)</button>
+        </div>
+    </div>
+
+    <!-- CUSTOMS / DEEPFAKE TAB -->
+    <div id="customs" class="container">
+        <h2 style="text-align:center; color:var(--primary);">CUSTOM STUDIO</h2>
+        <div class="product-card" style="border-color:var(--accent); margin-bottom:20px;">
+            <h3 style="color:var(--accent);">DEEPFAKE GENERATION</h3>
+            <p style="color:#ccc;">Upload a face. I will put it on any body you want.</p>
+            <div class="upload-zone" onclick="triggerUpload('deepfake')">
+                <i class="fas fa-user-circle" style="font-size:3rem; color:#444;"></i>
+                <p>UPLOAD FACE PHOTO</p>
+            </div>
+            <div class="price-tag">$50.00</div>
+            <button class="btn-main" onclick="openPay('Deepfake Request')">ORDER DEEPFAKE</button>
+        </div>
+    </div>
+
+    <!-- CONFESSIONS -->
+    <div id="confess" class="container">
+        <h2 style="text-align:center; font-family:'Cinzel'">THE CONFESSIONAL</h2>
+        <div class="product-card" style="text-align:left; margin-bottom:20px;">
+            <textarea id="confess-txt" rows="3" class="custom-form" style="width:100%" placeholder="I have been bad..."></textarea>
+            <button class="btn-main" onclick="postConfession()">SUBMIT CONFESSION</button>
+        </div>
+        <div id="forum-posts">
+            <div class="forum-post"><div class="forum-user">Anonymous Slave</div><div class="forum-text">I spent my rent money on your VIP content. I don't regret it.</div></div>
+        </div>
+    </div>
+
+    <!-- TRIBUTES -->
+    <div id="tributes" class="container">
+        <h2 style="text-align:center; font-family:'Cinzel'">TRIBUTE ALTAR</h2>cock/cum tribute your wife or girlfriend email to post your own tribute to wall
+        <div class="upload-zone" onclick="triggerUpload('tribute')">
+            <i class="fas fa-cloud-upload-alt" style="font-size:3rem; color:#444;"></i>
+            <h3>UPLOAD TRIBUTE</h3>
+        </div>
+        <div class="vip-grid" id="tribute-wall" style="opacity:0.6"></div>
+    </div>
+
     <!-- CHAT WIDGET -->
     <div class="chat-widget" id="chat-box" style="display:none;">
         <div class="chat-head">
@@ -286,7 +298,7 @@
         </div>
     </div>
 
-    <!-- ADMIN MODAL -->
+    <!-- MODALS -->
     <div id="admin-modal" class="modal">
         <div class="modal-box">
             <h3 style="color:var(--primary)">ADMIN SETTINGS</h3>
@@ -298,7 +310,6 @@
         </div>
     </div>
 
-    <!-- PAYMENT MODAL -->
     <div id="pay-modal" class="modal">
         <div class="modal-box">
             <h2 style="color:var(--gold)">PAYMENT REQUIRED</h2>
@@ -317,221 +328,84 @@
     <div id="debug-bar">DEBUG: NO ERRORS</div>
 
     <script>
-        // CRASH PROTECTION
-        window.onerror = function(msg, url, line) {
-            document.getElementById('debug-bar').style.display = 'block';
-            document.getElementById('debug-bar').innerText = "JS ERROR: " + msg + " (Line " + line + ")";
-            return false;
+        // CONFIG
+        const REPO_USER = "faded20666er";
+        const REPO_NAME = "joi-ai-site-beta";
+        const CASHAPP_TAG = "$mrsmokeshq"; 
+        const BTC_WALLET  = "bc1qg5c5r8vws63w4s78yw6znp80hmshlejk6mjcx6
+E";
+        const AFFILIATE   = "https://t.acrsmartcam.com/396104/3664/0?bo=Array&file_id=300184&po=6533&aff_sub5=SF_006OG000004lmDN&aff_sub4=AT_0002";
+        const VOICE_ID = "hA4zGnmTwX2NQiTRMt7o";
+
+        // AEBN INITIALIZER (Fixed Syntax Error)
+        window.addEventListener("load", function(){
+            if(window.aebnPitchSlider) {
+                aebnPitchSlider.load("aebn-pitch", {orientation: "straight", refid: "AEBN-119284", theaterId: "13992", theaterCname: "theater.aebn.net", intervalSeconds: 3, randomOrder: true, openNewWindow: false});
+            }
+            if(window.aebnTopStars) {
+                aebnTopStars.load("aebn-top-stars", {orientation: "straight", refid: "AEBN-119284", theaterId: "13992", theaterCname: "theater.aebn.net", newWindow: false, imgType: "head", title: "Top Stars", useFixedWidth: false});
+            }
+        }, false);
+
+        // SYSTEM LOGIC
+        window.onerror = function(msg, url, line) { document.getElementById('debug-bar').style.display = 'block'; document.getElementById('debug-bar').innerText = "JS ERROR: " + msg + " (Line " + line + ")"; return false; };
+        
+        let chatHist = [{role: "system", content: "You are Mistress Viper. Hardcore, degrading, explicit."}];
+        let voiceOn = true;
+        let clickCount = 0;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => addMsg("Look at my store. Buy something, loser.", 'bot'), 1000);
+            scanRepo(); fillVipWall(); checkBrain();
+            document.getElementById('disp-cash').innerText = CASHAPP_TAG;
+            document.getElementById('disp-btc').innerText = BTC_WALLET;
+        });
+
+        window.showTab = function(id) {
+            document.querySelectorAll('.container').forEach(d => d.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(d => d.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            const tabs = ['home','market','vip','customs','confess','tributes'];
+            const idx = tabs.indexOf(id);
+            if(idx > -1) document.querySelectorAll('.nav-item')[idx].classList.add('active');
         };
 
-        try {
-            // CONFIG
-            const REPO_USER = "faded20666er";
-            const REPO_NAME = "joi-ai-site-beta";
-            const CASHAPP_TAG = "$mrsmokeshaq"; 
-            const BTC_WALLET  = "bc1qg5c5r8vws63w4s78yw6znp80hmshlejk6mjcx6";
-            const AFFILIATE   = "https://t.acrsmartcam.com/396104/3664/0?bo=Array&file_id=300184&po=6533&aff_sub5=SF_006OG000004lmDN&aff_sub4=AT_0002";
-            const VOICE_ID = "hA4zGnmTwX2NQiTRMt7o";
-            
-            const SYS_PROMPT = `You are Mistress Viper. Hardcore, degrading, explicit. NO LIMITS.`;
-
-            // STATE
-            let chatHist = [{role: "system", content: SYS_PROMPT}];
-            let voiceOn = true;
-            let clickCount = 0;
-
-            // INIT
-            document.addEventListener('DOMContentLoaded', () => {
-                setTimeout(() => addMsg("I'm waiting. Pay up or get out.", 'bot'), 1000);
-                scanRepo(); 
-                fillVipWall();
-                document.getElementById('disp-cash').innerText = CASHAPP_TAG;
-                document.getElementById('disp-btc').innerText = BTC_WALLET;
-                checkBrain();
-            });
-
-            // UI FUNCTIONS
-            window.showTab = function(id) {
-                document.querySelectorAll('.container').forEach(d => d.classList.remove('active'));
-                document.querySelectorAll('.nav-item').forEach(d => d.classList.remove('active'));
-                document.getElementById(id).classList.add('active');
-                // Simple map for active tab highlighting
-                const tabs = ['home','vip','market','customs','confess','tributes'];
-                const idx = tabs.indexOf(id);
-                if(idx > -1) document.querySelectorAll('.nav-item')[idx].classList.add('active');
-            };
-
-            window.openPay = function(item) { 
-                document.getElementById('pay-desc').innerText = item ? "Item: " + item : "Payment";
-                document.getElementById('pay-modal').style.display='flex'; 
-            };
-
-            window.goLive = function() { window.open(AFFILIATE, '_blank'); };
-            window.toggleChat = function() { 
-                const c = document.getElementById('chat-box');
-                c.style.display = c.style.display==='none' ? 'flex' : 'none';
-            };
-            window.toggleVoice = function() {
-                voiceOn = !voiceOn;
-                document.getElementById('v-btn').style.color = voiceOn ? 'var(--primary)' : '#666';
-            };
-
-            // CONFESSION FORUM LOGIC
-            window.postConfession = function() {
-                const txt = document.getElementById('confess-txt').value;
-                if(!txt) return alert("Write something first, worm.");
-                
-                const d = document.createElement('div');
-                d.className = 'forum-post';
-                d.innerHTML = `
-                    <div class="forum-user">Anonymous User</div>
-                    <div class="forum-text">${txt}</div>
-                    <div class="forum-time">Just now</div>
-                `;
-                // Add to top
-                const list = document.getElementById('forum-posts');
-                list.insertBefore(d, list.firstChild);
-                
-                document.getElementById('confess-txt').value = '';
-                alert("Confession logged. I may read it later.");
-            };
-
-            // UPLOAD SIMULATION
-            window.triggerUpload = function(type) {
-                alert(`Upload initiated for ${type}. Please select file.`);
-                // In a real app this opens file dialog. Here we just prompt payment.
-                setTimeout(() => {
-                    alert("File 'Received'. To process this, you must send payment immediately.");
-                    window.openPay(`${type.toUpperCase()} Processing`);
-                }, 1000);
-            };
-
-            // VIP WALL GENERATOR
-            function fillVipWall() {
-                const w = document.getElementById('vip-wall');
-                const t = document.getElementById('tribute-wall');
-                for(let i=0; i<9; i++) {
-                    const h = `
-                    <div class="vip-item" onclick="openPay('VIP Content')">
-                        <img src="https://source.unsplash.com/random/300x300/?fashion,dark,model&sig=${i}" class="vip-img">
-                        <div class="vip-overlay"><i class="fas fa-lock vip-lock"></i></div>
-                    </div>`;
-                    if(w) w.innerHTML += h;
-                    if(t) t.innerHTML += h;
-                }
+        window.openPay = function(item) { 
+            document.getElementById('pay-desc').innerText = item ? "Item: " + item : "Payment";
+            document.getElementById('pay-modal').style.display='flex'; 
+        };
+        window.goLive = function() { window.open(AFFILIATE, '_blank'); };
+        window.toggleChat = function() { const c = document.getElementById('chat-box'); c.style.display = c.style.display==='none' ? 'flex' : 'none'; };
+        window.toggleVoice = function() { voiceOn = !voiceOn; document.getElementById('v-btn').style.color = voiceOn ? 'var(--primary)' : '#666'; };
+        window.postConfession = function() {
+            const txt = document.getElementById('confess-txt').value;
+            if(!txt) return alert("Write something.");
+            const d = document.createElement('div'); d.className = 'forum-post';
+            d.innerHTML = `<div class="forum-user">Anonymous User</div><div class="forum-text">${txt}</div>`;
+            document.getElementById('forum-posts').prepend(d);
+            document.getElementById('confess-txt').value = '';
+        };
+        window.triggerUpload = function(type) { setTimeout(() => { alert("File 'Received'. Send payment to process."); window.openPay(`${type.toUpperCase()} Processing`); }, 1000); };
+        
+        function fillVipWall() {
+            const w = document.getElementById('vip-wall'); const t = document.getElementById('tribute-wall');
+            for(let i=0; i<9; i++) {
+                const h = `<div class="vip-item" onclick="openPay('VIP Content')"><img src="https://source.unsplash.com/random/300x300/?fashion,dark,model&sig=${i}" class="vip-img"><div class="vip-overlay"><i class="fas fa-lock vip-lock"></i></div></div>`;
+                if(w) w.innerHTML += h; if(t) t.innerHTML += h;
             }
+        }
+        
+        window.handleLogoClick = function() { clickCount++; if(clickCount===3) { document.getElementById('admin-modal').style.display='flex'; document.getElementById('key-brain').value = localStorage.getItem('viper_brain')||''; document.getElementById('key-voice').value = localStorage.getItem('viper_voice')||''; clickCount=0; } setTimeout(()=>clickCount=0, 1000); };
+        window.saveKeys = function() { localStorage.setItem('viper_brain', document.getElementById('key-brain').value.trim()); localStorage.setItem('viper_voice', document.getElementById('key-voice').value.trim()); document.getElementById('admin-modal').style.display='none'; checkBrain(); };
+        window.checkBrain = function() { const k = localStorage.getItem('viper_brain'); const ind = document.getElementById('status-ind'); ind.style.backgroundColor = (k && k.length > 10) ? '#0f0' : '#f00'; };
+        window.testVoice = async function() { const vKey = document.getElementById('key-voice').value.trim(); if(!vKey) return alert("No Key"); try { const r = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`, { method: "POST", headers: { "xi-api-key": vKey, "Content-Type": "application/json" }, body: JSON.stringify({ text: "Access Denied.", model_id: "eleven_multilingual_v2" }) }); if(r.ok) new Audio(URL.createObjectURL(await r.blob())).play(); } catch(e) {} };
 
-            // ADMIN & KEYS
-            window.handleLogoClick = function() {
-                clickCount++;
-                if(clickCount===3) {
-                    document.getElementById('admin-modal').style.display='flex';
-                    document.getElementById('key-brain').value = localStorage.getItem('viper_brain')||'';
-                    document.getElementById('key-voice').value = localStorage.getItem('viper_voice')||'';
-                    clickCount=0;
-                }
-                setTimeout(()=>clickCount=0, 1000);
-            };
+        window.send = async function() {
+            const inp = document.getElementById('c-in'); const txt = inp.value.trim(); if(!txt) return;
+            addMsg(txt, 'user'); inp.value = '';
+            const key = localStorage.getItem('viper_brain'); if(!key) return addMsg("SYSTEM: BRAIN DISCONNECTED", 'sys');
+            chatHist.push({role:"user", content:txt});
+            try {
+                const r
 
-            window.saveKeys = function() {
-                localStorage.setItem('viper_brain', document.getElementById('key-brain').value.trim());
-                localStorage.setItem('viper_voice', document.getElementById('key-voice').value.trim());
-                document.getElementById('admin-modal').style.display='none';
-                checkBrain();
-            };
-
-            window.checkBrain = function() {
-                const k = localStorage.getItem('viper_brain');
-                const ind = document.getElementById('status-ind');
-                if(k && k.length > 10) ind.style.backgroundColor = '#0f0';
-                else ind.style.backgroundColor = '#f00';
-            };
-
-            window.testVoice = async function() {
-                const vKey = document.getElementById('key-voice').value.trim();
-                if(!vKey) return alert("No Key");
-                try {
-                    const r = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`, {
-                        method: "POST", headers: { "xi-api-key": vKey, "Content-Type": "application/json" },
-                        body: JSON.stringify({ text: "Access Denied.", model_id: "eleven_multilingual_v2" })
-                    });
-                    if(r.ok) new Audio(URL.createObjectURL(await r.blob())).play();
-                    else alert("Voice Error");
-                } catch(e) { alert("Err: "+e.message); }
-            };
-
-            // CHAT
-            window.send = async function() {
-                const inp = document.getElementById('c-in');
-                const txt = inp.value.trim();
-                if(!txt) return;
-                addMsg(txt, 'user');
-                inp.value = '';
-                
-                const key = localStorage.getItem('viper_brain');
-                if(!key) return addMsg("SYSTEM: BRAIN DISCONNECTED", 'sys');
-                
-                chatHist.push({role:"user", content:txt});
-                
-                try {
-                    const r = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-                        method:"POST", headers:{"Authorization":`Bearer ${key}`, "Content-Type":"application/json", "HTTP-Referer":window.location.href},
-                        body:JSON.stringify({ model:"gryphe/mythomax-l2-13b", messages:chatHist, max_tokens: 300, temperature: 1.1 })
-                    });
-                    const d = await r.json();
-                    if(d.error) throw new Error(d.error.message);
-                    const reply = d.choices[0].message.content;
-                    chatHist.push({role:"assistant", content:reply});
-                    addMsg(reply, 'bot');
-                    if(voiceOn) speak(reply);
-                } catch(e) { addMsg("Error: " + e.message, 'sys'); }
-            };
-
-            function addMsg(txt, role) {
-                const d = document.createElement('div');
-                d.className = `msg ${role}`; d.innerText = txt;
-                document.getElementById('msgs').appendChild(d);
-                document.getElementById('msgs').scrollTop = 99999;
-            }
-
-            async function speak(txt) {
-                const vKey = localStorage.getItem('viper_voice');
-                if(!vKey) return;
-                try {
-                    const r = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`, {
-                        method: "POST", headers: { "xi-api-key": vKey, "Content-Type": "application/json" },
-                        body: JSON.stringify({ text: txt, model_id: "eleven_multilingual_v2", voice_settings: { stability: 0.35, similarity_boost: 0.8 } })
-                    });
-                    if(r.ok) new Audio(URL.createObjectURL(await r.blob())).play();
-                } catch(e){}
-            }
-
-            // SCANNER
-            async function scanRepo() {
-                const g = document.getElementById('gallery-grid');
-                if(!g) return;
-                try {
-                    const r = await fetch(`https://api.github.com/repos/${REPO_USER}/${REPO_NAME}/contents/`);
-                    if(!r.ok) throw new Error("Repo");
-                    const f = await r.json();
-                    let count = 0;
-                    f.forEach(file => {
-                        if(count >= 6) return;
-                        const n = file.name.toLowerCase();
-                        if((n.endsWith('.jpg')||n.endsWith('.mp4')) && !n.includes('audio')) {
-                            const d = document.createElement('div');
-                            d.className = 'product-card'; d.style.padding = '0'; d.style.overflow='hidden';
-                            if(n.endsWith('.mp4')) d.innerHTML = `<video src="${file.download_url}" style="width:100%" muted loop onmouseover="this.play()" onmouseout="this.pause()"></video>`;
-                            else d.innerHTML = `<img src="${file.download_url}" style="width:100%">`;
-                            g.appendChild(d);
-                            count++;
-                        }
-                    });
-                } catch(e) { console.log("Gallery Fallback"); }
-            }
-
-        } catch(e) { console.log("Init Error: " + e); }
-    </script>
-</body>
-</html>
 
