@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIPER | TRIBUTE ALTAR</title>
+    <title>VIPER | EMPIRE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
@@ -34,16 +34,16 @@
             display: flex; justify-content: center; padding: 0 10px;
         }
         .nav-inner {
-            display: flex; gap: 20px; max-width: 1200px; width: 100%; overflow-x: auto;
+            display: flex; gap: 15px; max-width: 1200px; width: 100%; overflow-x: auto;
             padding: 15px 0;
         }
         .nav-item {
-            color: #888; text-transform: uppercase; font-size: 0.8rem; font-weight: 600;
-            cursor: pointer; padding: 5px 10px; white-space: nowrap; transition: 0.3s;
-            border-radius: 20px;
+            color: #888; text-transform: uppercase; font-size: 0.75rem; font-weight: 600;
+            cursor: pointer; padding: 5px 12px; white-space: nowrap; transition: 0.3s;
+            border-radius: 20px; border: 1px solid transparent;
         }
-        .nav-item:hover { color: #fff; }
-        .nav-item.active { background: var(--primary); color: #fff; box-shadow: 0 0 15px var(--primary); }
+        .nav-item:hover { color: #fff; border-color: #333; }
+        .nav-item.active { background: var(--primary); color: #fff; box-shadow: 0 0 15px var(--primary); border-color: var(--primary); }
 
         .logo-area { text-align: center; margin-top: 80px; margin-bottom: 20px; }
         .logo { 
@@ -59,15 +59,11 @@
         .container.active { display: block; }
         @keyframes fade { from {opacity:0; transform:translateY(10px);} to {opacity:1; transform:translateY(0);} }
 
-        /* VIDEO & GRID */
-        .video-box {
-            position: relative; border: 1px solid var(--primary); border-radius: 10px;
-            overflow: hidden; box-shadow: 0 0 40px rgba(255,15,91,0.2); background: #000;
-        }
+        /* COMMON GRIDS */
         .market-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .product-card {
             background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
-            padding: 20px; text-align: center; transition: 0.3s;
+            padding: 20px; text-align: center; transition: 0.3s; overflow: hidden; position: relative;
         }
         .product-card:hover { border-color: var(--primary); transform: translateY(-5px); }
         .price-tag { 
@@ -75,32 +71,37 @@
             padding: 5px 15px; border-radius: 20px; margin: 10px 0;
         }
 
-        /* TRIBUTE SECTION SPECIFIC */
-        .altar-section {
-            background: #150505; border: 1px solid var(--primary); border-radius: 10px;
-            padding: 20px; margin-bottom: 20px; text-align: center;
+        /* VIP SECTION (BLURRED) */
+        .vip-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .vip-item {
+            position: relative; aspect-ratio: 1; overflow: hidden; cursor: pointer; border-radius: 5px;
         }
+        .vip-img {
+            width: 100%; height: 100%; object-fit: cover; filter: blur(15px) brightness(0.5); transition: 0.5s;
+        }
+        .vip-lock {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            color: var(--gold); font-size: 2rem; z-index: 10; text-shadow: 0 0 10px #000;
+        }
+        .vip-overlay {
+            position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center;
+        }
+
+        /* FORUM / CONFESSIONAL */
+        .forum-post {
+            background: #151515; border-left: 3px solid #333; padding: 15px; margin-bottom: 15px;
+            border-radius: 0 10px 10px 0;
+        }
+        .forum-user { color: var(--gold); font-weight: bold; font-size: 0.9rem; margin-bottom: 5px; }
+        .forum-text { color: #ccc; font-size: 0.95rem; line-height: 1.4; }
+        .forum-time { font-size: 0.7rem; color: #666; margin-top: 5px; text-align: right; }
+
+        /* TRIBUTE/UPLOAD */
         .upload-zone {
             border: 2px dashed #444; padding: 30px; text-align: center; margin: 20px 0;
             border-radius: 10px; cursor: pointer; transition: 0.2s; position: relative;
         }
         .upload-zone:hover { border-color: var(--primary); background: #1a1a1a; }
-        
-        .progress-bar {
-            width: 100%; height: 5px; background: #333; margin-top: 10px; border-radius: 3px; display: none;
-        }
-        .progress-fill {
-            width: 0%; height: 100%; background: var(--primary); transition: width 2s;
-        }
-
-        .tribute-wall {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-top: 20px;
-        }
-        .wall-item {
-            width: 100%; aspect-ratio: 1; object-fit: cover; filter: grayscale(100%);
-            transition: 0.3s; border-radius: 3px; border: 1px solid #333;
-        }
-        .wall-item:hover { filter: grayscale(0%); border-color: var(--gold); transform: scale(1.05); z-index: 10; }
 
         /* CHAT */
         .chat-widget {
@@ -126,17 +127,18 @@
             background: var(--primary); color: #fff; padding: 12px 20px; border: none;
             border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%; text-transform: uppercase;
         }
+        .btn-gold {
+            background: linear-gradient(45deg, #ffd700, #ffaa00); color: #000; padding: 15px; border: none;
+            border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%; text-transform: uppercase;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3); animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0% {box-shadow: 0 0 10px #ffd700;} 50% {box-shadow: 0 0 25px #ffd700;} 100% {box-shadow: 0 0 10px #ffd700;} }
+
         .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:1000; align-items:center; justify-content:center; }
         .modal-box { background:#111; padding:30px; border:1px solid var(--primary); width:90%; max-width:400px; text-align:center; }
 
-        /* DEBUG FOOTER */
         #debug-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #220000; color: red; font-size: 10px; padding: 2px; text-align: center; display: none; z-index: 9999; }
-
-        .live-tag {
-            position: absolute; top: 15px; left: 15px; background: rgba(255,0,0,0.8);
-            color: #fff; padding: 5px 10px; font-weight: bold; border-radius: 5px;
-            display: flex; align-items: center; gap: 5px; cursor: pointer; z-index: 10;
-        }
+        .live-tag { position: absolute; top: 15px; left: 15px; background: rgba(255,0,0,0.8); color: #fff; padding: 5px 10px; font-weight: bold; border-radius: 5px; display: flex; align-items: center; gap: 5px; cursor: pointer; z-index: 10; }
         .blink { width: 8px; height: 8px; background: #fff; border-radius: 50%; animation: blink 1s infinite; }
 
         @media(max-width:768px) { .chat-widget { width: 90%; right: 5%; height: 60vh; bottom: 80px; } nav { justify-content: flex-start; } }
@@ -147,9 +149,11 @@
     <nav>
         <div class="nav-inner">
             <div class="nav-item active" onclick="showTab('home')">Home</div>
-            <div class="nav-item" onclick="showTab('tributes')">Tributes</div>
+            <div class="nav-item" onclick="showTab('vip')"><i class="fas fa-crown"></i> VIP</div>
             <div class="nav-item" onclick="showTab('market')">Store</div>
-            <div class="nav-item" onclick="showTab('customs')">Customs</div>
+            <div class="nav-item" onclick="showTab('customs')">Deepfakes</div>
+            <div class="nav-item" onclick="showTab('confess')">Confess</div>
+            <div class="nav-item" onclick="showTab('tributes')">Altar</div>
             <div class="nav-item" onclick="toggleChat()"><i class="fas fa-comments"></i> Chat</div>
         </div>
     </nav>
@@ -161,56 +165,95 @@
 
     <!-- HOME TAB -->
     <div id="home" class="container active">
-        <div class="video-box">
-            <div class="live-tag" onclick="goLive()">
-                <div class="blink"></div> LIVE NOW
-            </div>
+        <div class="product-card" style="padding:0; overflow:hidden; margin-bottom:20px; border:1px solid var(--primary);">
+            <div class="live-tag" onclick="goLive()"><div class="blink"></div> LIVE NOW</div>
             <video id="main-player" controls autoplay muted loop playsinline width="100%">
                 <source src="1.mp4" type="video/mp4">
             </video>
         </div>
+        <button class="btn-gold" onclick="showTab('vip')">UNLOCK VIP GALLERY ($20)</button>
         <div style="margin-top:20px; text-align:center;">
-            <h2 style="font-family:'Cinzel'">RECENT UPLOADS</h2>
+            <h2 style="font-family:'Cinzel'">LATEST PREVIEWS</h2>
             <div class="market-grid" id="gallery-grid"></div>
         </div>
     </div>
 
-    <!-- TRIBUTES TAB (THE NEW ALTAR) -->
-    <div id="tributes" class="container">
-        <h2 style="text-align:center; font-family:'Cinzel'; color:var(--primary); text-shadow:0 0 10px red;">THE TRIBUTE ALTAR</h2>
+    <!-- VIP TAB (LOCKED) -->
+    <div id="vip" class="container">
+        <h2 style="text-align:center; font-family:'Cinzel'; color:var(--gold);"><i class="fas fa-lock"></i> VIP LOUNGE</h2>
+        <p style="text-align:center; color:#aaa; margin-bottom:20px;">Full uncensored gallery access + Private archive.</p>
         
-        <!-- SECTION 1: REQUEST RATING -->
-        <div class="altar-section">
-            <h3 style="color:var(--gold)"><i class="fas fa-crown"></i> EXPOSE HER</h3>
-            <p style="color:#aaa; font-size:0.9rem;">
-                Submit photos of your Wife or Girlfriend. I will cock tribute, cum tribute, rate them and post on wall or send back witch ever you prefer
-            </p>
-            <div class="price-tag">$20.00</div>
-            <br>
-            <button class="btn-main" onclick="openRequestModal()">REQUEST RATING</button>
+        <div class="vip-grid" id="vip-wall">
+            <!-- Generated by JS -->
         </div>
-
-        <!-- SECTION 2: UPLOAD PROOF -->
-        <div class="altar-section" style="border-color:#333;">
-            <h3>SUBMIT YOUR TRIBUTE</h3>
-            <p style="font-size:0.8rem; color:#888;">Upload proof of your tasks or cum tributes here.</p>
-            
-            <div class="upload-zone" onclick="triggerUpload()">
-                <i class="fas fa-cloud-upload-alt" style="font-size:3rem; color:#444;" id="up-icon"></i>
-                <h3 id="up-text">CLICK TO UPLOAD</h3>
-                <input type="file" id="file-input" hidden>
-                <div class="progress-bar" id="p-bar"><div class="progress-fill" id="p-fill"></div></div>
-            </div>
-        </div>
-
-        <!-- SECTION 3: COMMUNITY WALL -->
-        <h4 style="text-align:center; color:#666; margin-top:30px;">COMMUNITY SUBMISSIONS</h4>
-        <div class="tribute-wall" id="tribute-wall">
-            <!-- Populated by JS -->
+        <div style="margin-top:30px; text-align:center;">
+            <button class="btn-gold" onclick="openPay('VIP Access')">UNLOCK ALL ($20)</button>
         </div>
     </div>
 
-    <!-- MARKET TAB -->
+    <!-- CUSTOMS / DEEPFAKE TAB -->
+    <div id="customs" class="container">
+        <h2 style="text-align:center; color:var(--primary);">CUSTOM STUDIO</h2>
+        
+        <!-- Deepfake Card -->
+        <div class="product-card" style="border-color:var(--accent); margin-bottom:20px;">
+            <h3 style="color:var(--accent);">DEEPFAKE GENERATION</h3>
+            <p style="color:#ccc;">Upload a face. I will put it on any body you want.</p>
+            <div class="upload-zone" onclick="triggerUpload('deepfake')">
+                <i class="fas fa-user-circle" style="font-size:3rem; color:#444;"></i>
+                <p>UPLOAD FACE PHOTO</p>
+            </div>
+            <div class="price-tag">$50.00</div>
+            <button class="btn-main" onclick="openPay('Deepfake Request')">ORDER DEEPFAKE</button>
+        </div>
+
+        <!-- Standard Custom -->
+        <div class="product-card">
+            <h3>SCRIPTED VIDEO</h3>
+            <div class="custom-form">
+                <input type="text" id="cust-name" placeholder="Your Name">
+                <textarea rows="3" id="cust-script" placeholder="What should I say/do?"></textarea>
+                <div class="price-tag">$50.00+</div>
+                <button class="btn-main" onclick="submitCustom()">SEND REQUEST</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONFESSIONS (FORUM) -->
+    <div id="confess" class="container">
+        <h2 style="text-align:center; font-family:'Cinzel'">THE CONFESSIONAL</h2>
+        <p style="text-align:center; font-size:0.8rem; color:#666;">Confess your sins. Submissions are anonymous.</p>
+        
+        <div class="product-card" style="text-align:left; margin-bottom:20px;">
+            <textarea id="confess-txt" rows="3" class="custom-form" style="width:100%" placeholder="I have been bad..."></textarea>
+            <button class="btn-main" onclick="postConfession()">SUBMIT CONFESSION</button>
+        </div>
+
+        <div id="forum-posts">
+            <div class="forum-post">
+                <div class="forum-user">Anonymous Slave</div>
+                <div class="forum-text">I spent my rent money on your VIP content. I don't regret it.</div>
+                <div class="forum-time">2 hours ago</div>
+            </div>
+            <div class="forum-post">
+                <div class="forum-user">Pet_299</div>
+                <div class="forum-text">The deepfake of my ex-wife is incredible. Thank you Mistress.</div>
+                <div class="forum-time">5 hours ago</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TRIBUTES ALTAR (FROM V42) -->
+    <div id="tributes" class="container">
+        <h2 style="text-align:center; font-family:'Cinzel'">TRIBUTE ALTAR</h2>
+        <div class="upload-zone" onclick="triggerUpload('tribute')">
+            <i class="fas fa-cloud-upload-alt" style="font-size:3rem; color:#444;"></i>
+            <h3>UPLOAD TRIBUTE</h3>
+        </div>
+        <div class="vip-grid" id="tribute-wall" style="opacity:0.6"></div>
+    </div>
+
+    <!-- STORE -->
     <div id="market" class="container">
         <h2 style="text-align:center; font-family:'Cinzel'; color:var(--gold);">PREMIUM STORE</h2>
         <div class="market-grid">
@@ -225,20 +268,6 @@
                 <h3>SPH HUMILIATION</h3>
                 <div class="price-tag">$19.99</div>
                 <button class="btn-main" onclick="openPay('SPH Humiliation')">BUY NOW</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- CUSTOMS TAB -->
-    <div id="customs" class="container">
-        <div class="product-card" style="max-width:600px; margin:0 auto; text-align:left;">
-            <h2 style="text-align:center; color:var(--primary);">CUSTOM REQUESTS</h2>
-            <div class="custom-form">
-                <label>Your Name</label>
-                <input type="text" id="cust-name">
-                <label>Script / Instructions</label>
-                <textarea rows="5" id="cust-script"></textarea>
-                <button class="btn-main" onclick="submitCustom()">ORDER NOW ($50+)</button>
             </div>
         </div>
     </div>
@@ -261,10 +290,8 @@
     <div id="admin-modal" class="modal">
         <div class="modal-box">
             <h3 style="color:var(--primary)">ADMIN SETTINGS</h3>
-            <p>OpenRouter API Key:</p>
-            <input type="password" id="key-brain" class="custom-form" style="width:100%">
-            <p>ElevenLabs API Key:</p>
-            <input type="password" id="key-voice" class="custom-form" style="width:100%">
+            <p>OpenRouter API Key:</p> <input type="password" id="key-brain" class="custom-form" style="width:100%">
+            <p>ElevenLabs API Key:</p> <input type="password" id="key-voice" class="custom-form" style="width:100%">
             <button class="btn-test" onclick="testVoice()">🔊 TEST AUDIO</button>
             <br><br>
             <button class="btn-main" onclick="saveKeys()">SAVE & CLOSE</button>
@@ -281,10 +308,7 @@
                 <p><strong>BTC:</strong> <span id="disp-btc"></span></p>
             </div>
             <p style="color:#fff; font-size:0.9rem; margin-top:15px; border:1px solid #444; padding:10px;">
-                <strong>INSTRUCTIONS:</strong><br>
-                1. Send Payment.<br>
-                2. Put your Email in the note.<smokeshqstudio@gmail.com>
-                3. I will email you the secure upload link/content.
+                <strong>INSTRUCTIONS:</strong><br>1. Send Payment.<br>2. Put your Email in the note.<br>3. I will email you the link.
             </p>
             <button style="margin-top:20px; background:transparent; border:none; color:#666; cursor:pointer" onclick="document.getElementById('pay-modal').style.display='none'">Close</button>
         </div>
@@ -295,29 +319,21 @@
     <script>
         // CRASH PROTECTION
         window.onerror = function(msg, url, line) {
-            const dbg = document.getElementById('debug-bar');
-            dbg.style.display = 'block';
-            dbg.innerText = "JS ERROR: " + msg + " (Line " + line + ")";
+            document.getElementById('debug-bar').style.display = 'block';
+            document.getElementById('debug-bar').innerText = "JS ERROR: " + msg + " (Line " + line + ")";
             return false;
         };
 
         try {
-            // ==========================================
-            // CONFIGURATION
-            // ==========================================
+            // CONFIG
             const REPO_USER = "faded20666er";
             const REPO_NAME = "joi-ai-site-beta";
-            const CASHAPP_TAG = "$mrsmokeshaq"; 
-            const BTC_WALLET  = "bc1qg5c5r8vws63w4s78yw6znp80hmshlejk6mjcx6";
+            const CASHAPP_TAG = "$YOUR_CASHAPP_HERE"; 
+            const BTC_WALLET  = "YOUR_BTC_WALLET_HERE";
             const AFFILIATE   = "https://t.acrsmartcam.com/396104/3664/0?bo=Array&file_id=300184&po=6533&aff_sub5=SF_006OG000004lmDN&aff_sub4=AT_0002";
             const VOICE_ID = "hA4zGnmTwX2NQiTRMt7o";
             
-            const SYS_PROMPT = `You are Mistress Viper. You are a hardcore, degrading, explicit AI Dominatrix. 
-            RULES:
-            1. NO EUPHEMISMS. Use dirty, nasty language.
-            2. BE VERBOSE. Write long, detailed descriptions.
-            3. GO "ALL IN". Be unhinged.
-            4. Describe physical acts in extreme detail.`;
+            const SYS_PROMPT = `You are Mistress Viper. Hardcore, degrading, explicit. NO LIMITS.`;
 
             // STATE
             let chatHist = [{role: "system", content: SYS_PROMPT}];
@@ -326,71 +342,31 @@
 
             // INIT
             document.addEventListener('DOMContentLoaded', () => {
-                setTimeout(() => addMsg("The Altar is open. Submit to me.", 'bot'), 1000);
-                scanRepo(); // Fills Home Gallery
-                fillTributeWall(); // Fills Tribute Wall
+                setTimeout(() => addMsg("I'm waiting. Pay up or get out.", 'bot'), 1000);
+                scanRepo(); 
+                fillVipWall();
                 document.getElementById('disp-cash').innerText = CASHAPP_TAG;
                 document.getElementById('disp-btc').innerText = BTC_WALLET;
                 checkBrain();
             });
-
-            // TRIBUTE FUNCTIONS
-            window.openRequestModal = function() {
-                document.getElementById('pay-desc').innerText = "$20.00 - Wife/GF cock tribute,cum tribute, Rating & Humiliation";
-                document.getElementById('pay-modal').style.display = 'flex';
-            };
-
-            window.triggerUpload = function() {
-                document.getElementById('file-input').click();
-            };
-
-            // SIMULATED UPLOAD LOGIC
-            document.getElementById('file-input').onchange = function() {
-                const icon = document.getElementById('up-icon');
-                const text = document.getElementById('up-text');
-                const bar = document.getElementById('p-bar');
-                const fill = document.getElementById('p-fill');
-
-                text.innerText = "UPLOADING...";
-                icon.className = "fas fa-spinner fa-spin";
-                bar.style.display = "block";
-
-                // Simulate progress
-                setTimeout(() => fill.style.width = "50%", 500);
-                setTimeout(() => fill.style.width = "100%", 1500);
-                setTimeout(() => {
-                    text.innerText = "UPLOAD COMPLETE";
-                    icon.className = "fas fa-check-circle";
-                    icon.style.color = "#0f0";
-                    alert("File Received. Reviewing now. Check email for rating.");
-                }, 2000);
-            };
-
-            // FILL WALL WITH RANDOM IMAGES (Fake Community)
-            function fillTributeWall() {
-                const w = document.getElementById('tribute-wall');
-                // Using placeholders that look like dark aesthetic images
-                for(let i=0; i<9; i++) {
-                    w.innerHTML += `<img src="https://source.unsplash.com/random/200x200/?dark,model,fashion&sig=${i}" class="wall-item" alt="Locked">`;
-                }
-            }
 
             // UI FUNCTIONS
             window.showTab = function(id) {
                 document.querySelectorAll('.container').forEach(d => d.classList.remove('active'));
                 document.querySelectorAll('.nav-item').forEach(d => d.classList.remove('active'));
                 document.getElementById(id).classList.add('active');
-                const map = {'home':0, 'tributes':1, 'market':2, 'customs':3};
-                if(document.querySelectorAll('.nav-item')[map[id]]) {
-                    document.querySelectorAll('.nav-item')[map[id]].classList.add('active');
-                }
+                // Simple map for active tab highlighting
+                const tabs = ['home','vip','market','customs','confess','tributes'];
+                const idx = tabs.indexOf(id);
+                if(idx > -1) document.querySelectorAll('.nav-item')[idx].classList.add('active');
             };
 
-            window.goLive = function() { window.open(AFFILIATE, '_blank'); };
             window.openPay = function(item) { 
                 document.getElementById('pay-desc').innerText = item ? "Item: " + item : "Payment";
                 document.getElementById('pay-modal').style.display='flex'; 
             };
+
+            window.goLive = function() { window.open(AFFILIATE, '_blank'); };
             window.toggleChat = function() { 
                 const c = document.getElementById('chat-box');
                 c.style.display = c.style.display==='none' ? 'flex' : 'none';
@@ -398,10 +374,54 @@
             window.toggleVoice = function() {
                 voiceOn = !voiceOn;
                 document.getElementById('v-btn').style.color = voiceOn ? 'var(--primary)' : '#666';
-                addMsg(`Voice System: ${voiceOn ? 'ON' : 'OFF'}`, 'sys');
             };
 
-            // ADMIN & CHAT LOGIC (SAME AS V41)
+            // CONFESSION FORUM LOGIC
+            window.postConfession = function() {
+                const txt = document.getElementById('confess-txt').value;
+                if(!txt) return alert("Write something first, worm.");
+                
+                const d = document.createElement('div');
+                d.className = 'forum-post';
+                d.innerHTML = `
+                    <div class="forum-user">Anonymous User</div>
+                    <div class="forum-text">${txt}</div>
+                    <div class="forum-time">Just now</div>
+                `;
+                // Add to top
+                const list = document.getElementById('forum-posts');
+                list.insertBefore(d, list.firstChild);
+                
+                document.getElementById('confess-txt').value = '';
+                alert("Confession logged. I may read it later.");
+            };
+
+            // UPLOAD SIMULATION
+            window.triggerUpload = function(type) {
+                alert(`Upload initiated for ${type}. Please select file.`);
+                // In a real app this opens file dialog. Here we just prompt payment.
+                setTimeout(() => {
+                    alert("File 'Received'. To process this, you must send payment immediately.");
+                    window.openPay(`${type.toUpperCase()} Processing`);
+                }, 1000);
+            };
+
+            // VIP WALL GENERATOR
+            function fillVipWall() {
+                const w = document.getElementById('vip-wall');
+                const t = document.getElementById('tribute-wall');
+                for(let i=0; i<9; i++) {
+                    const h = `
+                    <div class="vip-item" onclick="openPay('VIP Content')">
+                        <img src="https://source.unsplash.com/random/300x300/?fashion,dark,model&sig=${i}" class="vip-img">
+                        <div class="vip-overlay"><i class="fas fa-lock vip-lock"></i></div>
+                    </div>`;
+                    if(w) w.innerHTML += h;
+                    if(t) t.innerHTML += h;
+                }
+            }
+
+            // ADMIN & KEYS
             window.handleLogoClick = function() {
                 clickCount++;
                 if(clickCount===3) {
@@ -413,15 +433,10 @@
                 setTimeout(()=>clickCount=0, 1000);
             };
 
-            window.cleanKey = function(k) { return k ? k.replace(/[^a-zA-Z0-9_\-\.]/g, '') : ""; };
-
             window.saveKeys = function() {
-                const brainClean = window.cleanKey(document.getElementById('key-brain').value);
-                const voiceClean = window.cleanKey(document.getElementById('key-voice').value);
-                localStorage.setItem('viper_brain', brainClean);
-                localStorage.setItem('viper_voice', voiceClean);
+                localStorage.setItem('viper_brain', document.getElementById('key-brain').value.trim());
+                localStorage.setItem('viper_voice', document.getElementById('key-voice').value.trim());
                 document.getElementById('admin-modal').style.display='none';
-                alert("Keys Saved.");
                 checkBrain();
             };
 
@@ -433,35 +448,39 @@
             };
 
             window.testVoice = async function() {
-                let vKey = window.cleanKey(document.getElementById('key-voice').value);
-                document.getElementById('key-voice').value = vKey;
-                if(!vKey) return alert("Enter Key First");
+                const vKey = document.getElementById('key-voice').value.trim();
+                if(!vKey) return alert("No Key");
                 try {
                     const r = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`, {
                         method: "POST", headers: { "xi-api-key": vKey, "Content-Type": "application/json" },
-                        body: JSON.stringify({ text: "Systems Online.", model_id: "eleven_multilingual_v2" })
+                        body: JSON.stringify({ text: "Access Denied.", model_id: "eleven_multilingual_v2" })
                     });
-                    if(!r.ok) throw new Error((await r.json()).detail?.message);
-                    new Audio(URL.createObjectURL(await r.blob())).play();
-                } catch(e) { alert("Error: " + e.message); }
+                    if(r.ok) new Audio(URL.createObjectURL(await r.blob())).play();
+                    else alert("Voice Error");
+                } catch(e) { alert("Err: "+e.message); }
             };
 
+            // CHAT
             window.send = async function() {
                 const inp = document.getElementById('c-in');
                 const txt = inp.value.trim();
                 if(!txt) return;
                 addMsg(txt, 'user');
                 inp.value = '';
-                let key = window.cleanKey(localStorage.getItem('viper_brain'));
-                if(!key) return addMsg("KEY MISSING",'sys');
+                
+                const key = localStorage.getItem('viper_brain');
+                if(!key) return addMsg("SYSTEM: BRAIN DISCONNECTED", 'sys');
+                
                 chatHist.push({role:"user", content:txt});
+                
                 try {
                     const r = await fetch("https://openrouter.ai/api/v1/chat/completions", {
                         method:"POST", headers:{"Authorization":`Bearer ${key}`, "Content-Type":"application/json", "HTTP-Referer":window.location.href},
-                        body:JSON.stringify({ model:"gryphe/mythomax-l2-13b", messages:chatHist, max_tokens: 400, temperature: 1.05 })
+                        body:JSON.stringify({ model:"gryphe/mythomax-l2-13b", messages:chatHist, max_tokens: 300, temperature: 1.1 })
                     });
-                    if(!r.ok) throw new Error((await r.json()).error?.message);
-                    const reply = (await r.json()).choices[0].message.content;
+                    const d = await r.json();
+                    if(d.error) throw new Error(d.error.message);
+                    const reply = d.choices[0].message.content;
                     chatHist.push({role:"assistant", content:reply});
                     addMsg(reply, 'bot');
                     if(voiceOn) speak(reply);
@@ -476,7 +495,7 @@
             }
 
             async function speak(txt) {
-                let vKey = window.cleanKey(localStorage.getItem('viper_voice'));
+                const vKey = localStorage.getItem('viper_voice');
                 if(!vKey) return;
                 try {
                     const r = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`, {
@@ -487,6 +506,7 @@
                 } catch(e){}
             }
 
+            // SCANNER
             async function scanRepo() {
                 const g = document.getElementById('gallery-grid');
                 if(!g) return;
@@ -507,10 +527,11 @@
                             count++;
                         }
                     });
-                } catch(e) { /* Fallback handled silently */ }
+                } catch(e) { console.log("Gallery Fallback"); }
             }
 
-        } catch(globalErr) { console.log(globalErr); }
+        } catch(e) { console.log("Init Error: " + e); }
     </script>
 </body>
 </html>
+
