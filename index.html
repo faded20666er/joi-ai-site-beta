@@ -1,20 +1,28 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIPER | V45.0</title>
+    <title>VIPER | V46.0</title>
+    
+    <!-- ERROR HANDLER (Runs first to catch issues) -->
+    <script>
+        window.onerror = function(msg, url, line) {
+            var errDiv = document.getElementById('sys-error');
+            if(errDiv) {
+                errDiv.style.display = 'block';
+                errDiv.innerText = "SYSTEM ERROR: " + msg + " (Line " + line + ")";
+            }
+        };
+    </script>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     
-    <!-- AEBN WIDGET ASSETS -->
-    <script src="https://pitch-slider.aebn.net/aebn-pitch-slider.min.js"></script>
+    <!-- EXTERNAL STYLES (Loaded safely) -->
     <link rel="stylesheet" href="https://pitch-slider.aebn.net/aebn-components.css">
-    <script src="https://top-stars.aebn.net/aebn-top-stars.min.js"></script>
     <link rel="stylesheet" href="https://top-stars.aebn.net/aebn-top-stars.css">
-    <link rel="stylesheet" href="https://www.aebn.com/assets/css/q-tool.css" type="text/css" media="all">
-    <script src="https://www.aebn.com/assets/js/q-tool.js"></script>
+    <link rel="stylesheet" href="https://www.aebn.com/assets/css/q-tool.css">
 
     <style>
         :root {
@@ -34,6 +42,11 @@
             margin: 0;
             padding-bottom: 80px;
             overflow-x: hidden;
+        }
+
+        #sys-error {
+            background: #ff0000; color: #fff; font-weight: bold; text-align: center;
+            padding: 10px; display: none; position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
         }
 
         /* NAVIGATION */
@@ -65,18 +78,19 @@
             margin-left: 10px; box-shadow: 0 0 5px #000;
         }
 
+        /* TABS */
         .container { max-width: 1000px; margin: 0 auto; padding: 20px; display: none; animation: fade 0.4s; }
         .container.active { display: block; }
         @keyframes fade { from {opacity:0; transform:translateY(10px);} to {opacity:1; transform:translateY(0);} }
 
-        /* AEBN CONTAINERS */
+        /* WIDGET CONTAINERS */
         .aebn-wrapper {
             background: #111; border: 1px solid #333; border-radius: 10px;
-            padding: 15px; margin-bottom: 30px; display: flex; justify-content: center; overflow: hidden;
+            padding: 15px; margin-bottom: 30px; display: flex; justify-content: center; overflow: hidden; min-height: 100px;
         }
         .queueTitleBar { background: var(--primary) !important; color: #fff !important; font-family: 'Cinzel', serif !important; }
 
-        /* COMMON GRIDS */
+        /* GRIDS */
         .market-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .product-card {
             background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
@@ -88,7 +102,7 @@
             padding: 5px 15px; border-radius: 20px; margin: 10px 0;
         }
 
-        /* VIP SECTION (BLURRED) */
+        /* VIP & TRIBUTE */
         .vip-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
         .vip-item {
             position: relative; aspect-ratio: 1; overflow: hidden; cursor: pointer; border-radius: 5px;
@@ -116,14 +130,10 @@
         .msg { padding: 10px 14px; border-radius: 10px; max-width: 85%; font-size: 0.95rem; line-height: 1.5; margin-bottom: 5px; }
         .msg.bot { background: #222; align-self: flex-start; border-left: 2px solid var(--primary); color: #ddd; }
         .msg.user { background: var(--primary); align-self: flex-end; color: #fff; }
-        .msg.sys { background: #400; color: #ff9999; border: 1px solid red; font-size: 0.8rem; text-align: center; width: 90%; align-self: center; margin: 5px 0; }
         .chat-in { padding: 10px; display: flex; gap: 5px; border-top: 1px solid #333; }
         .chat-input { flex: 1; background: #222; border: none; padding: 10px; color: #fff; border-radius: 5px; outline:none; }
 
-        /* FORMS & MODALS */
-        .custom-form input, .custom-form textarea, .custom-form select {
-            width: 100%; padding: 12px; background: #222; border: 1px solid #444; color: #fff; margin-bottom: 10px; border-radius: 5px; box-sizing: border-box;
-        }
+        /* BUTTONS & FORMS */
         .btn-main {
             background: var(--primary); color: #fff; padding: 12px 20px; border: none;
             border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%; text-transform: uppercase;
@@ -134,24 +144,29 @@
             box-shadow: 0 0 15px rgba(255, 215, 0, 0.3); animation: pulse 2s infinite;
         }
         @keyframes pulse { 0% {box-shadow: 0 0 10px #ffd700;} 50% {box-shadow: 0 0 25px #ffd700;} 100% {box-shadow: 0 0 10px #ffd700;} }
-
-        .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:1000; align-items:center; justify-content:center; }
-        .modal-box { background:#111; padding:30px; border:1px solid var(--primary); width:90%; max-width:400px; text-align:center; }
-
-        #debug-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #220000; color: red; font-size: 10px; padding: 5px; text-align: center; z-index: 9999; font-weight:bold; }
-        .live-tag { position: absolute; top: 15px; left: 15px; background: rgba(255,0,0,0.8); color: #fff; padding: 5px 10px; font-weight: bold; border-radius: 5px; display: flex; align-items: center; gap: 5px; cursor: pointer; z-index: 10; }
-        .blink { width: 8px; height: 8px; background: #fff; border-radius: 50%; animation: blink 1s infinite; }
-
+        
         .upload-zone { border: 2px dashed #444; padding: 30px; text-align: center; margin: 20px 0; border-radius: 10px; cursor: pointer; transition: 0.2s; position: relative; }
         .upload-zone:hover { border-color: var(--primary); background: #1a1a1a; }
+        
         .forum-post { background: #151515; border-left: 3px solid #333; padding: 15px; margin-bottom: 15px; border-radius: 0 10px 10px 0; }
         .forum-user { color: var(--gold); font-weight: bold; font-size: 0.9rem; margin-bottom: 5px; }
         .forum-text { color: #ccc; font-size: 0.95rem; line-height: 1.4; }
+
+        .custom-form input, .custom-form textarea { width: 100%; padding: 12px; background: #222; border: 1px solid #444; color: #fff; margin-bottom: 10px; border-radius: 5px; box-sizing: border-box; }
+        
+        /* MODALS */
+        .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:1000; align-items:center; justify-content:center; }
+        .modal-box { background:#111; padding:30px; border:1px solid var(--primary); width:90%; max-width:400px; text-align:center; }
+
+        .live-tag { position: absolute; top: 15px; left: 15px; background: rgba(255,0,0,0.8); color: #fff; padding: 5px 10px; font-weight: bold; border-radius: 5px; display: flex; align-items: center; gap: 5px; cursor: pointer; z-index: 10; }
+        .blink { width: 8px; height: 8px; background: #fff; border-radius: 50%; animation: blink 1s infinite; }
 
         @media(max-width:768px) { .chat-widget { width: 90%; right: 5%; height: 60vh; bottom: 80px; } nav { justify-content: flex-start; } #aebn-pitch { width: 90vw !important; height: 25vw !important; } }
     </style>
 </head>
 <body>
+
+    <div id="sys-error"></div>
 
     <nav>
         <div class="nav-inner">
@@ -185,16 +200,16 @@
         </div>
     </div>
 
-    <!-- MARKET TAB (AFFILIATE HUB) -->
+    <!-- MARKET TAB (WIDGETS HERE) -->
     <div id="market" class="container">
         <h2 style="text-align:center; font-family:'Cinzel'; color:var(--gold);">PREMIUM STORE</h2>
         
-        <!-- WIDGET 1: PITCH SLIDER -->
+        <!-- WIDGET 1 -->
         <div class="aebn-wrapper">
             <div id="aebn-pitch" style="width: 50vw; height: 14vw;"></div>
         </div>
 
-        <!-- WIDGET 2: MOVIE SLIDER -->
+        <!-- WIDGET 2 -->
         <h3 style="color:var(--primary); text-align:center;">NEW RELEASES</h3>
         <div class="aebn-wrapper" style="padding:0; border:none; background:transparent;">
             <div class="aebn-queue-tool movie-queue" data-params='{"type":"movie","salesToolId":80,"refid":"AEBN-119284","orientation":"straight","queueId":"newest","useTitle":"true","titleBackground":"#ff0f5b","titleFontColor":"#ffffff"}' >
@@ -202,17 +217,17 @@
                 <div class="q-itemSlider_Wrapper">
                     <div id="qMovieSlider" class="q-itemSlider dragscroll">
                         <div class="q-itemSlider_Contents">
-                            <!-- Placeholder -->
+                            <!-- Pre-loaded images -->
                             <img src="https://www.aebn.com/assets/images/boxcover.png"><img src="https://www.aebn.com/assets/images/boxcover.png"><img src="https://www.aebn.com/assets/images/boxcover.png">
                         </div>
                     </div>
-                    <button class="q-Advancer q-Advancer_Left" type="button"><svg class="q-Advancer_Icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 551 1024"><path d="M445.44 38.183L-2.53 512l447.97 473.817 85.857-81.173-409.6-433.23v81.172l409.6-433.23L445.44 38.18z" /></svg></button> 
-                    <button class="q-Advancer q-Advancer_Right" type="button"><svg class="q-Advancer_Icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 551 1024"><path d="M105.56 985.817L553.53 512 105.56 38.183l-85.857 81.173 409.6 433.23v-81.172l-409.6 433.23 85.856 81.174z" /></svg></button>
+                    <button class="q-Advancer q-Advancer_Left" type="button" style="border:none; background:none; cursor:pointer; font-size:20px; color:#fff;"><i class="fas fa-chevron-left"></i></button> 
+                    <button class="q-Advancer q-Advancer_Right" type="button" style="border:none; background:none; cursor:pointer; font-size:20px; color:#fff;"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </div>
         </div>
 
-        <!-- WIDGET 3: TOP STARS -->
+        <!-- WIDGET 3 -->
         <h3 style="color:var(--accent); text-align:center;">TOP STARS</h3>
         <div class="aebn-wrapper">
             <div id="aebn-top-stars"></div>
@@ -305,198 +320,176 @@
         </div>
     </div>
 
-    <div id="debug-bar">Running V45.0 (Waiting for JS...)</div>
+    <div style="text-align:center; padding:10px; color:#444; font-size:10px;">Running V46.0</div>
 
+    <!-- MAIN SCRIPT (LOADED AT END) -->
     <script>
-    /* =========================================
-       CORE FUNCTIONS - DEFINED GLOBALLY
-       (These will work even if widgets fail)
-       ========================================= */
-        const REPO_USER = "faded20666er";
-        const REPO_NAME = "joi-ai-site-beta";
-        const CASHAPP_TAG = "$mrsmokeshaq"; 
-        const BTC_WALLET  = "bc1qg5c5r8vws63w4s78yw6znp80hmshlejk6mjcx6";
-        const AFFILIATE   = "https://t.acrsmartcam.com/396104/3664/0?bo=Array&file_id=300184&po=6533&aff_sub5=SF_006OG000004lmDN&aff_sub4=AT_0002";
-        const VOICE_ID = "hA4zGnmTwX2NQiTRMt7o";
-        let chatHist = [{role: "system", content: "You are Mistress Viper. Hardcore, degrading, explicit."}];
-        let voiceOn = true;
-        let clickCount = 0;
-
-        // UI CONTROLS
-        function showTab(id) {
-            document.querySelectorAll('.container').forEach(d => d.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(d => d.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            const tabs = ['home','market','vip','customs','confess','tributes'];
-            const idx = tabs.indexOf(id);
-            if(idx > -1) document.querySelectorAll('.nav-item')[idx].classList.add('active');
-        }
-
-        function openPay(item) { 
-            document.getElementById('pay-desc').innerText = item ? "Item: " + item : "Payment";
-            document.getElementById('pay-modal').style.display='flex'; 
-        }
-
-        function toggleChat() { 
-            const c = document.getElementById('chat-box');
-            c.style.display = c.style.display==='none' ? 'flex' : 'none';
-        }
-
-        function toggleVoice() {
-            voiceOn = !voiceOn;
-            document.getElementById('v-btn').style.color = voiceOn ? 'var(--primary)' : '#666';
-        }
-
-        function goLive() { window.open(AFFILIATE, '_blank'); }
-
-        function triggerUpload(type) {
-            setTimeout(() => { 
-                alert("File 'Received'. Send payment to process."); 
-                openPay(`${type.toUpperCase()} Processing`); 
-            }, 1000); 
-        }
-
-        function postConfession() {
-            const txt = document.getElementById('confess-txt').value;
-            if(!txt) return alert("Write something.");
-            const d = document.createElement('div'); d.className = 'forum-post';
-            d.innerHTML = `<div class="forum-user">Anonymous User</div><div class="forum-text">${txt}</div>`;
-            document.getElementById('forum-posts').prepend(d);
-            document.getElementById('confess-txt').value = '';
-        }
-
-        // ADMIN KEYS
-        function handleLogoClick() {
-            clickCount++;
-            if(clickCount===3) {
-                document.getElementById('admin-modal').style.display='flex';
-                document.getElementById('key-brain').value = localStorage.getItem('viper_brain')||'';
-                document.getElementById('key-voice').value = localStorage.getItem('viper_voice')||'';
-                clickCount=0;
-            }
-            setTimeout(()=>clickCount=0, 1000);
-        }
-
-        function saveKeys() {
-            localStorage.setItem('viper_brain', document.getElementById('key-brain').value.trim());
-            localStorage.setItem('viper_voice', document.getElementById('key-voice').value.trim());
-            document.getElementById('admin-modal').style.display='none';
-            checkBrain();
-        }
-
-        function checkBrain() {
-            const k = localStorage.getItem('viper_brain');
-            const ind = document.getElementById('status-ind');
-            ind.style.backgroundColor = (k && k.length > 10) ? '#0f0' : '#f00';
-        }
-
-        async function testVoice() {
-            const vKey = document.getElementById('key-voice').value.trim();
-            if(!vKey) return alert("No Key");
-            try {
-                const r = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`, {
-                    method: "POST", headers: { "xi-api-key": vKey, "Content-Type": "application/json" },
-                    body: JSON.stringify({ text: "Access Denied.", model_id: "eleven_multilingual_v2" })
-                });
-                if(r.ok) new Audio(URL.createObjectURL(await r.blob())).play();
-            } catch(e) {}
-        }
-
-        // CHAT LOGIC
-        async function send() {
-            const inp = document.getElementById('c-in'); const txt = inp.value.trim(); if(!txt) return;
-            addMsg(txt, 'user'); inp.value = '';
-            const key = localStorage.getItem('viper_brain'); if(!key) return addMsg("SYSTEM: BRAIN DISCONNECTED", 'sys');
-            chatHist.push({role:"user", content:txt});
-            try {
-                const r = await fetch("https://openrouter.ai/api/v1/chat/completions", { method:"POST", headers:{"Authorization":`Bearer ${key}`, "Content-Type":"application/json", "HTTP-Referer":window.location.href}, body:JSON.stringify({ model:"gryphe/mythomax-l2-13b", messages:chatHist, max_tokens: 300, temperature: 1.1 }) });
-                const d = await r.json(); const reply = d.choices[0].message.content;
-                chatHist.push({role:"assistant", content:reply}); addMsg(reply, 'bot'); if(voiceOn) speak(reply);
-            } catch(e) { addMsg("Error: " + e.message, 'sys'); }
-        }
-
-        function addMsg(txt, role) { 
-            const d = document.createElement('div'); d.className = `msg ${role}`; d.innerText = txt; 
-            document.getElementById('msgs').appendChild(d); document.getElementById('msgs').scrollTop = 99999; 
-        }
-
-        async function speak(txt) {
-            const vKey = localStorage.getItem('viper_voice'); if(!vKey) return;
-            try {
-                const r = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`, {
-                    method: "POST", headers: { "xi-api-key": vKey, "Content-Type": "application/json" },
-                    body: JSON.stringify({ text: txt, model_id: "eleven_multilingual_v2", voice_settings: { stability: 0.35, similarity_boost: 0.8 } })
-                });
-                if(r.ok) new Audio(URL.createObjectURL(await r.blob())).play();
-            } catch(e){}
-        }
-
-        // INIT & CONTENT
-        async function scanRepo() {
-            const g = document.getElementById('gallery-grid'); if(!g) return;
-            try {
-                const r = await fetch(`https://api.github.com/repos/${REPO_USER}/${REPO_NAME}/contents/`);
-                if(!r.ok) throw new Error("Repo");
-                const f = await r.json(); let count = 0;
-                f.forEach(file => {
-                    if(count >= 6) return;
-                    const n = file.name.toLowerCase();
-                    if((n.endsWith('.jpg')||n.endsWith('.mp4')) && !n.includes('audio')) {
-                        const d = document.createElement('div');
-                        d.className = 'product-card'; d.style.padding = '0'; d.style.overflow='hidden';
-                        if(n.endsWith('.mp4')) d.innerHTML = `<video src="${file.download_url}" style="width:100%" muted loop onmouseover="this.play()" onmouseout="this.pause()"></video>`;
-                        else d.innerHTML = `<img src="${file.download_url}" style="width:100%">`;
-                        g.appendChild(d); count++;
-                    }
-                });
-            } catch(e) {}
-        }
-
-        function fillVipWall() {
-            const w = document.getElementById('vip-wall'); const t = document.getElementById('tribute-wall');
-            for(let i=0; i<9; i++) {
-                const h = `<div class="vip-item" onclick="openPay('VIP Content')"><img src="https://source.unsplash.com/random/300x300/?fashion,dark,model&sig=${i}" class="vip-img"><div class="vip-overlay"><i class="fas fa-lock vip-lock"></i></div></div>`;
-                if(w) w.innerHTML += h; if(t) t.innerHTML += h;
-            }
-        }
-
-        // =========================================
-        // STARTUP SEQUENCE
-        // =========================================
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('debug-bar').innerText = "Running V45.0 (Loaded)";
-            setTimeout(() => {
-                document.getElementById('debug-bar').style.display = 'none';
-                addMsg("I'm waiting. Pay up or get out.", 'bot');
-            }, 3000);
-            
-            scanRepo();
-            fillVipWall();
-            checkBrain();
-            document.getElementById('disp-cash').innerText = CASHAPP_TAG;
-            document.getElementById('disp-btc').innerText = BTC_WALLET;
+    // --- SAFE LOADER FOR WIDGETS ---
+    function loadScript(src) {
+        return new Promise((resolve, reject) => {
+            const s = document.createElement('script');
+            s.src = src; s.onload = resolve; s.onerror = reject;
+            document.body.appendChild(s);
         });
+    }
 
-        // AEBN SAFELOAD (Wrapped in try/catch to prevent crashes)
-        window.addEventListener("load", function(){
-            try {
-                if(window.aebnPitchSlider) {
-                    aebnPitchSlider.load("aebn-pitch", {orientation: "straight", refid: "AEBN-119284", theaterId: "13992", theaterCname: "theater.aebn.net", intervalSeconds: 3, randomOrder: true, openNewWindow: false});
-                }
-                if(window.aebnTopStars) {
-                    aebnTopStars.load("aebn-top-stars", {orientation: "straight", refid: "AEBN-119284", theaterId: "13992", theaterCname: "theater.aebn.net", newWindow: false, imgType: "head", title: "Top Stars", useFixedWidth: false});
-                }
-            } catch(err) {
-                console.log("AEBN Widget Error (Ignored): " + err);
-            }
-        }, false);
+    // --- MAIN APP LOGIC ---
+    const REPO_USER = "faded20666er";
+    const REPO_NAME = "joi-ai-site-beta";
+    const CASHAPP_TAG = "$YOUR_CASHAPP_HERE"; 
+    const BTC_WALLET  = "YOUR_BTC_WALLET_HERE";
+    const AFFILIATE   = "https://t.acrsmartcam.com/396104/3664/0?bo=Array&file_id=300184&po=6533&aff_sub5=SF_006OG000004lmDN&aff_sub4=AT_0002";
+    const VOICE_ID = "hA4zGnmTwX2NQiTRMt7o";
+    let chatHist = [{role: "system", content: "You are Mistress Viper. Hardcore, degrading, explicit."}];
+    let voiceOn = true;
+    let clickCount = 0;
 
-        // GLOBAL ERROR HANDLER
-        window.onerror = function(msg, url, line) {
-            document.getElementById('debug-bar').style.display = 'block';
-            document.getElementById('debug-bar').innerText = "JS ERROR: " + msg + " (Line " + line + ")";
-            return false;
-        };
+    // UI FUNCTIONS
+    function showTab(id) {
+        document.querySelectorAll('.container').forEach(d => d.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(d => d.classList.remove('active'));
+        const el = document.getElementById(id);
+        if(el) el.classList.add('active');
+        const tabs = ['home','market','vip','customs','confess','tributes'];
+        const idx = tabs.indexOf(id);
+        if(idx > -1) document.querySelectorAll('.nav-item')[idx].classList.add('active');
+    }
+
+    function openPay(item) { 
+        document.getElementById('pay-desc').innerText = item ? "Item: " + item : "Payment";
+        document.getElementById('pay-modal').style.display='flex'; 
+    }
+
+    function toggleChat() { 
+        const c = document.getElementById('chat-box');
+        c.style.display = c.style.display==='none' ? 'flex' : 'none';
+    }
+
+    function toggleVoice() {
+        voiceOn = !voiceOn;
+        document.getElementById('v-btn').style.color = voiceOn ? 'var(--primary)' : '#666';
+    }
+
+    function goLive() { window.open(AFFILIATE, '_blank'); }
+
+    function triggerUpload(type) {
+        setTimeout(() => { 
+            alert("File 'Received'. Send payment to process."); 
+            openPay(`${type.toUpperCase()} Processing`); 
+        }, 1000); 
+    }
+
+    function postConfession() {
+        const txt = document.getElementById('confess-txt').value;
+        if(!txt) return alert("Write something.");
+        const d = document.createElement('div'); d.className = 'forum-post';
+        d.innerHTML = `<div class="forum-user">Anonymous User</div><div class="forum-text">${txt}</div>`;
+        document.getElementById('forum-posts').prepend(d);
+        document.getElementById('confess-txt').value = '';
+    }
+
+    // ADMIN
+    function handleLogoClick() {
+        clickCount++;
+        if(clickCount===3) {
+            document.getElementById('admin-modal').style.display='flex';
+            document.getElementById('key-brain').value = localStorage.getItem('viper_brain')||'';
+            document.getElementById('key-voice').value = localStorage.getItem('viper_voice')||'';
+            clickCount=0;
+        }
+        setTimeout(()=>clickCount=0, 1000);
+    }
+    function saveKeys() {
+        localStorage.setItem('viper_brain', document.getElementById('key-brain').value.trim());
+        localStorage.setItem('viper_voice', document.getElementById('key-voice').value.trim());
+        document.getElementById('admin-modal').style.display='none';
+        checkBrain();
+    }
+    function checkBrain() {
+        const k = localStorage.getItem('viper_brain');
+        const ind = document.getElementById('status-ind');
+        if(ind) ind.style.backgroundColor = (k && k.length > 10) ? '#0f0' : '#f00';
+    }
+
+    // CHAT
+    async function send() {
+        const inp = document.getElementById('c-in'); const txt = inp.value.trim(); if(!txt) return;
+        addMsg(txt, 'user'); inp.value = '';
+        const key = localStorage.getItem('viper_brain'); if(!key) return addMsg("SYSTEM: BRAIN DISCONNECTED", 'sys');
+        chatHist.push({role:"user", content:txt});
+        try {
+            const r = await fetch("https://openrouter.ai/api/v1/chat/completions", { method:"POST", headers:{"Authorization":`Bearer ${key}`, "Content-Type":"application/json", "HTTP-Referer":window.location.href}, body:JSON.stringify({ model:"gryphe/mythomax-l2-13b", messages:chatHist, max_tokens: 300, temperature: 1.1 }) });
+            const d = await r.json(); const reply = d.choices[0].message.content;
+            chatHist.push({role:"assistant", content:reply}); addMsg(reply, 'bot'); if(voiceOn) speak(reply);
+        } catch(e) { addMsg("Error: " + e.message, 'sys'); }
+    }
+    function addMsg(txt, role) { 
+        const d = document.createElement('div'); d.className = `msg ${role}`; d.innerText = txt; 
+        document.getElementById('msgs').appendChild(d); document.getElementById('msgs').scrollTop = 99999; 
+    }
+    async function speak(txt) {
+        const vKey = localStorage.getItem('viper_voice'); if(!vKey) return;
+        try {
+            const r = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`, {
+                method: "POST", headers: { "xi-api-key": vKey, "Content-Type": "application/json" },
+                body: JSON.stringify({ text: txt, model_id: "eleven_multilingual_v2", voice_settings: { stability: 0.35, similarity_boost: 0.8 } })
+            });
+            if(r.ok) new Audio(URL.createObjectURL(await r.blob())).play();
+        } catch(e){}
+    }
+
+    // CONTENT
+    async function scanRepo() {
+        const g = document.getElementById('gallery-grid'); if(!g) return;
+        try {
+            const r = await fetch(`https://api.github.com/repos/${REPO_USER}/${REPO_NAME}/contents/`);
+            if(!r.ok) throw new Error("Repo");
+            const f = await r.json(); let count = 0;
+            f.forEach(file => {
+                if(count >= 6) return;
+                const n = file.name.toLowerCase();
+                if((n.endsWith('.jpg')||n.endsWith('.mp4')) && !n.includes('audio')) {
+                    const d = document.createElement('div');
+                    d.className = 'product-card'; d.style.padding = '0'; d.style.overflow='hidden';
+                    if(n.endsWith('.mp4')) d.innerHTML = `<video src="${file.download_url}" style="width:100%" muted loop onmouseover="this.play()" onmouseout="this.pause()"></video>`;
+                    else d.innerHTML = `<img src="${file.download_url}" style="width:100%">`;
+                    g.appendChild(d); count++;
+                }
+            });
+        } catch(e) {}
+    }
+    function fillVipWall() {
+        const w = document.getElementById('vip-wall'); const t = document.getElementById('tribute-wall');
+        for(let i=0; i<9; i++) {
+            const h = `<div class="vip-item" onclick="openPay('VIP Content')"><img src="https://source.unsplash.com/random/300x300/?fashion,dark,model&sig=${i}" class="vip-img"><div class="vip-overlay"><i class="fas fa-lock vip-lock"></i></div></div>`;
+            if(w) w.innerHTML += h; if(t) t.innerHTML += h;
+        }
+    }
+
+    // --- INITIALIZATION ---
+    document.addEventListener('DOMContentLoaded', async () => {
+        // 1. Init Core
+        scanRepo();
+        fillVipWall();
+        checkBrain();
+        document.getElementById('disp-cash').innerText = CASHAPP_TAG;
+        document.getElementById('disp-btc').innerText = BTC_WALLET;
+        setTimeout(() => addMsg("I'm waiting. Pay up or get out.", 'bot'), 2000);
+
+        // 2. Load Widgets Delayed (Prevents crash)
+        try {
+            await loadScript("https://pitch-slider.aebn.net/aebn-pitch-slider.min.js");
+            if(window.aebnPitchSlider) aebnPitchSlider.load("aebn-pitch", {orientation: "straight", refid: "AEBN-119284", theaterId: "13992", theaterCname: "theater.aebn.net", intervalSeconds: 3, randomOrder: true, openNewWindow: false});
+            
+            await loadScript("https://top-stars.aebn.net/aebn-top-stars.min.js");
+            if(window.aebnTopStars) aebnTopStars.load("aebn-top-stars", {orientation: "straight", refid: "AEBN-119284", theaterId: "13992", theaterCname: "theater.aebn.net", newWindow: false, imgType: "head", title: "Top Stars", useFixedWidth: false});
+            
+            await loadScript("https://www.aebn.com/assets/js/q-tool.js");
+        } catch(err) {
+            console.log("Widget Load Warning: " + err);
+        }
+    });
     </script>
 </body>
 </html>
+
