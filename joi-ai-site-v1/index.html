@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIPER | V49.0</title>
+    <title>VIPER | V49.1</title>
     
     <script>
         window.onerror = function(msg, url, line) {
@@ -136,6 +136,10 @@
         }
         @keyframes pulse { 0%,100% {box-shadow: 0 0 10px #ffd700;} 50% {box-shadow: 0 0 25px #ffd700;} }
         
+        @keyframes blink { 0%,50% {opacity:1;} 51%,100% {opacity:0;} }
+        @keyframes pulse-green { 0% {box-shadow: 0 0 0 0 rgba(0, 255, 0, 0.7);} 70% {box-shadow: 0 0 0 10px rgba(0, 255, 0, 0);} 100% {box-shadow: 0 0 0 0 rgba(0, 255, 0, 0);} }
+        @keyframes slideUp { from {transform: translate(-50%, 100%);} to {transform: translate(-50%, 0);} }
+        
         .upload-zone { border: 2px dashed #444; padding: 30px; text-align: center; margin: 20px 0; border-radius: 10px; cursor: pointer; transition: 0.2s; }
         .upload-zone:hover { border-color: var(--primary); background: #1a1a1a; }
         
@@ -158,11 +162,11 @@
             box-shadow: 0 0 50px rgba(255, 15, 91, 0.4); backdrop-filter: blur(10px);
             animation: slideUp 0.5s ease;
         }
-        @keyframes slideUp { from {transform: translate(-50%, 100%);} to {transform: translate(-50%, 0);} }
         .call-avatar { width: 80px; height: 80px; border-radius: 50%; border: 3px solid #0f0; margin: 0 auto 10px; object-fit: cover; animation: pulse-green 1.5s infinite; }
-        @keyframes pulse-green { 0% {box-shadow: 0 0 0 0 rgba(0, 255, 0, 0.7);} 70% {box-shadow: 0 0 0 10px rgba(0, 255, 0, 0);} 100% {box-shadow: 0 0 0 0 rgba(0, 255, 0, 0);} }
         .btn-accept { background: #0b0; color: #fff; border: none; padding: 10px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; margin: 5px; width: 40%; }
         .btn-decline { background: #b00; color: #fff; border: none; padding: 10px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; margin: 5px; width: 40%; }
+        .live-tag { position: absolute; top: 15px; left: 15px; background: rgba(255,0,0,0.8); color: #fff; padding: 5px 10px; font-weight: bold; border-radius: 5px; display: flex; align-items: center; gap: 5px; cursor: pointer; z-index: 10; }
+        .blink { width: 8px; height: 8px; background: #fff; border-radius: 50%; animation: blink 1s infinite; }
 
         @media(max-width:768px) { 
             .chat-widget { width: 90%; right: 5%; height: 60vh; bottom: 80px; } 
@@ -194,9 +198,9 @@
 
     <!-- HOME -->
     <div id="home" class="container active">
-        <div class="product-card" style="padding:0; overflow:hidden; margin-bottom:20px; border:1px solid var(--primary);">
-            <div class="live-tag" onclick="goLive()"><div class="blink" style="animation:blink 1s infinite;"></div> LIVE NOW</div>
-            <video id="main-player" controls autoplay muted loop playsinline width="100%">
+        <div class="product-card" style="padding:0; overflow:hidden; margin-bottom:20px; border:1px solid var(--primary); position:relative;">
+            <div class="live-tag" onclick="goLive()"><div class="blink"></div> LIVE NOW</div>
+            <video id="main-player" controls autoplay muted loop playsinline width="100%" poster="https://source.unsplash.com/random/800x450/?model,dark">
                 <source src="1.mp4" type="video/mp4">
             </video>
         </div>
@@ -237,68 +241,4 @@
     <!-- VIP -->
     <div id="vip" class="container">
         <h2 style="text-align:center; font-family:'Cinzel'; color:var(--gold);"><i class="fas fa-lock"></i> VIP LOUNGE</h2>
-        <div class="vip-grid" id="vip-wall"></div>
-        <div style="margin-top:30px; text-align:center;">
-            <button class="btn-gold" onclick="openPay('VIP Access')">UNLOCK ALL ($20)</button>
-        </div>
-    </div>
-
-    <!-- CUSTOMS -->
-    <div id="customs" class="container">
-        <h2 style="text-align:center; color:var(--primary);">CUSTOM STUDIO</h2>
-        <div class="product-card" style="border-color:var(--accent); margin-bottom:20px;">
-            <h3 style="color:var(--accent);">DEEPFAKE GENERATION</h3>
-            <p style="color:#ccc;">Upload a face. I will put it on any body you want.</p>
-            <div class="upload-zone" onclick="triggerUpload('deepfake')">
-                <i class="fas fa-user-circle" style="font-size:3rem; color:#444;"></i>
-                <p>UPLOAD FACE PHOTO</p>
-            </div>
-            <div class="price-tag">$50.00</div>
-            <button class="btn-main" onclick="openPay('Deepfake Request')">ORDER DEEPFAKE</button>
-        </div>
-    </div>
-
-    <!-- CONFESS -->
-    <div id="confess" class="container">
-        <h2 style="text-align:center; font-family:'Cinzel'">THE CONFESSIONAL</h2>
-        <div class="product-card" style="text-align:left; margin-bottom:20px;">
-            <textarea id="confess-txt" rows="3" class="custom-form" placeholder="I have been bad..."></textarea>
-            <button class="btn-main" onclick="postConfession()">SUBMIT CONFESSION</button>
-        </div>
-        <div id="forum-posts">
-            <div class="forum-post"><div class="forum-user">Anonymous Slave</div><div class="forum-text">I spent my rent money on your VIP content. I don't regret it.</div></div>
-        </div>
-    </div>
-
-    <!-- TRIBUTES -->
-    <div id="tributes" class="container">
-        <h2 style="text-align:center; font-family:'Cinzel'">TRIBUTE ALTAR</h2>
-        <div class="product-card" style="border: 1px solid var(--primary); background: #1a0b14;">
-            <h3 style="color: var(--gold); margin-bottom:5px;">SUBMISSIONS OPEN</h3>
-            <p style="font-size: 0.9rem; color: #ddd; line-height: 1.5;">
-                Email me your tributes. I accept:<br>
-                • Wives & Girlfriends (Humiliation)<br>
-                • Cock Tributes<br>
-                • Cum Tributes<br><br>
-                <strong>Send to:</strong> <span id="disp-email" style="color:var(--accent)">[Set in Admin]</span><br>
-                <em style="color:#888; font-size:0.8rem;">*Small fee applies for rating/posting.</em>
-            </p>
-        </div>
-        <div class="upload-zone" onclick="triggerUpload('tribute')">
-            <i class="fas fa-cloud-upload-alt" style="font-size:3rem; color:#444;"></i>
-            <h3>UPLOAD DIRECTLY</h3>
-        </div>
-        <div class="vip-grid" id="tribute-wall" style="opacity:0.6"></div>
-    </div>
-
-    <!-- CHAT -->
-    <div class="chat-widget" id="chat-box" style="display:none;">
-        <div class="chat-head">
-            <span style="font-weight:bold; color:var(--primary);">VIPER (HARDCORE)</span>
-            <i class="fas fa-times" style="cursor:pointer" onclick="toggleChat()"></i>
-        </div>
-        <div class="chat-body" id="msgs"></div>
-        <div class="chat-in">
-            <button onclick="toggleVoice()" id="v-btn" style="background:none; border:none; color:var(--primary); cursor:pointer;"><i class="fas fa-volume-up"></i></button>
-            <input type="text" class="chat-input" id="c-in" placeholder="Type anything..." onkeypress="if(event.key==='Enter') sendMsg()">
-            <button onclick="sendMsg()" style="background:var(--primary); border:none; color:#fff; width:30px; border-radius:50%; cursor:pointer;"><i class
+        <div class="vip
