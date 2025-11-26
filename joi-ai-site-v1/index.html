@@ -1,245 +1,266 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JOI.AI | V51.0 Stable</title>
+    <title>JOI.AI | V42 RESTORED</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     
     <style>
-        body { background: #050505; color: #eee; font-family: 'Inter', sans-serif; margin: 0; padding-bottom: 80px; }
-        .container { max-width: 600px; margin: 0 auto; padding: 15px; display: none; }
-        .container.active { display: block; }
+        :root { --primary: #ff0f5b; --gold: #ffd700; --dark: #050505; --panel: #111; }
+        body { background: var(--dark); color: #eee; font-family: 'Inter', sans-serif; margin: 0; padding-bottom: 80px; }
         
-        /* NAV */
-        nav { position: fixed; top: 0; width: 100%; background: rgba(0,0,0,0.9); border-bottom: 1px solid #333; z-index: 99; padding: 10px 0; display:flex; justify-content:center; gap:15px; overflow-x:auto; }
-        .nav-item { cursor: pointer; font-size: 0.8rem; font-weight: bold; color: #888; text-transform: uppercase; padding: 5px 10px; }
-        .nav-item.active { color: #ff0f5b; border-bottom: 2px solid #ff0f5b; }
+        /* NAVIGATION */
+        nav { position: fixed; top: 0; width: 100%; background: rgba(0,0,0,0.95); border-bottom: 1px solid #333; z-index: 100; padding: 10px 0; display:flex; justify-content:center; gap:20px; }
+        .nav-item { cursor: pointer; font-size: 0.8rem; font-weight: bold; color: #888; text-transform: uppercase; }
+        .nav-item.active { color: var(--primary); }
         
-        /* HEADER */
-        .logo { margin-top: 70px; text-align: center; font-family: 'Cinzel', serif; font-size: 2.5rem; color: white; cursor: pointer; }
-        .tagline { text-align: center; color: #ff0f5b; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 20px; }
+        /* LAYOUT */
+        .container { max-width: 600px; margin: 80px auto 20px; padding: 15px; display: none; }
+        .container.active { display: block; animation: fade 0.3s; }
+        @keyframes fade { from{opacity:0} to{opacity:1} }
         
-        /* CARDS */
-        .card { background: #111; border: 1px solid #333; border-radius: 8px; padding: 15px; margin-bottom: 15px; text-align: center; }
-        .btn { background: #ff0f5b; color: white; border: none; padding: 12px; width: 100%; border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-        .btn-gold { background: #ffd700; color: #000; }
+        /* UI ELEMENTS */
+        .logo { text-align: center; font-family: 'Cinzel', serif; font-size: 2.5rem; color: #fff; cursor: pointer; text-shadow: 0 0 10px var(--primary); }
+        .card { background: var(--panel); border: 1px solid #333; border-radius: 8px; padding: 15px; margin-bottom: 20px; text-align: center; }
+        .btn { background: var(--primary); color: white; border: none; padding: 12px; width: 100%; border-radius: 4px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
+        .btn-gold { background: var(--gold); color: black; }
         
-        /* CHAT */
-        #chat { position: fixed; bottom: 10px; right: 10px; width: 320px; height: 400px; background: #111; border: 1px solid #333; display: none; flex-direction: column; z-index:200; border-radius:10px; }
-        #chat-msgs { flex: 1; overflow-y: auto; padding: 10px; font-size: 0.9rem; }
-        .msg { padding: 5px 10px; margin-bottom: 5px; border-radius: 5px; display: inline-block; clear: both; }
-        .bot { background: #222; color: #ddd; float: left; border-left: 2px solid #ff0f5b; }
-        .user { background: #ff0f5b; color: #fff; float: right; }
+        /* CHAT WIDGET */
+        #chat-widget { position: fixed; bottom: 20px; right: 20px; width: 320px; height: 450px; background: #000; border: 1px solid #333; z-index: 200; display: none; flex-direction: column; border-radius: 10px; box-shadow: 0 0 20px rgba(0,0,0,0.8); }
+        #chat-msgs { flex: 1; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; gap: 8px; }
+        .msg { padding: 8px 12px; border-radius: 6px; font-size: 0.9rem; max-width: 85%; }
+        .msg.bot { background: #222; align-self: flex-start; border-left: 2px solid var(--primary); color: #ccc; }
+        .msg.user { background: var(--primary); align-self: flex-end; color: #fff; }
+        .chat-ctrl { padding: 10px; border-top: 1px solid #333; display: flex; gap: 5px; }
         
         /* MODALS */
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; z-index: 300; }
-        .box { background: #111; padding: 20px; border: 1px solid #ff0f5b; width: 90%; max-width: 350px; text-align: center; }
-        input { width: 100%; padding: 10px; background: #222; border: 1px solid #444; color: white; margin-bottom: 10px; box-sizing: border-box;}
-
-        /* UTILS */
-        .hidden { display: none; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; z-index: 500; }
+        .modal-box { background: #111; padding: 20px; border: 1px solid var(--gold); width: 90%; max-width: 350px; text-align: center; }
+        input.field { width: 100%; padding: 10px; background: #222; border: 1px solid #444; color: white; margin-bottom: 10px; box-sizing: border-box; }
+        
+        /* CALL OVERLAY */
+        #call-overlay { display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #111; border: 2px solid var(--primary); padding: 20px; z-index: 400; text-align: center; border-radius: 10px; width: 280px; }
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="nav-item active" onclick="tab('home')">Home</div>
-        <div class="nav-item" onclick="tab('vip')">VIP</div>
-        <div class="nav-item" onclick="tab('customs')">Deepfakes</div>
-        <div class="nav-item" onclick="tab('chat')">Chat</div>
+        <div class="nav-item active" onclick="showTab('home')">Home</div>
+        <div class="nav-item" onclick="showTab('vip')">VIP</div>
+        <div class="nav-item" onclick="showTab('tribute')">Altar</div>
+        <div class="nav-item" onclick="toggleChat()">Chat</div>
     </nav>
 
-    <div class="logo" onclick="clicks++">JOI.AI</div>
-    <div class="tagline">UNCENSORED & LOUD</div>
+    <!-- HEADER -->
+    <div class="logo" onclick="handleLogo()">JOI.AI</div>
+    <div style="text-align:center; color:var(--primary); font-size:0.8rem; margin-bottom:20px;">V42 RESTORED</div>
 
     <!-- HOME -->
     <div id="home" class="container active">
-        <!-- VIDEO -->
         <div class="card" style="padding:0; overflow:hidden;">
-            <div style="background:red; color:white; padding:5px; font-size:0.8rem; font-weight:bold;">LIVE NOW</div>
-            <video controls autoplay muted loop playsinline width="100%" poster="https://source.unsplash.com/random/800x450/?dark,model">
+            <div style="background:red; color:white; padding:5px; font-weight:bold; font-size:0.8rem;">● LIVE NOW</div>
+            <video controls autoplay muted loop playsinline width="100%" poster="https://source.unsplash.com/random/800x450/?dark,fashion">
                 <source src="1.mp4" type="video/mp4">
             </video>
         </div>
 
-        <!-- NEW BANNER (YOUR AFFILIATE LINK) -->
-        <div class="card">
-            <h3 style="color:#ffd700; margin-top:0;">PREMIUM PARTNERS</h3>
-            <a href="https://t.crjmpy.com/396104/9403/0?target=overlay&file_id=613421&aff_sub5=SF_006OG000004lmDN&aff_sub4=AT_0002" target="_blank">
-                <img src="https://www.imglnkx.com/9403/ADV-21652_DESIGN-21652_300250.jpg" style="width:100%; max-width:300px; border:2px solid #ffd700; border-radius:5px;">
+        <!-- YOUR NEW BANNER (Safe Implementation) -->
+        <div style="text-align:center; margin-bottom:20px;">
+             <a href="https://t.crjmpy.com/396104/9403/0?target=overlay&file_id=613421&aff_sub5=SF_006OG000004lmDN&aff_sub4=AT_0002" target="_blank">
+                <img src="https://www.imglnkx.com/9403/ADV-21652_DESIGN-21652_300250.jpg" style="max-width:100%; border:2px solid var(--gold); border-radius:10px;">
             </a>
-            <p style="font-size:0.8rem; color:#888;">Click above to enter the Live Show</p>
         </div>
 
-        <button class="btn btn-gold" onclick="tab('vip')">ENTER VIP LOUNGE ($20)</button>
+        <button class="btn btn-gold" onclick="openPay('VIP Access')">ENTER VIP LOUNGE ($20)</button>
     </div>
 
     <!-- VIP -->
     <div id="vip" class="container">
-        <h2 style="text-align:center; color:#ffd700">VIP LOUNGE</h2>
-        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:5px;">
-            <!-- SAFE STATIC IMAGES -->
-            <img src="https://source.unsplash.com/random/200x200/?model&1" style="width:100%; filter:blur(5px);" onclick="pay('VIP Gallery')">
-            <img src="https://source.unsplash.com/random/200x200/?model&2" style="width:100%; filter:blur(5px);" onclick="pay('VIP Gallery')">
-            <img src="https://source.unsplash.com/random/200x200/?model&3" style="width:100%; filter:blur(5px);" onclick="pay('VIP Gallery')">
-            <img src="https://source.unsplash.com/random/200x200/?model&4" style="width:100%; filter:blur(5px);" onclick="pay('VIP Gallery')">
-            <img src="https://source.unsplash.com/random/200x200/?model&5" style="width:100%; filter:blur(5px);" onclick="pay('VIP Gallery')">
-            <img src="https://source.unsplash.com/random/200x200/?model&6" style="width:100%; filter:blur(5px);" onclick="pay('VIP Gallery')">
+        <h2 style="text-align:center; color:var(--gold)">VIP LOUNGE</h2>
+        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:5px;">
+            <!-- Simple Grid -->
+            <img src="https://source.unsplash.com/random/200x200/?model&1" style="width:100%; filter:blur(5px); cursor:pointer;" onclick="openPay('Image 1')">
+            <img src="https://source.unsplash.com/random/200x200/?model&2" style="width:100%; filter:blur(5px); cursor:pointer;" onclick="openPay('Image 2')">
+            <img src="https://source.unsplash.com/random/200x200/?model&3" style="width:100%; filter:blur(5px); cursor:pointer;" onclick="openPay('Image 3')">
+            <img src="https://source.unsplash.com/random/200x200/?model&4" style="width:100%; filter:blur(5px); cursor:pointer;" onclick="openPay('Image 4')">
+            <img src="https://source.unsplash.com/random/200x200/?model&5" style="width:100%; filter:blur(5px); cursor:pointer;" onclick="openPay('Image 5')">
+            <img src="https://source.unsplash.com/random/200x200/?model&6" style="width:100%; filter:blur(5px); cursor:pointer;" onclick="openPay('Image 6')">
         </div>
-        <button class="btn btn-gold" onclick="pay('Full VIP Access')">UNLOCK ALL</button>
+        <br>
+        <button class="btn btn-gold" onclick="openPay('Full VIP')">UNLOCK ALL ($20)</button>
     </div>
 
-    <!-- CUSTOMS -->
-    <div id="customs" class="container">
+    <!-- TRIBUTE -->
+    <div id="tribute" class="container">
         <div class="card">
-            <h3 style="color:#00f2ea">DEEPFAKE STUDIO</h3>
-            <p>I will put any face on any body.</p>
-            <button class="btn" onclick="pay('Deepfake Request')">ORDER ($50)</button>
+            <h3 style="color:var(--primary)">TRIBUTE ALTAR</h3>
+            <p>Send payments to:</p>
+            <div style="background:#000; padding:10px; text-align:left;">
+                <strong>CashApp:</strong> <span id="disp-cash">[Set in Admin]</span><br>
+                <strong>BTC:</strong> <span id="disp-btc">[Set in Admin]</span>
+            </div>
+            <p>Email me proof for rating.</p>
         </div>
-        <div class="card">
-            <h3>CONFESSIONAL</h3>
-            <input type="text" placeholder="Confess your sins...">
-            <button class="btn" onclick="alert('Confession Sent')">SUBMIT</button>
+        <button class="btn" onclick="openPay('Tribute Rating')">UPLOAD TRIBUTE</button>
+    </div>
+
+    <!-- CHAT WIDGET -->
+    <div id="chat-widget">
+        <div style="padding:10px; background:#111; border-bottom:1px solid #333; display:flex; justify-content:space-between;">
+            <span style="color:var(--primary); font-weight:bold;">MISTRESS VIPER</span>
+            <span onclick="toggleChat()" style="cursor:pointer">✕</span>
+        </div>
+        <div id="chat-msgs"></div>
+        <div class="chat-ctrl">
+            <input type="text" id="chat-in" class="field" style="margin:0; border-radius:20px;" placeholder="Type here..." onkeypress="if(event.key==='Enter') sendMsg()">
+            <button onclick="sendMsg()" class="btn" style="width:auto; border-radius:50%; aspect-ratio:1;">➤</button>
         </div>
     </div>
 
-    <!-- CHAT (Floating) -->
-    <div id="chat">
-        <div style="background:#222; padding:10px; border-bottom:1px solid #333; display:flex; justify-content:space-between;">
-            <span style="color:#ff0f5b; font-weight:bold;">VIPER</span>
-            <span onclick="document.getElementById('chat').style.display='none'" style="cursor:pointer;">X</span>
-        </div>
-        <div id="chat-msgs">
-            <div class="msg bot">What do you want, slave?</div>
-        </div>
-        <div style="padding:10px; border-top:1px solid #333; display:flex;">
-            <input id="chat-in" type="text" style="margin:0;" placeholder="Type here...">
-            <button onclick="send()" style="width:40px; margin:0 0 0 5px; background:#ff0f5b; border:none; color:white;">></button>
+    <!-- CALL OVERLAY -->
+    <div id="call-overlay">
+        <img src="https://source.unsplash.com/random/80x80/?woman,face" style="border-radius:50%; border:2px solid #0f0; margin-bottom:10px;">
+        <h3>Incoming Call...</h3>
+        <p>Mistress Viper</p>
+        <button class="btn" style="background:#0b0; margin-bottom:5px;" onclick="window.open('https://t.crjmpy.com/396104/9403/0?target=overlay&file_id=613421&aff_sub5=SF_006OG000004lmDN&aff_sub4=AT_0002')">ANSWER</button>
+        <button class="btn" style="background:#b00;" onclick="document.getElementById('call-overlay').style.display='none'">DECLINE</button>
+    </div>
+
+    <!-- ADMIN MODAL -->
+    <div id="admin-modal" class="modal">
+        <div class="modal-box">
+            <h3>ADMIN SETTINGS</h3>
+            <input type="password" id="key-brain" class="field" placeholder="OpenRouter API Key">
+            <input type="password" id="key-voice" class="field" placeholder="ElevenLabs API Key">
+            <input type="text" id="set-cash" class="field" placeholder="$CashAppTag">
+            <input type="text" id="set-btc" class="field" placeholder="BTC Wallet">
+            <button class="btn" onclick="saveAdmin()">SAVE</button>
         </div>
     </div>
 
     <!-- PAY MODAL -->
-    <div id="pay-mod" class="modal">
-        <div class="box">
-            <h2 style="color:#ffd700">LOCKED</h2>
-            <p id="pay-item">Content</p>
-            <div style="background:#000; padding:10px; margin:10px 0; text-align:left;">
-                <small>CASHAPP:</small><br><span style="color:#ff0f5b" id="d-cash">Loading...</span><br><br>
-                <small>BTC:</small><br><span style="color:#00f2ea; font-size:0.7rem;" id="d-btc">Loading...</span>
+    <div id="pay-modal" class="modal">
+        <div class="modal-box">
+            <h2 style="color:var(--gold)">LOCKED</h2>
+            <p id="pay-desc">Content</p>
+            <div style="background:#000; padding:10px; text-align:left; font-size:0.9rem;">
+                <strong>CASHAPP:</strong> <span id="m-cash">Loading...</span><br>
+                <strong>BTC:</strong> <span id="m-btc" style="font-size:0.7rem; color:#888;">Loading...</span>
             </div>
-            <button class="btn" style="background:#333;" onclick="document.getElementById('pay-mod').style.display='none'">CLOSE</button>
-        </div>
-    </div>
-
-    <!-- ADMIN MODAL -->
-    <div id="admin-mod" class="modal">
-        <div class="box">
-            <h3>ADMIN SETUP</h3>
-            <input id="k-brain" type="password" placeholder="OpenRouter Key">
-            <input id="k-voice" type="password" placeholder="ElevenLabs Key">
-            <input id="s-cash" type="text" placeholder="$CashApp">
-            <input id="s-btc" type="text" placeholder="BTC Wallet">
-            <input id="s-email" type="text" placeholder="Email">
-            <button class="btn" onclick="save()">SAVE</button>
+            <p style="font-size:0.8rem;">Send payment + Email in note.</p>
+            <button class="btn" style="background:transparent; color:#888; border:1px solid #333;" onclick="document.getElementById('pay-modal').style.display='none'">CLOSE</button>
         </div>
     </div>
 
     <script>
-        // CONFIG
         const VOICE_ID = "hA4zGnmTwX2NQiTRMt7o";
         let clicks = 0;
-        let hist = [{role:"system", content:"You are Mistress Viper."}];
+        let chatHistory = [{role:"system", content:"You are Mistress Viper. Dominant and rude."}];
 
-        // BASIC NAVIGATION
-        function tab(id) {
-            if(id === 'chat') {
-                document.getElementById('chat').style.display = 'flex';
-                return;
-            }
+        // INIT
+        window.onload = function() {
+            refreshData();
+            setTimeout(() => { document.getElementById('call-overlay').style.display = 'block'; }, 5000);
+        };
+
+        function showTab(id) {
             document.querySelectorAll('.container').forEach(e => e.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(e => e.classList.remove('active'));
-            
-            const t = document.getElementById(id);
-            if(t) t.classList.add('active');
+            document.getElementById(id).classList.add('active');
         }
 
-        function pay(item) {
-            document.getElementById('pay-item').innerText = item;
-            document.getElementById('d-cash').innerText = localStorage.getItem('v_cash') || "Not Set";
-            document.getElementById('d-btc').innerText = localStorage.getItem('v_btc') || "Not Set";
-            document.getElementById('pay-mod').style.display = 'flex';
+        function toggleChat() {
+            const c = document.getElementById('chat-widget');
+            c.style.display = (c.style.display === 'flex') ? 'none' : 'flex';
         }
 
-        // CHAT LOGIC
-        async function send() {
+        function handleLogo() {
+            clicks++;
+            if(clicks === 3) {
+                document.getElementById('key-brain').value = localStorage.getItem('v_brain')||'';
+                document.getElementById('key-voice').value = localStorage.getItem('v_voice')||'';
+                document.getElementById('set-cash').value = localStorage.getItem('v_cash')||'';
+                document.getElementById('set-btc').value = localStorage.getItem('v_btc')||'';
+                document.getElementById('admin-modal').style.display = 'flex';
+                clicks = 0;
+            }
+        }
+
+        function saveAdmin() {
+            localStorage.setItem('v_brain', document.getElementById('key-brain').value);
+            localStorage.setItem('v_voice', document.getElementById('key-voice').value);
+            localStorage.setItem('v_cash', document.getElementById('set-cash').value);
+            localStorage.setItem('v_btc', document.getElementById('set-btc').value);
+            document.getElementById('admin-modal').style.display = 'none';
+            refreshData();
+            alert("Settings Saved");
+        }
+
+        function refreshData() {
+            const c = localStorage.getItem('v_cash') || "Not Set";
+            const b = localStorage.getItem('v_btc') || "Not Set";
+            document.getElementById('disp-cash').innerText = c;
+            document.getElementById('disp-btc').innerText = b;
+            document.getElementById('m-cash').innerText = c;
+            document.getElementById('m-btc').innerText = b;
+        }
+
+        function openPay(item) {
+            document.getElementById('pay-desc').innerText = item;
+            document.getElementById('pay-modal').style.display = 'flex';
+        }
+
+        async function sendMsg() {
             const inp = document.getElementById('chat-in');
-            const txt = inp.value;
+            const txt = inp.value.trim();
             if(!txt) return;
-            
-            // UI Update
+
+            // Display User Msg
             const b = document.getElementById('chat-msgs');
-            b.innerHTML += `<div class="msg user">${txt}</div>`;
+            const u = document.createElement('div'); u.className = 'msg user'; u.innerText = txt;
+            b.appendChild(u);
             inp.value = '';
-            
-            // AI Call
+
             const key = localStorage.getItem('v_brain');
             if(!key) {
-                b.innerHTML += `<div class="msg bot">Setup Required. Click Logo 3x.</div>`;
+                const e = document.createElement('div'); e.className = 'msg bot'; e.innerText = "Setup API Key (Click Logo 3x)";
+                b.appendChild(e);
                 return;
             }
-            
-            hist.push({role:"user", content:txt});
-            
+
+            chatHistory.push({role:"user", content:txt});
+
             try {
                 const r = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-                    method:"POST",
-                    headers:{"Authorization":`Bearer ${key}`, "Content-Type":"application/json", "HTTP-Referer":window.location.href},
-                    body:JSON.stringify({model:"gryphe/mythomax-l2-13b", messages:hist, max_tokens:150})
+                    method: "POST",
+                    headers: { "Authorization": "Bearer " + key, "Content-Type": "application/json", "HTTP-Referer": window.location.href },
+                    body: JSON.stringify({ model: "gryphe/mythomax-l2-13b", messages: chatHistory, max_tokens: 150 })
                 });
                 const d = await r.json();
                 const rep = d.choices[0].message.content;
-                hist.push({role:"assistant", content:rep});
-                b.innerHTML += `<div class="msg bot">${rep}</div>`;
-                b.scrollTop = b.scrollHeight;
+                chatHistory.push({role:"assistant", content:rep});
                 
-                // Voice
+                const m = document.createElement('div'); m.className = 'msg bot'; m.innerText = rep;
+                b.appendChild(m);
+                b.scrollTop = b.scrollHeight;
+
                 const vKey = localStorage.getItem('v_voice');
                 if(vKey) {
                     const vr = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`, {
-                        method:"POST", headers:{"xi-api-key":vKey, "Content-Type":"application/json"},
-                        body:JSON.stringify({text:rep, model_id:"eleven_multilingual_v2"})
+                        method: "POST", headers: { "xi-api-key": vKey, "Content-Type": "application/json" },
+                        body: JSON.stringify({ text: rep, model_id: "eleven_multilingual_v2" })
                     });
                     if(vr.ok) new Audio(URL.createObjectURL(await vr.blob())).play();
                 }
+
             } catch(e) {
-                b.innerHTML += `<div class="msg bot">Error. Check Key.</div>`;
+                console.log(e);
             }
-        }
-
-        // ADMIN LOGIC
-        setInterval(() => {
-            if(clicks >= 3) {
-                document.getElementById('k-brain').value = localStorage.getItem('v_brain')||'';
-                document.getElementById('k-voice').value = localStorage.getItem('v_voice')||'';
-                document.getElementById('s-cash').value = localStorage.getItem('v_cash')||'';
-                document.getElementById('s-btc').value = localStorage.getItem('v_btc')||'';
-                document.getElementById('s-email').value = localStorage.getItem('v_email')||'';
-                document.getElementById('admin-mod').style.display = 'flex';
-                clicks = 0;
-            }
-        }, 1000);
-
-        function save() {
-            localStorage.setItem('v_brain', document.getElementById('k-brain').value);
-            localStorage.setItem('v_voice', document.getElementById('k-voice').value);
-            localStorage.setItem('v_cash', document.getElementById('s-cash').value);
-            localStorage.setItem('v_btc', document.getElementById('s-btc').value);
-            localStorage.setItem('v_email', document.getElementById('s-email').value);
-            document.getElementById('admin-mod').style.display = 'none';
-            alert('Saved');
         }
     </script>
 </body>
 </html>
+
