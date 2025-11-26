@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VIPER | V49.0</title>
     
-    <!-- ERROR HANDLER -->
     <script>
         window.onerror = function(msg, url, line) {
             var errDiv = document.getElementById('sys-error');
@@ -18,8 +17,6 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    
-    <!-- EXTERNAL STYLES -->
     <link rel="stylesheet" href="https://pitch-slider.aebn.net/aebn-components.css">
     <link rel="stylesheet" href="https://top-stars.aebn.net/aebn-top-stars.css">
     <link rel="stylesheet" href="https://www.aebn.com/assets/css/q-tool.css">
@@ -34,8 +31,9 @@
             --border: rgba(255, 255, 255, 0.1);
         }
 
+        * { box-sizing: border-box; }
         body {
-            background-color: var(--dark);
+            background: var(--dark);
             background-image: radial-gradient(circle at 50% 0%, #1a0b14 0%, #000 100%);
             color: #eee;
             font-family: 'Inter', sans-serif;
@@ -136,20 +134,23 @@
             border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%; text-transform: uppercase;
             box-shadow: 0 0 15px rgba(255, 215, 0, 0.3); animation: pulse 2s infinite;
         }
-        @keyframes pulse { 0% {box-shadow: 0 0 10px #ffd700;} 50% {box-shadow: 0 0 25px #ffd700;} 100% {box-shadow: 0 0 10px #ffd700;} }
+        @keyframes pulse { 0%,100% {box-shadow: 0 0 10px #ffd700;} 50% {box-shadow: 0 0 25px #ffd700;} }
         
-        .upload-zone { border: 2px dashed #444; padding: 30px; text-align: center; margin: 20px 0; border-radius: 10px; cursor: pointer; transition: 0.2s; position: relative; }
+        .upload-zone { border: 2px dashed #444; padding: 30px; text-align: center; margin: 20px 0; border-radius: 10px; cursor: pointer; transition: 0.2s; }
         .upload-zone:hover { border-color: var(--primary); background: #1a1a1a; }
         
         .forum-post { background: #151515; border-left: 3px solid #333; padding: 15px; margin-bottom: 15px; border-radius: 0 10px 10px 0; }
         .forum-user { color: var(--gold); font-weight: bold; font-size: 0.9rem; margin-bottom: 5px; }
         .forum-text { color: #ccc; font-size: 0.95rem; line-height: 1.4; }
-        .custom-form input, .custom-form textarea { width: 100%; padding: 12px; background: #222; border: 1px solid #444; color: #fff; margin-bottom: 10px; border-radius: 5px; box-sizing: border-box; }
+
+        .custom-form, input.custom-form, textarea.custom-form { 
+            width: 100%; padding: 12px; background: #222; border: 1px solid #444; color: #fff; 
+            margin-bottom: 10px; border-radius: 5px; box-sizing: border-box; 
+        }
         
-        .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:1000; align-items:center; justify-content:center; }
+        .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:1000; align-items:center; justify-content:center; padding:20px; }
         .modal-box { background:#111; padding:30px; border:1px solid var(--primary); width:90%; max-width:400px; text-align:center; max-height: 80vh; overflow-y: auto;}
 
-        /* CALL OVERLAY */
         #call-overlay {
             display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
             width: 320px; background: rgba(20,20,20,0.95); border: 2px solid var(--primary);
@@ -158,12 +159,16 @@
             animation: slideUp 0.5s ease;
         }
         @keyframes slideUp { from {transform: translate(-50%, 100%);} to {transform: translate(-50%, 0);} }
-        .call-avatar { width: 80px; height: 80px; border-radius: 50%; border: 3px solid #0f0; margin-bottom: 10px; object-fit: cover; animation: pulse-green 1.5s infinite; }
+        .call-avatar { width: 80px; height: 80px; border-radius: 50%; border: 3px solid #0f0; margin: 0 auto 10px; object-fit: cover; animation: pulse-green 1.5s infinite; }
         @keyframes pulse-green { 0% {box-shadow: 0 0 0 0 rgba(0, 255, 0, 0.7);} 70% {box-shadow: 0 0 0 10px rgba(0, 255, 0, 0);} 100% {box-shadow: 0 0 0 0 rgba(0, 255, 0, 0);} }
         .btn-accept { background: #0b0; color: #fff; border: none; padding: 10px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; margin: 5px; width: 40%; }
         .btn-decline { background: #b00; color: #fff; border: none; padding: 10px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; margin: 5px; width: 40%; }
 
-        @media(max-width:768px) { .chat-widget { width: 90%; right: 5%; height: 60vh; bottom: 80px; } nav { justify-content: flex-start; } #aebn-pitch { width: 90vw !important; height: 25vw !important; } }
+        @media(max-width:768px) { 
+            .chat-widget { width: 90%; right: 5%; height: 60vh; bottom: 80px; } 
+            nav { justify-content: flex-start; } 
+            #aebn-pitch { width: 90vw !important; height: 25vw !important; } 
+        }
     </style>
 </head>
 <body>
@@ -187,10 +192,10 @@
         <div style="color:var(--primary); letter-spacing:3px; font-size:0.8rem;">UNCENSORED & LOUD</div>
     </div>
 
-    <!-- HOME TAB -->
+    <!-- HOME -->
     <div id="home" class="container active">
         <div class="product-card" style="padding:0; overflow:hidden; margin-bottom:20px; border:1px solid var(--primary);">
-            <div class="live-tag" onclick="goLive()"><div class="blink"></div> LIVE NOW</div>
+            <div class="live-tag" onclick="goLive()"><div class="blink" style="animation:blink 1s infinite;"></div> LIVE NOW</div>
             <video id="main-player" controls autoplay muted loop playsinline width="100%">
                 <source src="1.mp4" type="video/mp4">
             </video>
@@ -202,17 +207,15 @@
         </div>
     </div>
 
-    <!-- MARKET TAB -->
+    <!-- MARKET -->
     <div id="market" class="container">
         <h2 style="text-align:center; font-family:'Cinzel'; color:var(--gold);">PREMIUM STORE</h2>
-        
         <div class="aebn-wrapper">
             <div id="aebn-pitch" style="width: 50vw; height: 14vw;"></div>
         </div>
-
         <h3 style="color:var(--primary); text-align:center;">NEW RELEASES</h3>
         <div class="aebn-wrapper" style="padding:0; border:none; background:transparent;">
-            <div class="aebn-queue-tool movie-queue" data-params='{"type":"movie","salesToolId":80,"refid":"AEBN-119284","orientation":"straight","queueId":"newest","useTitle":"true","titleBackground":"#ff0f5b","titleFontColor":"#ffffff"}' >
+            <div class="aebn-queue-tool movie-queue" data-params='{"type":"movie","salesToolId":80,"refid":"AEBN-119284","orientation":"straight","queueId":"newest","useTitle":"true","titleBackground":"#ff0f5b","titleFontColor":"#ffffff"}'>
                 <div class="queueTitleBar">Newest Movies</div>
                 <div class="q-itemSlider_Wrapper">
                     <div id="qMovieSlider" class="q-itemSlider dragscroll">
@@ -225,14 +228,13 @@
                 </div>
             </div>
         </div>
-
         <h3 style="color:var(--accent); text-align:center;">TOP STARS</h3>
         <div class="aebn-wrapper">
             <div id="aebn-top-stars"></div>
         </div>
     </div>
 
-    <!-- VIP TAB -->
+    <!-- VIP -->
     <div id="vip" class="container">
         <h2 style="text-align:center; font-family:'Cinzel'; color:var(--gold);"><i class="fas fa-lock"></i> VIP LOUNGE</h2>
         <div class="vip-grid" id="vip-wall"></div>
@@ -256,11 +258,11 @@
         </div>
     </div>
 
-    <!-- CONFESSIONS -->
+    <!-- CONFESS -->
     <div id="confess" class="container">
         <h2 style="text-align:center; font-family:'Cinzel'">THE CONFESSIONAL</h2>
         <div class="product-card" style="text-align:left; margin-bottom:20px;">
-            <textarea id="confess-txt" rows="3" class="custom-form" style="width:100%" placeholder="I have been bad..."></textarea>
+            <textarea id="confess-txt" rows="3" class="custom-form" placeholder="I have been bad..."></textarea>
             <button class="btn-main" onclick="postConfession()">SUBMIT CONFESSION</button>
         </div>
         <div id="forum-posts">
@@ -274,13 +276,12 @@
         <div class="product-card" style="border: 1px solid var(--primary); background: #1a0b14;">
             <h3 style="color: var(--gold); margin-bottom:5px;">SUBMISSIONS OPEN</h3>
             <p style="font-size: 0.9rem; color: #ddd; line-height: 1.5;">
-                Email me your tributes. I accept:
-                <br>• Wives & Girlfriends (Humiliation)
-                <br>• Cock Tributes
-                <br>• Cum Tributes
-                <br><br>
-                <strong>Send to:</strong> <span id="disp-email" style="color:var(--accent)">[Set in Admin]</span>
-                <br><em style="color:#888; font-size:0.8rem;">*Small fee applies for rating/posting.</em>
+                Email me your tributes. I accept:<br>
+                • Wives & Girlfriends (Humiliation)<br>
+                • Cock Tributes<br>
+                • Cum Tributes<br><br>
+                <strong>Send to:</strong> <span id="disp-email" style="color:var(--accent)">[Set in Admin]</span><br>
+                <em style="color:#888; font-size:0.8rem;">*Small fee applies for rating/posting.</em>
             </p>
         </div>
         <div class="upload-zone" onclick="triggerUpload('tribute')">
@@ -290,7 +291,7 @@
         <div class="vip-grid" id="tribute-wall" style="opacity:0.6"></div>
     </div>
 
-    <!-- CHAT & MODALS -->
+    <!-- CHAT -->
     <div class="chat-widget" id="chat-box" style="display:none;">
         <div class="chat-head">
             <span style="font-weight:bold; color:var(--primary);">VIPER (HARDCORE)</span>
@@ -299,72 +300,6 @@
         <div class="chat-body" id="msgs"></div>
         <div class="chat-in">
             <button onclick="toggleVoice()" id="v-btn" style="background:none; border:none; color:var(--primary); cursor:pointer;"><i class="fas fa-volume-up"></i></button>
-            <input type="text" class="chat-input" id="c-in" placeholder="Type anything..." onkeypress="if(event.key==='Enter') send()">
-            <button onclick="send()" style="background:var(--primary); border:none; color:#fff; width:30px; border-radius:50%; cursor:pointer;"><i class="fas fa-arrow-right"></i></button>
-        </div>
-    </div>
-
-    <!-- CALL OVERLAY -->
-    <div id="call-overlay">
-        <img src="https://source.unsplash.com/random/100x100/?woman,face" class="call-avatar">
-        <h3 style="margin:5px 0;">INCOMING CALL...</h3>
-        <p style="color:#aaa; font-size:0.8rem; margin-bottom:15px;">Mistress Viper wants to video chat.</p>
-        <div>
-            <button class="btn-accept" onclick="goLive()"><i class="fas fa-video"></i> ANSWER</button>
-            <button class="btn-decline" onclick="document.getElementById('call-overlay').style.display='none'"><i class="fas fa-times"></i> DECLINE</button>
-        </div>
-    </div>
-
-    <div id="admin-modal" class="modal">
-        <div class="modal-box">
-            <h3 style="color:var(--primary)">ADMIN SETTINGS</h3>
-            <p style="color:#888; font-size:0.8rem; margin-bottom:10px;">Settings are saved to this browser.</p>
-            
-            <p><strong>OpenRouter Key:</strong></p> <input type="password" id="key-brain" class="custom-form" style="width:100%">
-            <p><strong>ElevenLabs Key:</strong></p> <input type="password" id="key-voice" class="custom-form" style="width:100%">
-            
-            <hr style="border-color:#333; margin: 15px 0;">
-            
-            <p><strong>CashApp Tag:</strong></p> <input type="text" id="set-cash" class="custom-form" style="width:100%" placeholder="$YourTag">
-            <p><strong>BTC Wallet:</strong></p> <input type="text" id="set-btc" class="custom-form" style="width:100%" placeholder="bc1q...">
-            <p><strong>Email Address:</strong></p> <input type="text" id="set-email" class="custom-form" style="width:100%" placeholder="you@email.com">
-
-            <button class="btn-test" onclick="testVoice()" style="margin-top:10px;">🔊 TEST AUDIO</button>
-            <br><br>
-            <button class="btn-main" onclick="saveKeys()">SAVE SETTINGS</button>
-        </div>
-    </div>
-
-    <div id="pay-modal" class="modal">
-        <div class="modal-box">
-            <h2 style="color:var(--gold)">PAYMENT REQUIRED</h2>
-            <p id="pay-desc" style="color:#aaa;">Send payment to unlock.</p>
-            <div style="text-align:left; background:#000; padding:15px; word-break:break-all; font-size:0.9rem;">
-                <p><strong>CASHAPP:</strong> <span id="disp-cash" style="color:var(--primary)"></span></p>
-                <p><strong>BTC:</strong> <span id="disp-btc" style="color:var(--accent); font-size:0.8rem;"></span></p>
-            </div>
-            <p style="color:#fff; font-size:0.9rem; margin-top:15px; border:1px solid #444; padding:10px;">
-                <strong>INSTRUCTIONS:</strong><br>1. Send Payment.<br>2. Put your Email in the note.<br>3. I will email you the link.
-            </p>
-            <button style="margin-top:20px; background:transparent; border:none; color:#666; cursor:pointer" onclick="document.getElementById('pay-modal').style.display='none'">Close</button>
-        </div>
-    </div>
-
-    <div style="text-align:center; padding:10px; color:#444; font-size:10px;">Running V49.0</div>
-
-    <script>
-    // --- MAIN CONFIG ---
-    const REPO_USER = "faded20666er";
-    const REPO_NAME = "joi-ai-site-beta";
-    const AFFILIATE = "https://t.crjmpy.com/396104/9403/0?target=overlay&aff_sub5=SF_006OG000004lmDN";
-    const VOICE_ID = "hA4zGnmTwX2NQiTRMt7o";
-    
-    // STATE
-    let chatHist = [{role: "system", content: "You are Mistress Viper. Hardcore, degrading, explicit."}];
-    let voiceOn = true;
-    let clickCount = 0;
-
-    // --- GLOBAL FUNCTIONS ---
-    window.showTab = function
-
+            <input type="text" class="chat-input" id="c-in" placeholder="Type anything..." onkeypress="if(event.key==='Enter') sendMsg()">
+            <button onclick="sendMsg()" style="background:var(--primary); border:none; color:#fff; width:30px; border-radius:50%; cursor:pointer;"><i class
 
